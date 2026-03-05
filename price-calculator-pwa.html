@@ -171,9 +171,10 @@ body{
 <!-- RATE TICKER -->
 <div class="rate-ticker">
   <div class="ticker-dot"></div>
-  <div class="ticker-label">سعر الليرة</div>
+  <div class="ticker-label">الليرة / دولار</div>
   <div class="ticker-val" id="tickerRate">...</div>
   <div class="ticker-divider"></div>
+  <div class="ticker-label">تحديث تلقائي</div>
   <div class="ticker-change up" id="tickerChange">جاري التحديث</div>
 </div>
 
@@ -256,7 +257,7 @@ function calc(){
   const base=lookup(lira);
   const ratio=(usdIqd/usdTry)/(BASE_IQD/BASE_TRY);
   // تقريب لأقرب 500 دائماً
-  const final=Math.round(base*ratio/500)*500;
+  const final=Math.round(base*ratio/1000)*1000;
   const rawCost=lira*(usdIqd/usdTry);
   const profit=final-rawCost;
   const pct=((profit/rawCost)*100).toFixed(0);
@@ -278,7 +279,7 @@ function renderHist(){
 function fillHist(l){document.getElementById('liraVal').value=l;calc();}
 function clearHist(){history=[];renderHist();}
 
-async function fetchRate(){
+async function fetchTicker(){
   try{
     const r=await fetch('https://open.er-api.com/v6/latest/USD');
     const d=await r.json();
@@ -286,15 +287,14 @@ async function fetchRate(){
     document.getElementById('tickerRate').textContent=tryRate.toFixed(2)+' ₺';
     document.getElementById('tickerChange').textContent='مباشر ✓';
     document.getElementById('tickerChange').className='ticker-change up';
-    document.getElementById('usdTry').value=tryRate.toFixed(2);
-    calc();
   }catch(e){
+    document.getElementById('tickerRate').textContent='--';
     document.getElementById('tickerChange').textContent='غير متاح';
     document.getElementById('tickerChange').className='ticker-change dn';
   }
 }
-fetchRate();
-setInterval(fetchRate,60000);
+fetchTicker();
+setInterval(fetchTicker,300000);
 
 if('serviceWorker' in navigator){
   const sw=`self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>clients.claim());self.addEventListener('fetch',e=>e.respondWith(caches.open('pca-v3').then(c=>c.match(e.request).then(r=>r||fetch(e.request).then(res=>{c.put(e.request,res.clone());return res;})))));`;
