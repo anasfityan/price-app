@@ -21,12 +21,13 @@
   --green:#4caf7d;--red:#e05c5c;
   --font-main:'Tajawal',sans-serif;
 }
-body.th-gold    {--gold:#c9a84c;--gold-light:#e8c96a;--dark:#0a0a0a;--dark2:#131313;--dark3:#1a1a1a;--dark4:#242424;--dark5:#2e2e2e;--text:#f0ece0;--muted:#6a6258;--muted2:#8a8070;}
-body.th-white   {--gold:#b8860b;--gold-light:#daa520;--dark:#ffffff;--dark2:#f8f5ef;--dark3:#ede8e0;--dark4:#d8d0c5;--dark5:#b8afa0;--text:#1a1510;--muted:#7a7060;--muted2:#5a5040;--green:#2e7d32;--red:#c62828;}
-body.th-dark    {--gold:#c9a84c;--gold-light:#e8c96a;--dark:#000000;--dark2:#0a0a0a;--dark3:#111111;--dark4:#1a1a1a;--dark5:#252525;--text:#f5f5f5;--muted:#555555;--muted2:#777777;}
-body.th-slate   {--gold:#7c9cbf;--gold-light:#a8c4de;--dark:#0e1117;--dark2:#141922;--dark3:#1a2030;--dark4:#222a3e;--dark5:#2c354e;--text:#d8e4f0;--muted:#3a4a60;--muted2:#5a6a80;}
-body.th-midnight{--gold:#5e8bd4;--gold-light:#88aaee;--dark:#080c14;--dark2:#0d1220;--dark3:#12182c;--dark4:#181e38;--dark5:#202844;--text:#d0dcf8;--muted:#2a3858;--muted2:#4a5878;}
-body.th-forest  {--gold:#6aaa6a;--gold-light:#90cc90;--dark:#080e08;--dark2:#0e160e;--dark3:#141e14;--dark4:#1a2a1a;--dark5:#223422;--text:#d8f0d8;--muted:#2a4a2a;--muted2:#4a6a4a;}
+/* ===== THEME OVERRIDES - !important forces Samsung WebView to apply ===== */
+body.th-gold    {background-color:#0a0a0a!important;color:#f0ece0!important;--gold:#c9a84c;--gold-light:#e8c96a;--dark:#0a0a0a;--dark2:#131313;--dark3:#1a1a1a;--dark4:#242424;--dark5:#2e2e2e;--text:#f0ece0;--muted:#6a6258;--muted2:#8a8070;--green:#4caf7d;--red:#e05c5c;}
+body.th-white   {background-color:#ffffff!important;color:#1a1510!important;--gold:#b8860b;--gold-light:#daa520;--dark:#ffffff;--dark2:#f8f5ef;--dark3:#ede8e0;--dark4:#d8d0c5;--dark5:#b8afa0;--text:#1a1510;--muted:#7a7060;--muted2:#5a5040;--green:#2e7d32;--red:#c62828;}
+body.th-dark    {background-color:#000000!important;color:#f5f5f5!important;--gold:#c9a84c;--gold-light:#e8c96a;--dark:#000000;--dark2:#0a0a0a;--dark3:#111111;--dark4:#1a1a1a;--dark5:#252525;--text:#f5f5f5;--muted:#555555;--muted2:#777777;--green:#4caf7d;--red:#e05c5c;}
+body.th-slate   {background-color:#0e1117!important;color:#d8e4f0!important;--gold:#7c9cbf;--gold-light:#a8c4de;--dark:#0e1117;--dark2:#141922;--dark3:#1a2030;--dark4:#222a3e;--dark5:#2c354e;--text:#d8e4f0;--muted:#3a4a60;--muted2:#5a6a80;--green:#4caf7d;--red:#e05c5c;}
+body.th-midnight{background-color:#080c14!important;color:#d0dcf8!important;--gold:#5e8bd4;--gold-light:#88aaee;--dark:#080c14;--dark2:#0d1220;--dark3:#12182c;--dark4:#181e38;--dark5:#202844;--text:#d0dcf8;--muted:#2a3858;--muted2:#4a5878;--green:#4caf7d;--red:#e05c5c;}
+body.th-forest  {background-color:#080e08!important;color:#d8f0d8!important;--gold:#6aaa6a;--gold-light:#90cc90;--dark:#080e08;--dark2:#0e160e;--dark3:#141e14;--dark4:#1a2a1a;--dark5:#223422;--text:#d8f0d8;--muted:#2a4a2a;--muted2:#4a6a4a;--green:#6aaa6a;--red:#e05c5c;}
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;overflow:hidden;}
@@ -230,10 +231,10 @@ body{font-family:var(--font-main);background:var(--dark);color:var(--text);heigh
 <div class="scroll-area">
   <div class="display-card">
     <div class="display-right">
-      <div class="display-lbl" id="lbl-input">TL Turkish Lira</div>
+      <div class="display-lbl" id="lbl-input">₺ Turkish Lira</div>
       <div class="display-val empty" id="displayVal">0</div>
     </div>
-    <div class="display-sym"><span style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:900;letter-spacing:-1px;">TL</span></div>
+    <div class="display-sym">₺</div>
   </div>
 
   <div class="kb-card" id="kbCard"></div>
@@ -313,31 +314,17 @@ body{font-family:var(--font-main);background:var(--dark);color:var(--text);heigh
   </div>
   <div style="padding:14px;flex:1;overflow-y:auto;">
     <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--dark4);font-family:'Outfit',sans-serif;" id="lbl-ap-theme">Theme</div>
-    <div class="theme-row" style="margin-bottom:16px;display:flex;flex-wrap:wrap;gap:12px;">
-      <div onclick="setTheme('gold')" style="display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;">
-        <div class="tdot active" id="td-gold" style="background:linear-gradient(135deg,#0a0a0a,#c9a84c)"></div>
-        <span style="font-size:9px;letter-spacing:1px;color:var(--muted2);font-family:'Outfit',sans-serif;font-weight:700;">GOLD</span>
-      </div>
-      <div onclick="setTheme('white')" style="display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;">
-        <div class="tdot" id="td-white" style="background:linear-gradient(135deg,#f5f5f5,#b8860b)"></div>
-        <span style="font-size:9px;letter-spacing:1px;color:var(--muted2);font-family:'Outfit',sans-serif;font-weight:700;">WHITE</span>
-      </div>
-      <div onclick="setTheme('dark')" style="display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;">
-        <div class="tdot" id="td-dark" style="background:linear-gradient(135deg,#000000,#444444)"></div>
-        <span style="font-size:9px;letter-spacing:1px;color:var(--muted2);font-family:'Outfit',sans-serif;font-weight:700;">DARK</span>
-      </div>
-      <div onclick="setTheme('slate')" style="display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;">
-        <div class="tdot" id="td-slate" style="background:linear-gradient(135deg,#0e1117,#7c9cbf)"></div>
-        <span style="font-size:9px;letter-spacing:1px;color:var(--muted2);font-family:'Outfit',sans-serif;font-weight:700;">SLATE</span>
-      </div>
-      <div onclick="setTheme('midnight')" style="display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;">
-        <div class="tdot" id="td-midnight" style="background:linear-gradient(135deg,#080c14,#5e8bd4)"></div>
-        <span style="font-size:9px;letter-spacing:1px;color:var(--muted2);font-family:'Outfit',sans-serif;font-weight:700;">NIGHT</span>
-      </div>
-      <div onclick="setTheme('forest')" style="display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;">
-        <div class="tdot" id="td-forest" style="background:linear-gradient(135deg,#080e08,#6aaa6a)"></div>
-        <span style="font-size:9px;letter-spacing:1px;color:var(--muted2);font-family:'Outfit',sans-serif;font-weight:700;">FOREST</span>
-      </div>
+    <div class="theme-row" style="margin-bottom:16px;">
+      <div class="tdot active" id="td-gold"    style="background:linear-gradient(135deg,#0a0a0a,#c9a84c)" onclick="setTheme('gold')"></div>
+      <div class="tdot"        id="td-white"   style="background:linear-gradient(135deg,#ffffff,#b8860b)" onclick="setTheme('white')"></div>
+      <div class="tdot"        id="td-silver"  style="background:linear-gradient(135deg,#0d0d0f,#c0c0c0)" onclick="setTheme('silver')"></div>
+      <div class="tdot"        id="td-emerald" style="background:linear-gradient(135deg,#071a0f,#2ecc71)" onclick="setTheme('emerald')"></div>
+      <div class="tdot"        id="td-royal"   style="background:linear-gradient(135deg,#050d1a,#4a9eff)" onclick="setTheme('royal')"></div>
+      <div class="tdot"        id="td-purple"  style="background:linear-gradient(135deg,#0f0a14,#9b59b6)" onclick="setTheme('purple')"></div>
+      <div class="tdot"        id="td-rose"    style="background:linear-gradient(135deg,#140a0e,#e84393)" onclick="setTheme('rose')"></div>
+      <div class="tdot"        id="td-copper"  style="background:linear-gradient(135deg,#120a04,#cd7f32)" onclick="setTheme('copper')"></div>
+      <div class="tdot"        id="td-crimson" style="background:linear-gradient(135deg,#140404,#e74c3c)" onclick="setTheme('crimson')"></div>
+      <div class="tdot"        id="td-tiffany" style="background:linear-gradient(135deg,#041414,#0abfbc)" onclick="setTheme('tiffany')"></div>
     </div>
     <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--dark4);font-family:'Outfit',sans-serif;" id="lbl-ap-kb">Keyboard Style</div>
     <div class="kb-sel-row">
@@ -385,7 +372,7 @@ const T={
     dir:'ltr',lang:'en',font:'Outfit',
     storeName:'Trendy <span>Store</span>',storeSub:'Price Calculator',
     ticker:'TRY / USD',live:'Live ✓',updating:'Updating...',na:'N/A',
-    hint:'Enter price in Turkish Lira',inputLbl:'TL Turkish Lira',
+    hint:'Enter price in Turkish Lira',inputLbl:'₺ Turkish Lira',
     chart:'Chart',tabTRY:'TRY/USD',tabUSD:'USD/IQD',tabCalc:'My Calcs',
     settings:'Settings',settingsSub:'Customize App',
     ratesTitle:'Exchange Rates',ratesBtn:'Exchange Rates',ratesSub:'USD/IQD · USD/TRY',
@@ -401,7 +388,7 @@ const T={
     dir:'rtl',lang:'ar',font:'Tajawal',
     storeName:'Trendy <span>Store</span>',storeSub:'حاسبة الأسعار',
     ticker:'الليرة / دولار',live:'مباشر ✓',updating:'جاري التحديث',na:'غير متاح',
-    hint:'أدخل السعر بالليرة أدناه',inputLbl:'TL ليرة تركية',
+    hint:'أدخل السعر بالليرة أدناه',inputLbl:'₺ ليرة تركية',
     chart:'الرسم البياني',tabTRY:'الليرة/دولار',tabUSD:'الدولار/دينار',tabCalc:'حساباتي',
     settings:'الإعدادات',settingsSub:'تخصيص التطبيق',
     ratesTitle:'أسعار الصرف',ratesBtn:'أسعار الصرف',ratesSub:'دولار/دينار · دولار/ليرة',
@@ -508,10 +495,39 @@ function saveSettings(){
 }
 
 // ===== THEME =====
-const THEMES=['gold','white','dark','slate','midnight','forest'];
+const THEMES=['gold','white','silver','emerald','royal','purple','rose','copper','crimson','tiffany'];
 function setTheme(t){
+  // Direct color map - forces Samsung WebView to update (CSS vars can lag)
+  const BG={
+    'gold':['#0a0a0a','#f0ece0'],
+    'white':['#ffffff','#1a1510'],
+    'dark':['#000000','#f5f5f5'],
+    'slate':['#0e1117','#d8e4f0'],
+    'midnight':['#080c14','#d0dcf8'],
+    'forest':['#080e08','#d8f0d8'],
+    // legacy themes kept for compatibility
+    'silver':['#0d0d0f','#e8e8f0'],
+    'emerald':['#071a0f','#e0f5ea'],
+    'royal':['#050d1a','#e0eeff'],
+    'purple':['#0f0a14','#f0e8ff'],
+    'rose':['#140a0e','#ffe8f0'],
+    'copper':['#120a04','#fff0e0'],
+    'crimson':['#140404','#ffe8e8'],
+    'tiffany':['#041414','#e0ffff'],
+    'linen':['#faf7f2','#2a2018'],
+    'sand':['#fdf8f0','#2c2010']
+  };
   THEMES.forEach(th=>document.body.classList.remove('th-'+th));
   document.body.classList.add('th-'+t);
+  // Force Samsung/Android WebView to re-render by setting inline style directly
+  if(BG[t]){
+    document.body.style.backgroundColor=BG[t][0];
+    document.body.style.color=BG[t][1];
+    // Force repaint trick
+    document.body.style.display='none';
+    document.body.offsetHeight; // trigger reflow
+    document.body.style.display='';
+  }
   // Update all theme dots (may exist in multiple panels)
   document.querySelectorAll('.tdot').forEach(el=>el.classList.remove('active'));
   document.querySelectorAll('#td-'+t).forEach(el=>el.classList.add('active'));
@@ -604,7 +620,7 @@ async function fetchTicker(){
     const d=await r.json();
     const tryRate=d.rates.TRY;
     const iqdRate=d.rates.IQD;
-    document.getElementById('tickerRate').textContent=tryRate.toFixed(2)+' TL';
+    document.getElementById('tickerRate').textContent=tryRate.toFixed(2)+' ₺';
     document.getElementById('tickerChange').textContent=t.live;
     document.getElementById('tickerChange').className='ticker-change up';
     // Feed chart history
