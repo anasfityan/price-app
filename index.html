@@ -557,6 +557,9 @@ body.th-forest .footer-bar { background-color:#0e160e !important; color:#2a4a2a 
     </div>
   </div>
 
+  <div onclick="clearCacheAndReload()" style="padding:12px 16px;text-align:center;cursor:pointer;border-top:1px solid rgba(128,128,128,0.1);margin-top:8px;">
+    <span style="font-size:11px;color:#888;font-family:Space Mono,monospace;">v17729164 · Tap to update app</span>
+  </div>
   <div class="drawer-credit" id="drawer-credit">Designed by Anes Fittan</div>
 </div>
 
@@ -568,17 +571,31 @@ body.th-forest .footer-bar { background-color:#0e160e !important; color:#2a4a2a 
   </div>
   <div style="padding:14px;flex:1;overflow-y:auto;">
     <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--dark4);font-family:'Outfit',sans-serif;" id="lbl-ap-theme">Theme</div>
-    <div class="theme-row" style="margin-bottom:16px;">
-      <div class="tdot active" id="td-gold"    style="background:linear-gradient(135deg,#0a0a0a,#c9a84c)" onclick="setTheme('gold')"></div>
-      <div class="tdot"        id="td-white"   style="background:linear-gradient(135deg,#ffffff,#b8860b)" onclick="setTheme('white')"></div>
-      <div class="tdot"        id="td-silver"  style="background:linear-gradient(135deg,#0d0d0f,#c0c0c0)" onclick="setTheme('silver')"></div>
-      <div class="tdot"        id="td-emerald" style="background:linear-gradient(135deg,#071a0f,#2ecc71)" onclick="setTheme('emerald')"></div>
-      <div class="tdot"        id="td-royal"   style="background:linear-gradient(135deg,#050d1a,#4a9eff)" onclick="setTheme('royal')"></div>
-      <div class="tdot"        id="td-purple"  style="background:linear-gradient(135deg,#0f0a14,#9b59b6)" onclick="setTheme('purple')"></div>
-      <div class="tdot"        id="td-rose"    style="background:linear-gradient(135deg,#140a0e,#e84393)" onclick="setTheme('rose')"></div>
-      <div class="tdot"        id="td-copper"  style="background:linear-gradient(135deg,#120a04,#cd7f32)" onclick="setTheme('copper')"></div>
-      <div class="tdot"        id="td-crimson" style="background:linear-gradient(135deg,#140404,#e74c3c)" onclick="setTheme('crimson')"></div>
-      <div class="tdot"        id="td-tiffany" style="background:linear-gradient(135deg,#041414,#0abfbc)" onclick="setTheme('tiffany')"></div>
+    <div class="theme-row" style="margin-bottom:16px;display:flex;flex-wrap:wrap;gap:14px;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;" onclick="setTheme('gold')">
+        <div class="tdot active" id="td-gold" style="background:linear-gradient(135deg,#0a0a0a,#c9a84c)"></div>
+        <span style="font-size:9px;color:#888;font-family:'Outfit',sans-serif;font-weight:700;letter-spacing:1px;">GOLD</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;" onclick="setTheme('white')">
+        <div class="tdot" id="td-white" style="background:linear-gradient(135deg,#eeeeee,#b8860b)"></div>
+        <span style="font-size:9px;color:#888;font-family:'Outfit',sans-serif;font-weight:700;letter-spacing:1px;">WHITE</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;" onclick="setTheme('dark')">
+        <div class="tdot" id="td-dark" style="background:linear-gradient(135deg,#000000,#444444)"></div>
+        <span style="font-size:9px;color:#888;font-family:'Outfit',sans-serif;font-weight:700;letter-spacing:1px;">DARK</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;" onclick="setTheme('slate')">
+        <div class="tdot" id="td-slate" style="background:linear-gradient(135deg,#0e1117,#7c9cbf)"></div>
+        <span style="font-size:9px;color:#888;font-family:'Outfit',sans-serif;font-weight:700;letter-spacing:1px;">SLATE</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;" onclick="setTheme('midnight')">
+        <div class="tdot" id="td-midnight" style="background:linear-gradient(135deg,#080c14,#5e8bd4)"></div>
+        <span style="font-size:9px;color:#888;font-family:'Outfit',sans-serif;font-weight:700;letter-spacing:1px;">NIGHT</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;" onclick="setTheme('forest')">
+        <div class="tdot" id="td-forest" style="background:linear-gradient(135deg,#080e08,#6aaa6a)"></div>
+        <span style="font-size:9px;color:#888;font-family:'Outfit',sans-serif;font-weight:700;letter-spacing:1px;">FOREST</span>
+      </div>
     </div>
     <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--dark4);font-family:'Outfit',sans-serif;" id="lbl-ap-kb">Keyboard Style</div>
     <div class="kb-sel-row">
@@ -749,7 +766,7 @@ function saveSettings(){
 }
 
 // ===== THEME =====
-const THEMES=['gold','white','silver','emerald','royal','purple','rose','copper','crimson','tiffany'];
+const THEMES=['gold','white','dark','slate','midnight','forest'];
 function setTheme(t){
   const BG={
     'gold':['#0a0a0a','#f0ece0'],'white':['#ffffff','#1a1510'],
@@ -818,6 +835,16 @@ function setLang(l){
 }
 
 // ===== DRAWER / PANEL =====
+function clearCacheAndReload(){
+  if('caches' in window){
+    caches.keys().then(keys=>{keys.forEach(key=>caches.delete(key));});
+  }
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.getRegistrations().then(regs=>{regs.forEach(r=>r.unregister());});
+  }
+  try{localStorage.removeItem('app_version');}catch(e){}
+  setTimeout(()=>window.location.reload(true), 300);
+}
 function openDrawer(){document.getElementById('drawer').classList.add('open');document.getElementById('overlay').classList.add('open');}
 
 function closeAll(){document.getElementById('drawer').classList.remove('open');document.getElementById('overlay').classList.remove('open');document.getElementById('ratesPanel').classList.remove('open');}
@@ -888,10 +915,34 @@ window.addEventListener('load',()=>{
   document.addEventListener('click',()=>{if(liraVal)try{sessionStorage.setItem('last_lira',JSON.stringify({t:Date.now(),v:liraVal}));}catch(e){}}); 
 });
 
+// APP VERSION - changes every update to bust cache
+const APP_VERSION = '1772916409';
+
 if('serviceWorker' in navigator){
-  const sw=`self.addEventListener('install',e=>{self.skipWaiting();});self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.map(k=>caches.delete(k)))).then(()=>clients.claim()));});self.addEventListener('fetch',e=>{e.respondWith(fetch(e.request));});`
-  const blob=new Blob([sw],{type:'application/javascript'});
-  navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
+  // Unregister ALL old service workers first
+  navigator.serviceWorker.getRegistrations().then(regs=>{
+    regs.forEach(reg=>reg.unregister());
+  });
+  
+  // Clear ALL caches
+  if('caches' in window){
+    caches.keys().then(keys=>{
+      keys.forEach(key=>caches.delete(key));
+    });
+  }
+  
+  // Check stored version vs current version
+  try{
+    const storedVer = localStorage.getItem('app_version');
+    if(storedVer !== APP_VERSION){
+      localStorage.setItem('app_version', APP_VERSION);
+      // Force reload once to get fresh content (only if not already reloading)
+      if(!sessionStorage.getItem('reloaded_'+APP_VERSION)){
+        sessionStorage.setItem('reloaded_'+APP_VERSION,'1');
+        window.location.reload(true);
+      }
+    }
+  }catch(e){}
 }
 </script>
 </body>
