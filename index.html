@@ -78,7 +78,7 @@ body{font-family:var(--font-main);background:var(--dark);color:var(--text);heigh
 
 /* DISPLAY */
 .display-card{background:var(--dark2);border:1px solid var(--gold-dim);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;}
-.display-sym{font-size:26px;color:var(--gold);font-weight:700;opacity:.6;font-family:'Space Mono',monospace;flex-shrink:0;}
+.display-sym{font-size:20px;color:var(--gold);font-weight:900;opacity:.6;font-family:'Outfit',sans-serif;flex-shrink:0;letter-spacing:-1px;}
 .display-right{flex:1;}
 .display-lbl{font-size:9px;letter-spacing:2px;color:var(--muted2);text-transform:uppercase;margin-bottom:4px;font-family:'Outfit',sans-serif;}
 .display-val{font-size:34px;font-weight:900;color:var(--text);font-family:'Space Mono',monospace;direction:ltr;min-height:42px;letter-spacing:1px;}
@@ -231,10 +231,10 @@ body{font-family:var(--font-main);background:var(--dark);color:var(--text);heigh
 <div class="scroll-area">
   <div class="display-card">
     <div class="display-right">
-      <div class="display-lbl" id="lbl-input">₺ Turkish Lira</div>
+      <div class="display-lbl" id="lbl-input">TL Turkish Lira</div>
       <div class="display-val empty" id="displayVal">0</div>
     </div>
-    <div class="display-sym">₺</div>
+    <div class="display-sym" style="font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;letter-spacing:-1px;">TL</div>
   </div>
 
   <div class="kb-card" id="kbCard"></div>
@@ -372,7 +372,7 @@ const T={
     dir:'ltr',lang:'en',font:'Outfit',
     storeName:'Trendy <span>Store</span>',storeSub:'Price Calculator',
     ticker:'TRY / USD',live:'Live ✓',updating:'Updating...',na:'N/A',
-    hint:'Enter price in Turkish Lira',inputLbl:'₺ Turkish Lira',
+    hint:'Enter price in Turkish Lira',inputLbl:'TL Turkish Lira',
     chart:'Chart',tabTRY:'TRY/USD',tabUSD:'USD/IQD',tabCalc:'My Calcs',
     settings:'Settings',settingsSub:'Customize App',
     ratesTitle:'Exchange Rates',ratesBtn:'Exchange Rates',ratesSub:'USD/IQD · USD/TRY',
@@ -388,7 +388,7 @@ const T={
     dir:'rtl',lang:'ar',font:'Tajawal',
     storeName:'Trendy <span>Store</span>',storeSub:'حاسبة الأسعار',
     ticker:'الليرة / دولار',live:'مباشر ✓',updating:'جاري التحديث',na:'غير متاح',
-    hint:'أدخل السعر بالليرة أدناه',inputLbl:'₺ ليرة تركية',
+    hint:'أدخل السعر بالليرة أدناه',inputLbl:'TL ليرة تركية',
     chart:'الرسم البياني',tabTRY:'الليرة/دولار',tabUSD:'الدولار/دينار',tabCalc:'حساباتي',
     settings:'الإعدادات',settingsSub:'تخصيص التطبيق',
     ratesTitle:'أسعار الصرف',ratesBtn:'أسعار الصرف',ratesSub:'دولار/دينار · دولار/ليرة',
@@ -620,7 +620,7 @@ async function fetchTicker(){
     const d=await r.json();
     const tryRate=d.rates.TRY;
     const iqdRate=d.rates.IQD;
-    document.getElementById('tickerRate').textContent=tryRate.toFixed(2)+' ₺';
+    document.getElementById('tickerRate').textContent=tryRate.toFixed(2)+' TL';
     document.getElementById('tickerChange').textContent=t.live;
     document.getElementById('tickerChange').className='ticker-change up';
     // Feed chart history
