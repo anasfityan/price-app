@@ -212,15 +212,21 @@ body{font-family:var(--font-main);background:var(--dark);color:var(--text);heigh
 </div>
 
 <!-- RESULT -->
-<div class="result-fixed" id="resultFixed">
-  <div class="res-main-card">
-    <div class="res-label" id="lbl-res">SELLING PRICE</div>
-    <div class="res-amount zero" id="res-amount">0</div>
-    <div class="res-cur" id="res-cur">Iraqi Dinar</div>
+<div id="resultFixed" style="flex-shrink:0;padding:8px 12px;display:flex;gap:8px;align-items:stretch;border-bottom:1px solid rgba(201,168,76,.08);">
+  <div style="flex:1;background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.03));border:1px solid rgba(201,168,76,.2);border-radius:14px;padding:11px 14px;display:flex;flex-direction:column;justify-content:center;">
+    <div style="font-size:9px;letter-spacing:2px;color:var(--muted2);text-transform:uppercase;margin-bottom:3px;font-family:'Outfit',sans-serif;" id="lbl-res">SELLING PRICE</div>
+    <div style="font-size:30px;font-weight:900;direction:ltr;background:linear-gradient(135deg,var(--gold),var(--gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;font-family:'Space Mono',monospace;" class="res-amount zero" id="res-amount">0</div>
+    <div style="font-size:10px;color:var(--muted2);margin-top:2px;" id="res-cur">Iraqi Dinar</div>
   </div>
-  <div class="res-side">
-    <div class="res-usd"><b class="zero" id="res-usd-val">$0.0</b><span class="mb-lbl" id="lbl-usd-box">USD Cost</span></div>
-    <div class="res-profit"><b class="zero" id="res-profit-val">0</b><span class="mb-lbl" id="lbl-profit-box">Profit 0%</span></div>
+  <div style="display:flex;flex-direction:column;gap:6px;justify-content:center;">
+    <div style="background:var(--dark2);border:1px solid var(--dark4);border-radius:10px;padding:6px 10px;text-align:center;min-width:70px;">
+      <b style="color:var(--gold);display:block;font-size:13px;font-family:'Space Mono',monospace;font-weight:700;" class="zero" id="res-usd-val">$0.0</b>
+      <span style="font-size:9px;color:var(--muted);margin-top:1px;display:block;" id="lbl-usd-box">USD Cost</span>
+    </div>
+    <div style="background:var(--dark2);border:1px solid var(--dark4);border-radius:10px;padding:6px 10px;text-align:center;min-width:70px;">
+      <b style="color:var(--green);display:block;font-size:13px;font-family:'Space Mono',monospace;font-weight:700;" class="zero" id="res-profit-val">0</b>
+      <span style="font-size:9px;color:var(--muted);margin-top:1px;display:block;" id="lbl-profit-box">Profit 0%</span>
+    </div>
   </div>
 </div>
 
@@ -621,7 +627,7 @@ window.addEventListener('load',()=>{
 });
 
 if('serviceWorker' in navigator){
-  const sw=`self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>clients.claim());self.addEventListener('fetch',e=>e.respondWith(caches.open('ts-v1').then(c=>c.match(e.request).then(r=>r||fetch(e.request).then(res=>{c.put(e.request,res.clone());return res;})))));`;
+  const sw=`self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>clients.claim());self.addEventListener('fetch',e=>e.respondWith(caches.open('ts-v9').then(c=>c.match(e.request).then(r=>r||fetch(e.request).then(res=>{c.put(e.request,res.clone());return res;})))));`;
   const blob=new Blob([sw],{type:'application/javascript'});
   navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
 }
