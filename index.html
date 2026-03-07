@@ -26,11 +26,13 @@ body.th-white   {--gold:#b8860b;--gold-light:#daa520;--dark:#ffffff;--dark2:#f8f
 body.th-silver  {--gold:#a0a0a0;--gold-light:#c8c8c8;--dark:#0d0d0f;--dark2:#141418;--dark3:#1c1c22;--dark4:#26262e;--dark5:#30303a;--text:#e8e8f0;--muted:#606070;--muted2:#808090;}
 body.th-emerald {--gold:#2ecc71;--gold-light:#58d68d;--dark:#071a0f;--dark2:#0d2318;--dark3:#112d1f;--dark4:#1a3d2b;--dark5:#234d36;--text:#e0f5ea;--muted:#4a7a5a;--muted2:#6a9a7a;}
 body.th-royal   {--gold:#4a9eff;--gold-light:#74b9ff;--dark:#050d1a;--dark2:#0a1628;--dark3:#0f1f38;--dark4:#162a4a;--dark5:#1e3560;--text:#e0eeff;--muted:#3a5a8a;--muted2:#5a7aaa;}
-body.th-purple  {--gold:#9b59b6;--gold-light:#c39bd3;--dark:#0f0a14;--dark2:#18102a;--dark3:#201538;--dark4:#2a1a48;--dark5:#342258;--text:#f0e8ff;--muted:#5a3a7a;--muted2:#7a5a9a;}
-body.th-rose    {--gold:#e84393;--gold-light:#f1948a;--dark:#140a0e;--dark2:#1f1018;--dark3:#2a1522;--dark4:#361a2c;--dark5:#421f36;--text:#ffe8f0;--muted:#7a3a5a;--muted2:#9a5a7a;}
 body.th-copper  {--gold:#cd7f32;--gold-light:#e8a050;--dark:#120a04;--dark2:#1e1008;--dark3:#28160c;--dark4:#341c10;--dark5:#402214;--text:#fff0e0;--muted:#7a5030;--muted2:#9a7050;}
-body.th-crimson {--gold:#e74c3c;--gold-light:#f1948a;--dark:#140404;--dark2:#200808;--dark3:#2c0c0c;--dark4:#381010;--dark5:#441414;--text:#ffe8e8;--muted:#7a3030;--muted2:#9a5050;}
 body.th-tiffany {--gold:#0abfbc;--gold-light:#40e0d0;--dark:#041414;--dark2:#081e1e;--dark3:#0c2828;--dark4:#103232;--dark5:#143c3c;--text:#e0ffff;--muted:#2a6a6a;--muted2:#4a8a8a;}
+body.th-slate   {--gold:#7c9cbf;--gold-light:#a8c4de;--dark:#0e1117;--dark2:#141922;--dark3:#1a2030;--dark4:#222a3e;--dark5:#2c354e;--text:#d8e4f0;--muted:#3a4a60;--muted2:#5a6a80;}
+body.th-linen   {--gold:#b8924a;--gold-light:#d4ac6a;--dark:#faf7f2;--dark2:#f4f0e8;--dark3:#ede8de;--dark4:#e0d8cc;--dark5:#ccc4b4;--text:#2a2018;--muted:#8a7a60;--muted2:#6a5a40;--green:#2e6e40;--red:#9e2a20;}
+body.th-midnight{--gold:#5e8bd4;--gold-light:#88aaee;--dark:#080c14;--dark2:#0d1220;--dark3:#12182c;--dark4:#181e38;--dark5:#202844;--text:#d0dcf8;--muted:#2a3858;--muted2:#4a5878;}
+body.th-forest  {--gold:#6aaa6a;--gold-light:#90cc90;--dark:#080e08;--dark2:#0e160e;--dark3:#141e14;--dark4:#1a2a1a;--dark5:#223422;--text:#d8f0d8;--muted:#2a4a2a;--muted2:#4a6a4a;}
+body.th-sand    {--gold:#c4a862;--gold-light:#dcc488;--dark:#fdf8f0;--dark2:#f5ede0;--dark3:#ece4d4;--dark4:#dfd8c8;--dark5:#cec8b4;--text:#2c2010;--muted:#8a7848;--muted2:#6a5828;--green:#4a6e30;--red:#a03020;}
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;overflow:hidden;}
@@ -318,16 +320,18 @@ body{font-family:var(--font-main);background:var(--dark);color:var(--text);heigh
   <div style="padding:14px;flex:1;overflow-y:auto;">
     <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--dark4);font-family:'Outfit',sans-serif;" id="lbl-ap-theme">Theme</div>
     <div class="theme-row" style="margin-bottom:16px;">
-      <div class="tdot active" id="td-gold"    style="background:linear-gradient(135deg,#0a0a0a,#c9a84c)" onclick="setTheme('gold')"></div>
-      <div class="tdot"        id="td-white"   style="background:linear-gradient(135deg,#ffffff,#b8860b)" onclick="setTheme('white')"></div>
-      <div class="tdot"        id="td-silver"  style="background:linear-gradient(135deg,#0d0d0f,#c0c0c0)" onclick="setTheme('silver')"></div>
-      <div class="tdot"        id="td-emerald" style="background:linear-gradient(135deg,#071a0f,#2ecc71)" onclick="setTheme('emerald')"></div>
-      <div class="tdot"        id="td-royal"   style="background:linear-gradient(135deg,#050d1a,#4a9eff)" onclick="setTheme('royal')"></div>
-      <div class="tdot"        id="td-purple"  style="background:linear-gradient(135deg,#0f0a14,#9b59b6)" onclick="setTheme('purple')"></div>
-      <div class="tdot"        id="td-rose"    style="background:linear-gradient(135deg,#140a0e,#e84393)" onclick="setTheme('rose')"></div>
-      <div class="tdot"        id="td-copper"  style="background:linear-gradient(135deg,#120a04,#cd7f32)" onclick="setTheme('copper')"></div>
-      <div class="tdot"        id="td-crimson" style="background:linear-gradient(135deg,#140404,#e74c3c)" onclick="setTheme('crimson')"></div>
-      <div class="tdot"        id="td-tiffany" style="background:linear-gradient(135deg,#041414,#0abfbc)" onclick="setTheme('tiffany')"></div>
+      <div class="tdot active" id="td-gold"     style="background:linear-gradient(135deg,#0a0a0a,#c9a84c)"  onclick="setTheme('gold')"></div>
+      <div class="tdot"        id="td-white"    style="background:linear-gradient(135deg,#ffffff,#b8860b)"  onclick="setTheme('white')"></div>
+      <div class="tdot"        id="td-silver"   style="background:linear-gradient(135deg,#0d0d0f,#c0c0c0)"  onclick="setTheme('silver')"></div>
+      <div class="tdot"        id="td-emerald"  style="background:linear-gradient(135deg,#071a0f,#2ecc71)"  onclick="setTheme('emerald')"></div>
+      <div class="tdot"        id="td-royal"    style="background:linear-gradient(135deg,#050d1a,#4a9eff)"  onclick="setTheme('royal')"></div>
+      <div class="tdot"        id="td-copper"   style="background:linear-gradient(135deg,#120a04,#cd7f32)"  onclick="setTheme('copper')"></div>
+      <div class="tdot"        id="td-tiffany"  style="background:linear-gradient(135deg,#041414,#0abfbc)"  onclick="setTheme('tiffany')"></div>
+      <div class="tdot"        id="td-slate"    style="background:linear-gradient(135deg,#0e1117,#7c9cbf)"  onclick="setTheme('slate')"></div>
+      <div class="tdot"        id="td-linen"    style="background:linear-gradient(135deg,#faf7f2,#b8924a)"  onclick="setTheme('linen')"></div>
+      <div class="tdot"        id="td-midnight" style="background:linear-gradient(135deg,#080c14,#5e8bd4)"  onclick="setTheme('midnight')"></div>
+      <div class="tdot"        id="td-forest"   style="background:linear-gradient(135deg,#080e08,#6aaa6a)"  onclick="setTheme('forest')"></div>
+      <div class="tdot"        id="td-sand"     style="background:linear-gradient(135deg,#fdf8f0,#c4a862)"  onclick="setTheme('sand')"></div>
     </div>
     <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--dark4);font-family:'Outfit',sans-serif;" id="lbl-ap-kb">Keyboard Style</div>
     <div class="kb-sel-row">
@@ -498,7 +502,7 @@ function saveSettings(){
 }
 
 // ===== THEME =====
-const THEMES=['gold','white','silver','emerald','royal','purple','rose','copper','crimson','tiffany'];
+const THEMES=['gold','white','silver','emerald','royal','copper','tiffany','slate','linen','midnight','forest','sand'];
 function setTheme(t){
   THEMES.forEach(th=>document.body.classList.remove('th-'+th));
   document.body.classList.add('th-'+t);
