@@ -893,6 +893,7 @@ function setKb(n){
   currentKb=n;
   try{localStorage.setItem('kb',n);}catch(e){}
   document.getElementById('kbCard').innerHTML=kbHTML(n);
+  if(window._tc){const c=window._tc;document.querySelectorAll('.k').forEach(el=>{el.style.background=c.bg3;el.style.color=c.text;el.style.borderColor=c.bg5;});document.querySelectorAll('.k-ok').forEach(el=>{el.style.background=c.gold;el.style.color=c.bg;});document.querySelectorAll('.k-del').forEach(el=>el.style.color=c.red);}
   for(let i=1;i<=5;i++){
     document.querySelectorAll('#kb-dot-'+i).forEach(el=>el.classList.toggle('active',i===n));
   }
@@ -972,25 +973,199 @@ function saveSettings(){
 
 // ===== THEME =====
 const THEMES=['gold','white','dark','slate','midnight','forest'];
+const THEME_COLORS={
+  'gold':{
+    'bg':'#0a0a0a',
+    'bg2':'#131313',
+    'bg3':'#1a1a1a',
+    'bg4':'#242424',
+    'bg5':'#2e2e2e',
+    'text':'#f0ece0',
+    'muted':'#6a6258',
+    'muted2':'#8a8070',
+    'gold':'#c9a84c',
+    'gold_l':'#e8c96a',
+    'green':'#4caf7d',
+    'red':'#e05c5c',
+  },
+  'white':{
+    'bg':'#ffffff',
+    'bg2':'#f0ede6',
+    'bg3':'#e5e0d8',
+    'bg4':'#d5cfc6',
+    'bg5':'#bfb8ae',
+    'text':'#1a1510',
+    'muted':'#7a7060',
+    'muted2':'#5a5040',
+    'gold':'#996600',
+    'gold_l':'#c8950a',
+    'green':'#2e7d32',
+    'red':'#c62828',
+  },
+  'dark':{
+    'bg':'#000000',
+    'bg2':'#0a0a0a',
+    'bg3':'#111111',
+    'bg4':'#1a1a1a',
+    'bg5':'#252525',
+    'text':'#f5f5f5',
+    'muted':'#555555',
+    'muted2':'#777777',
+    'gold':'#c9a84c',
+    'gold_l':'#e8c96a',
+    'green':'#4caf7d',
+    'red':'#e05c5c',
+  },
+  'slate':{
+    'bg':'#0e1117',
+    'bg2':'#141922',
+    'bg3':'#1a2030',
+    'bg4':'#222a3e',
+    'bg5':'#2c354e',
+    'text':'#d8e4f0',
+    'muted':'#3a4a60',
+    'muted2':'#5a6a80',
+    'gold':'#7c9cbf',
+    'gold_l':'#a8c4de',
+    'green':'#4caf7d',
+    'red':'#e05c5c',
+  },
+  'midnight':{
+    'bg':'#080c14',
+    'bg2':'#0d1220',
+    'bg3':'#12182c',
+    'bg4':'#181e38',
+    'bg5':'#202844',
+    'text':'#d0dcf8',
+    'muted':'#2a3858',
+    'muted2':'#4a5878',
+    'gold':'#5e8bd4',
+    'gold_l':'#88aaee',
+    'green':'#4caf7d',
+    'red':'#e05c5c',
+  },
+  'forest':{
+    'bg':'#080e08',
+    'bg2':'#0e160e',
+    'bg3':'#141e14',
+    'bg4':'#1a2a1a',
+    'bg5':'#223422',
+    'text':'#d8f0d8',
+    'muted':'#2a4a2a',
+    'muted2':'#4a6a4a',
+    'gold':'#6aaa6a',
+    'gold_l':'#90cc90',
+    'green':'#6aaa6a',
+    'red':'#e05c5c',
+  },
+};
+function applyThemeStyles(c){
+  // Apply to every major element directly - bypasses all CSS on Samsung
+  const $ = id => document.getElementById(id);
+  const $$ = sel => document.querySelectorAll(sel);
+
+  // Body
+  document.body.style.cssText = 'background:'+c.bg+' !important;color:'+c.text+' !important;';
+
+  // Topbar
+  const topbar = document.querySelector('.topbar');
+  if(topbar) topbar.style.cssText = 'background:'+c.bg2+' !important;border-bottom-color:'+c.bg5+' !important;';
+
+  // Store name span
+  const storeSpan = document.querySelector('.topbar-store span');
+  if(storeSpan) storeSpan.style.color = c.gold;
+
+  const storeSub = document.querySelector('.topbar-sub');
+  if(storeSub) storeSub.style.color = c.muted;
+
+  const logoWrap = document.querySelector('.topbar-logo-wrap');
+  if(logoWrap){ logoWrap.style.background=c.bg3; logoWrap.style.borderColor=c.gold+'99'; }
+
+  const menuBtn = document.querySelector('.menu-btn');
+  if(menuBtn){ menuBtn.style.background=c.bg3; menuBtn.style.borderColor=c.bg5; }
+  $$('.menu-btn span').forEach(el=>el.style.background=c.muted2);
+
+  // Ticker
+  const ticker = document.querySelector('.ticker');
+  if(ticker) ticker.style.background=c.bg2;
+  const tickerRate = $('tickerRate');
+  if(tickerRate) tickerRate.style.color=c.gold;
+  const tickerLbl = document.querySelector('.ticker-label');
+  if(tickerLbl) tickerLbl.style.color=c.muted;
+
+  // Display box
+  $$('.display-box').forEach(el=>{el.style.background=c.bg2;});
+  $$('.display-lbl').forEach(el=>{el.style.color=c.muted;});
+  $$('.display-val').forEach(el=>{el.style.color=c.text;});
+  $$('.display-sym').forEach(el=>{el.style.color=c.gold;});
+
+  // Chart
+  const chartArea = document.querySelector('.chart-area');
+  if(chartArea) chartArea.style.background=c.bg2;
+  $$('.chart-title').forEach(el=>el.style.color=c.muted);
+  $$('.chart-tab').forEach(el=>{
+    el.style.background=c.bg3;
+    el.style.color=c.muted2;
+    el.style.borderColor=c.bg5;
+  });
+  $$('.chart-tab.on').forEach(el=>{
+    el.style.background=c.gold+'22';
+    el.style.color=c.gold;
+    el.style.borderColor=c.gold;
+  });
+
+  // Keyboard
+  $$('.kb-card, [class^="kb-"], [class*=" kb-"]').forEach(el=>el.style.background=c.bg2);
+  $$('.k').forEach(el=>{
+    el.style.background=c.bg3;
+    el.style.color=c.text;
+    el.style.borderColor=c.bg5;
+  });
+  $$('.k-ok').forEach(el=>{el.style.background=c.gold;el.style.color=c.bg;});
+  $$('.k-del').forEach(el=>el.style.color=c.red);
+
+  // Result
+  $$('.result-box, .res-main-card, .res-side').forEach(el=>el.style.background=c.bg3);
+  $$('.res-amount').forEach(el=>el.style.color=c.gold);
+  $$('.res-lbl, .res-cur').forEach(el=>el.style.color=c.muted);
+  $$('.res-usd').forEach(el=>el.style.color=c.gold_l);
+  $$('.res-profit').forEach(el=>el.style.color=c.green);
+
+  // Drawer
+  const drawer = document.querySelector('.drawer');
+  if(drawer) drawer.style.background=c.bg2;
+  $$('.drawer-item').forEach(el=>{el.style.color=c.text;el.style.borderBottomColor=c.bg4;});
+  $$('.drawer-icon').forEach(el=>el.style.color=c.gold);
+
+  // Panels
+  $$('.panel, [id$="Panel"]').forEach(el=>el.style.background=c.bg2);
+  $$('.panel-header').forEach(el=>el.style.background=c.bg3);
+  $$('.panel-back-btn').forEach(el=>{el.style.background=c.bg4;el.style.color=c.text;el.style.borderColor=c.bg5;});
+  $$('.panel-title').forEach(el=>el.style.color=c.gold);
+  $$('.section-lbl, [id^="lbl-ap"]').forEach(el=>el.style.color=c.gold);
+  $$('input[type=number], input[type=text], input[type=range]').forEach(el=>{el.style.background=c.bg3;el.style.color=c.text;el.style.borderColor=c.bg5;});
+  $$('.save-btn').forEach(el=>{el.style.background='linear-gradient(135deg,'+c.gold+','+c.gold_l+')';el.style.color=c.bg;});
+
+  // Overlay / backdrop
+  const overlay = document.querySelector('.overlay');
+  if(overlay) overlay.style.background='rgba(0,0,0,0.6)';
+
+  // Footer
+  $$('.footer-bar, .drawer-credit').forEach(el=>{el.style.background=c.bg2;el.style.color=c.muted;});
+
+  // Store current colors globally so dynamic elements (keyboard re-render) can use them
+  window._tc = c;
+}
+
 function setTheme(t){
-  const BG={
-    'gold':['#0a0a0a','#f0ece0'],'white':['#ffffff','#1a1510'],
-    'dark':['#000000','#f5f5f5'],'slate':['#0e1117','#d8e4f0'],
-    'midnight':['#080c14','#d0dcf8'],'forest':['#080e08','#d8f0d8']
-  };
-  // Remove all theme classes
   THEMES.forEach(th=>document.body.classList.remove('th-'+th));
-  // Add new theme class
   document.body.classList.add('th-'+t);
-  // FORCE Samsung to update - set background/color directly on element
-  if(BG[t]){
-    document.body.style.setProperty('background-color', BG[t][0], 'important');
-    document.body.style.setProperty('color', BG[t][1], 'important');
-  }
-  // Update active dot
+  const c = THEME_COLORS[t];
+  if(c) applyThemeStyles(c);
   document.querySelectorAll('.tdot').forEach(el=>el.classList.remove('active'));
   document.querySelectorAll('#td-'+t).forEach(el=>el.classList.add('active'));
   try{localStorage.setItem('theme',t);}catch(e){}
+  updateChart();
 }
 
 // ===== LANG =====
