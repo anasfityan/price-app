@@ -664,9 +664,10 @@ window.addEventListener('load',()=>{
 });
 
 if('serviceWorker' in navigator){
-  const sw=`self.addEventListener('install',e=>{self.skipWaiting();});self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.map(k=>caches.delete(k)))).then(()=>clients.claim()));});self.addEventListener('fetch',e=>{e.respondWith(fetch(e.request));});`
-  const blob=new Blob([sw],{type:'application/javascript'});
-  navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
+  // Unregister any old service workers that may block installation
+  navigator.serviceWorker.getRegistrations().then(regs=>{
+    regs.forEach(r=>r.unregister());
+  });
 }
 
 // Auto-fetch rates from GitHub every 5 min
