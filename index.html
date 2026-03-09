@@ -784,7 +784,7 @@ body.th-forest .footer-bar{background:#0e160e!important;color:#2a4a2a!important;
   <div onclick="clearCacheAndReload()" style="padding:12px 16px;text-align:center;cursor:pointer;border-top:1px solid rgba(128,128,128,0.1);margin-top:8px;">
     <span style="font-size:11px;color:#888;font-family:Space Mono,monospace;">v17729164 · Tap to update app</span>
   </div>
-  <div class="drawer-credit" id="drawer-credit">Designed by Anes Fittan</div>
+  <div class="drawer-credit" id="drawer-credit" onclick="adminCreditTap()" style="cursor:pointer;">Designed by Anes Fittan</div>
 </div>
 
 <!-- APPEARANCE PANEL -->
@@ -1321,15 +1321,34 @@ let logoTapCount = 0;
 let logoTapTimer = null;
 
 // Tap logo 5 times quickly to open admin
-document.querySelector('.topbar-logo-wrap').addEventListener('click', function(){
+// Logo tap - 5 times
+function handleLogoTap(){
   logoTapCount++;
   clearTimeout(logoTapTimer);
-  logoTapTimer = setTimeout(()=>{ logoTapCount=0; }, 2000);
+  logoTapTimer = setTimeout(function(){ logoTapCount=0; }, 2500);
   if(logoTapCount >= 5){
     logoTapCount = 0;
     openAdminUnlock();
   }
-});
+}
+var logoEl = document.querySelector('.topbar-logo-wrap');
+if(logoEl){
+  logoEl.addEventListener('touchend', function(e){ e.preventDefault(); handleLogoTap(); });
+  logoEl.addEventListener('click', handleLogoTap);
+}
+
+// Credit tap - 3 times
+let creditTapCount = 0, creditTimer = null;
+function adminCreditTap(){
+  creditTapCount++;
+  clearTimeout(creditTimer);
+  creditTimer = setTimeout(function(){ creditTapCount=0; }, 2000);
+  if(creditTapCount >= 3){
+    creditTapCount = 0;
+    closeDrawer();
+    setTimeout(openAdminUnlock, 300);
+  }
+}
 
 function openAdminUnlock(){
   const cfg = getAdminConfig();
@@ -1506,9 +1525,9 @@ window.addEventListener('load', function(){
       <label>Repository Name</label>
       <input type="text" id="setupRepo" placeholder="price-app">
       <label>Personal Access Token</label>
-      <input type="password" id="setupToken" placeholder="ghp_xxxxxxxxxxxx">
+      <input type="text" id="setupToken" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off" autocorrect="off" autocapitalize="off">
       <label>Admin Code (password you choose)</label>
-      <input type="text" id="setupCode" placeholder="Choose a secret code">
+      <input type="text" id="setupCode" placeholder="Choose a secret code" autocomplete="off">
     </div>
     <button class="admin-btn" onclick="saveAdminSetup()" style="margin-top:8px;">Save Setup</button>
     <button class="admin-cancel" onclick="document.getElementById('adminSetup').classList.remove('show')">Cancel</button>
