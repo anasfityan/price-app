@@ -1012,7 +1012,7 @@ function applyThemeStyles(c){
   const $$=s=>document.querySelectorAll(s);
 
   // BODY
-  document.body.style.cssText='background:'+c.bg+'!important;color:'+c.text+'!important;';
+  document.body.style.background=c.bg;document.body.style.color=c.text;
 
   // TOPBAR
   var el=$('.topbar');
