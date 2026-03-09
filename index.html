@@ -839,20 +839,23 @@ body.th-forest .footer-bar{background:#0e160e!important;color:#2a4a2a!important;
     <div class="panel-title" id="lbl-panel-title">Exchange Rates</div>
   </div>
   <div style="padding:14px;flex:1;">
+    <div id="lockMsg" style="text-align:center;padding:8px;background:#1a1a1a;border-radius:8px;margin-bottom:12px;font-size:11px;color:#6a6258;font-family:'Outfit',sans-serif;">
+      🔒 View only — Admin access required to edit
+    </div>
     <div class="dfield">
       <label for="usdIqd" id="lbl-iqd">USD to Iraqi Dinar</label>
-      <div class="diw"><input type="number" id="usdIqd" value="1530" min="1" inputmode="numeric"><div class="dunit">IQD</div></div>
+      <div class="diw"><input type="number" id="usdIqd" value="1530" min="1" inputmode="numeric" readonly style="opacity:0.5;"><div class="dunit">IQD</div></div>
     </div>
     <div class="dfield">
       <label for="usdTry" id="lbl-try">USD to Turkish Lira</label>
-      <div class="diw"><input type="number" id="usdTry" value="43" min="1" inputmode="numeric"><div class="dunit">TRY</div></div>
+      <div class="diw"><input type="number" id="usdTry" value="43" min="1" inputmode="numeric" readonly style="opacity:0.5;"><div class="dunit">TRY</div></div>
     </div>
-    <button class="save-btn" id="lbl-save" onclick="saveSettings()">💾 Save</button>
-    <div id="adminSaveRow" style="display:none;margin-top:8px;">
-      <button class="save-btn" onclick="pushRatesToGitHub()" style="background:linear-gradient(135deg,#2e7d32,#4caf7d);">🌐 Sync to All Devices</button>
-      <div id="syncStatus" class="sync-status" style="display:none;margin-top:6px;width:100%;text-align:center;"></div>
-    </div>
+    <button class="save-btn" id="lbl-save" onclick="saveSettings()" style="display:none;">💾 Save & Sync</button>
+    
     <div class="save-ok" id="saveOk">✅ Saved!</div>
+    <div style="text-align:center;margin-top:20px;">
+      <span id="adminTrigger" onclick="showAdminPrompt()" style="font-size:10px;color:#2a2a2a;cursor:pointer;font-family:'Space Mono',monospace;user-select:none;">· · ·</span>
+    </div>
   </div>
 </div>
 
@@ -987,10 +990,13 @@ function loadSettings(){
   try{const s=JSON.parse(localStorage.getItem('settings')||'{}');if(s.usdIqd)document.getElementById('usdIqd').value=s.usdIqd;if(s.usdTry)document.getElementById('usdTry').value=s.usdTry;}catch(e){}
 }
 function saveSettings(){
+  if(!isAdmin) return;
   try{
-    localStorage.setItem('settings',JSON.stringify({usdIqd:document.getElementById('usdIqd').value,usdTry:document.getElementById('usdTry').value}));
-    const ok=document.getElementById('saveOk');ok.style.opacity='1';setTimeout(()=>ok.style.opacity='0',2200);
+    const iqd=document.getElementById('usdIqd').value;
+    const try_=document.getElementById('usdTry').value;
+    localStorage.setItem('settings',JSON.stringify({usdIqd:iqd,usdTry:try_}));
     calc();
+    pushRatesToGitHub(iqd,try_);
   }catch(e){}
 }
 
@@ -1316,94 +1322,20 @@ if('serviceWorker' in navigator){
 // ============================================================
 // ADMIN SYSTEM
 // ============================================================
-let isAdmin = false;
-let logoTapCount = 0;
 let logoTapTimer = null;
 
 // Tap logo 5 times quickly to open admin
-// Logo tap - 5 times
-function handleLogoTap(){
-  logoTapCount++;
-  clearTimeout(logoTapTimer);
-  logoTapTimer = setTimeout(function(){ logoTapCount=0; }, 2500);
-  if(logoTapCount >= 5){
-    logoTapCount = 0;
-    openAdminUnlock();
-  }
-}
-var logoEl = document.querySelector('.topbar-logo-wrap');
-if(logoEl){
-  logoEl.addEventListener('touchend', function(e){ e.preventDefault(); handleLogoTap(); });
-  logoEl.addEventListener('click', handleLogoTap);
 }
 
-// Credit tap - 3 times
-let creditTapCount = 0, creditTimer = null;
-function adminCreditTap(){
-  creditTapCount++;
-  clearTimeout(creditTimer);
-  creditTimer = setTimeout(function(){ creditTapCount=0; }, 2000);
-  if(creditTapCount >= 3){
-    creditTapCount = 0;
-    closeDrawer();
-    setTimeout(openAdminUnlock, 300);
-  }
-}
 
-function openAdminUnlock(){
-  const cfg = getAdminConfig();
-  if(!cfg){
-    document.getElementById('adminSetup').classList.add('show');
-  } else {
-    document.getElementById('adminCodeInput').value='';
-    document.getElementById('adminUnlockMsg').textContent = 'Enter admin code';
-    document.getElementById('adminUnlock').classList.add('show');
-  }
-}
 
-function closeAdminUnlock(){
-  document.getElementById('adminUnlock').classList.remove('show');
-}
 
-function getAdminConfig(){
-  try{
-    const c = localStorage.getItem('admin_cfg');
-    return c ? JSON.parse(c) : null;
-  }catch(e){ return null; }
-}
 
-function saveAdminSetup(){
-  const user = document.getElementById('setupUser').value.trim();
-  const repo = document.getElementById('setupRepo').value.trim();
-  const token = document.getElementById('setupToken').value.trim();
-  const code = document.getElementById('setupCode').value.trim();
-  if(!user||!repo||!token||!code){
-    alert('Please fill all fields');
-    return;
-  }
-  try{
-    localStorage.setItem('admin_cfg', JSON.stringify({user,repo,token,code}));
-    document.getElementById('adminSetup').classList.remove('show');
-    alert('Setup saved! Now tap the logo 5 times and enter your code.');
-  }catch(e){ alert('Error saving setup'); }
-}
 
-function checkAdminCode(){
-  const cfg = getAdminConfig();
-  if(!cfg) return;
-  const entered = document.getElementById('adminCodeInput').value;
-  if(entered === cfg.code){
-    isAdmin = true;
-    document.getElementById('adminUnlock').classList.remove('show');
-    document.getElementById('adminBadge').classList.add('show');
-    // Show save button in rates panel
-    document.getElementById('adminSaveRow').style.display = 'block';
-    showSyncStatus('Admin mode ON', 'ok');
-  } else {
-    document.getElementById('adminUnlockMsg').textContent = '❌ Wrong code, try again';
-    document.getElementById('adminCodeInput').value = '';
-  }
-}
+
+
+
+
 
 function showSyncStatus(msg, type){
   const el = document.getElementById('syncStatus');
@@ -1415,88 +1347,111 @@ function showSyncStatus(msg, type){
 }
 
 // Push rates to GitHub
-async function pushRatesToGitHub(){
-  if(!isAdmin){ return; }
-  const cfg = getAdminConfig();
-  if(!cfg){ alert('No admin config'); return; }
-  
-  const usdIqd = document.getElementById('usdIqd').value;
-  const usdTry = document.getElementById('usdTry').value;
-  
-  showSyncStatus('Saving...', 'loading');
-  
-  const content = JSON.stringify({ usdIqd: parseFloat(usdIqd), usdTry: parseFloat(usdTry), updated: new Date().toISOString() });
-  const encoded = btoa(unescape(encodeURIComponent(content)));
-  
-  try{
-    // First get current file SHA (needed for update)
-    const getRes = await fetch(
-      `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/rates.json`,
-      { headers: { 'Authorization': 'token ' + cfg.token, 'Accept': 'application/vnd.github.v3+json' } }
-    );
-    
-    let sha = null;
-    if(getRes.ok){
-      const data = await getRes.json();
-      sha = data.sha;
-    }
-    
-    // Push new content
-    const body = { message: 'Update rates', content: encoded };
-    if(sha) body.sha = sha;
-    
-    const putRes = await fetch(
-      `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/rates.json`,
-      {
-        method: 'PUT',
-        headers: { 'Authorization': 'token ' + cfg.token, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      }
-    );
-    
-    if(putRes.ok){
-      showSyncStatus('✓ Saved & synced to all devices!', 'ok');
-      // Also save locally
-      try{ localStorage.setItem('settings', JSON.stringify({usdIqd, usdTry})); }catch(e){}
-      calc();
-    } else {
-      const err = await putRes.json();
-      showSyncStatus('Error: ' + (err.message||'failed'), 'err');
-    }
-  } catch(e){
-    showSyncStatus('Network error', 'err');
+async 
+
+// Fetch rates from GitHub (all devices)
+async 
+
+// Fetch on load + every 5 minutes
+
+
+// ============================================================
+// ADMIN + SYNC SYSTEM
+// ============================================================
+const GH_USER='anasfityan', GH_REPO='price-app';
+const GH_TOKEN='ghp_MuA3RRxvNd4WlTckGjmWRJGpRRe0872L0UB0';
+let isAdmin=false, creditTaps=0, creditTimer=null, logoTaps=0, logoTimer=null;
+
+// Tap credit text 3x or logo 5x to unlock admin
+document.getElementById('drawer-credit').addEventListener('click', function(){
+  creditTaps++;
+  clearTimeout(creditTimer);
+  creditTimer=setTimeout(function(){creditTaps=0;},2000);
+  if(creditTaps>=3){ creditTaps=0; closeDrawer(); setTimeout(showAdminPrompt,300); }
+});
+
+var logoEl=document.querySelector('.topbar-logo-wrap');
+if(logoEl){
+  function onLogoTap(){
+    logoTaps++;
+    clearTimeout(logoTimer);
+    logoTimer=setTimeout(function(){logoTaps=0;},2500);
+    if(logoTaps>=5){ logoTaps=0; showAdminPrompt(); }
+  }
+  logoEl.addEventListener('touchend',function(e){e.preventDefault();onLogoTap();});
+  logoEl.addEventListener('click',onLogoTap);
+}
+
+function showAdminPrompt(){
+  const code=prompt('🔐 Enter admin code:');
+  if(!code) return;
+  const saved=localStorage.getItem('admin_code');
+  if(!saved){
+    // First time - this code becomes THE admin code
+    localStorage.setItem('admin_code',code);
+    unlockAdmin();
+  } else if(code===saved){
+    unlockAdmin();
+  } else {
+    alert('❌ Wrong code');
   }
 }
 
-// Fetch rates from GitHub (all devices)
+function unlockAdmin(){
+  isAdmin=true;
+  // Unlock inputs
+  document.getElementById('usdIqd').removeAttribute('readonly');
+  document.getElementById('usdIqd').style.opacity='1';
+  document.getElementById('usdTry').removeAttribute('readonly');
+  document.getElementById('usdTry').style.opacity='1';
+  // Show save button
+  document.getElementById('lbl-save').style.display='block';
+  // Update lock message
+  var lm=document.getElementById('lockMsg');
+  if(lm){lm.textContent='✅ Admin mode — changes sync to all devices';lm.style.color='#4caf7d';}
+}
+
+// Push to GitHub
+async function pushRatesToGitHub(iqd,try_){
+  try{
+    const content=JSON.stringify({usdIqd:parseFloat(iqd),usdTry:parseFloat(try_),updated:new Date().toISOString()});
+    const encoded=btoa(unescape(encodeURIComponent(content)));
+    const getRes=await fetch('https://api.github.com/repos/'+GH_USER+'/'+GH_REPO+'/contents/rates.json',
+      {headers:{'Authorization':'token '+GH_TOKEN,'Accept':'application/vnd.github.v3+json'}});
+    let sha=null;
+    if(getRes.ok){ const d=await getRes.json(); sha=d.sha; }
+    const body={message:'Update rates',content:encoded};
+    if(sha) body.sha=sha;
+    const res=await fetch('https://api.github.com/repos/'+GH_USER+'/'+GH_REPO+'/contents/rates.json',
+      {method:'PUT',headers:{'Authorization':'token '+GH_TOKEN,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(res.ok){ 
+      const ok=document.getElementById('saveOk');
+      ok.textContent='✅ Synced to all devices!';
+      ok.style.opacity='1';
+      setTimeout(()=>{ok.style.opacity='0';ok.textContent='✅ Saved!';},3000);
+    }
+  }catch(e){}
+}
+
+// Fetch from GitHub (all phones)
 async function fetchRatesFromGitHub(){
   try{
-    const cfg = getAdminConfig();
-    // Use public URL - no token needed for public repos
-    const user = cfg ? cfg.user : 'anasfityan';
-    const repo = cfg ? cfg.repo : 'price-app';
-    
-    const res = await fetch(
-      `https://raw.githubusercontent.com/${user}/${repo}/main/rates.json?t=${Date.now()}`,
-      { cache: 'no-store' }
-    );
+    const res=await fetch('https://raw.githubusercontent.com/'+GH_USER+'/'+GH_REPO+'/main/rates.json?t='+Date.now(),{cache:'no-store'});
     if(res.ok){
-      const data = await res.json();
-      if(data.usdIqd){
-        document.getElementById('usdIqd').value = data.usdIqd;
-        document.getElementById('usdTry').value = data.usdTry;
-        try{ localStorage.setItem('settings', JSON.stringify({usdIqd: data.usdIqd, usdTry: data.usdTry})); }catch(e){}
+      const data=await res.json();
+      if(data.usdIqd && data.usdTry){
+        document.getElementById('usdIqd').value=data.usdIqd;
+        document.getElementById('usdTry').value=data.usdTry;
+        try{localStorage.setItem('settings',JSON.stringify({usdIqd:data.usdIqd,usdTry:data.usdTry}));}catch(e){}
         calc();
       }
     }
-  } catch(e){ /* silent fail - use local */ }
+  }catch(e){}
 }
 
-// Fetch on load + every 5 minutes
-window.addEventListener('load', function(){
-  setTimeout(fetchRatesFromGitHub, 2000); // 2s after load
-  setInterval(fetchRatesFromGitHub, 5 * 60 * 1000);
-});
+// Auto-fetch on load + every 5 min
+setTimeout(fetchRatesFromGitHub,1500);
+setInterval(fetchRatesFromGitHub,5*60*1000);
 
 </script>
 
@@ -1518,16 +1473,10 @@ window.addEventListener('load', function(){
 <div class="admin-unlock" id="adminSetup">
   <div class="admin-box">
     <h3>⚙️ Admin Setup</h3>
-    <p>First time setup — enter your GitHub details</p>
+    <p>Choose a secret code to access admin mode</p>
     <div class="admin-setup">
-      <label>GitHub Username</label>
-      <input type="text" id="setupUser" placeholder="anasfityan">
-      <label>Repository Name</label>
-      <input type="text" id="setupRepo" placeholder="price-app">
-      <label>Personal Access Token</label>
-      <input type="text" id="setupToken" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off" autocorrect="off" autocapitalize="off">
-      <label>Admin Code (password you choose)</label>
-      <input type="text" id="setupCode" placeholder="Choose a secret code" autocomplete="off">
+      <label style="color:#c9a84c;font-size:12px;margin-bottom:8px;display:block;">Choose your secret admin code:</label>
+      <input type="text" id="setupCode" placeholder="e.g. 8880" autocomplete="off" inputmode="numeric" style="font-size:22px;letter-spacing:4px;text-align:center;">
     </div>
     <button class="admin-btn" onclick="saveAdminSetup()" style="margin-top:8px;">Save Setup</button>
     <button class="admin-cancel" onclick="document.getElementById('adminSetup').classList.remove('show')">Cancel</button>
