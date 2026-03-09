@@ -346,14 +346,17 @@ body{font-family:var(--font-main);background:var(--dark);color:var(--text);heigh
   <div style="padding:14px;flex:1;">
     <div class="dfield">
       <label for="usdIqd" id="lbl-iqd">USD to Iraqi Dinar</label>
-      <div class="diw"><input type="number" id="usdIqd" value="1530" min="1" inputmode="numeric"><div class="dunit">IQD</div></div>
+      <div class="diw"><input type="number" id="usdIqd" value="1530" min="1" inputmode="numeric" readonly><div class="dunit">IQD</div></div>
     </div>
     <div class="dfield">
       <label for="usdTry" id="lbl-try">USD to Turkish Lira</label>
-      <div class="diw"><input type="number" id="usdTry" value="43" min="1" inputmode="numeric"><div class="dunit">TRY</div></div>
+      <div class="diw"><input type="number" id="usdTry" value="43" min="1" inputmode="numeric" readonly><div class="dunit">TRY</div></div>
     </div>
-    <button class="save-btn" id="lbl-save" onclick="saveSettings()">💾 Save Settings</button>
+    <button class="save-btn" id="lbl-save" onclick="saveSettings()" style="display:none;">💾 Save & Sync</button>
     <div class="save-ok" id="saveOk">✅ Saved!</div>
+    <div style="text-align:center;padding-top:16px;">
+      <span id="adminTrigger" onclick="showAdminPrompt()" style="font-size:12px;color:#6a6258;cursor:pointer;padding:8px 20px;display:inline-block;font-family:'Outfit',sans-serif;letter-spacing:1px;">🔐 Admin</span>
+    </div>
   </div>
 </div>
 
@@ -488,9 +491,11 @@ function loadSettings(){
 }
 function saveSettings(){
   try{
-    localStorage.setItem('settings',JSON.stringify({usdIqd:document.getElementById('usdIqd').value,usdTry:document.getElementById('usdTry').value}));
-    const ok=document.getElementById('saveOk');ok.style.opacity='1';setTimeout(()=>ok.style.opacity='0',2200);
+    const iqd=document.getElementById('usdIqd').value;
+    const tr=document.getElementById('usdTry').value;
+    localStorage.setItem('settings',JSON.stringify({usdIqd:iqd,usdTry:tr}));
     calc();
+    pushRatesToGitHub(iqd,tr);
   }catch(e){}
 }
 
@@ -675,6 +680,72 @@ async function fetchRatesFromGitHub(){
 }
 setTimeout(fetchRatesFromGitHub, 2000);
 setInterval(fetchRatesFromGitHub, 5*60*1000);
+
+
+// ===== ADMIN + SYNC =====
+let isAdmin=false;
+
+function showAdminPrompt(){
+  var code=prompt('Enter admin code:');
+  if(!code) return;
+  var saved=localStorage.getItem('admin_code');
+  if(!saved){
+    localStorage.setItem('admin_code',code);
+    unlockAdmin();
+  } else if(code===saved){
+    unlockAdmin();
+  } else {
+    alert('Wrong code');
+  }
+}
+
+function unlockAdmin(){
+  isAdmin=true;
+  document.getElementById('usdIqd').removeAttribute('readonly');
+  document.getElementById('usdTry').removeAttribute('readonly');
+  document.getElementById('lbl-save').style.display='block';
+  document.getElementById('adminTrigger').textContent='✅ Admin';
+  document.getElementById('adminTrigger').style.color='#4caf7d';
+}
+
+async function pushRatesToGitHub(iqd,tr){
+  try{
+    var content=JSON.stringify({usdIqd:parseFloat(iqd),usdTry:parseFloat(tr),updated:new Date().toISOString()});
+    var encoded=btoa(unescape(encodeURIComponent(content)));
+    var getRes=await fetch('https://api.github.com/repos/anasfityan/price-app/contents/rates.json',
+      {headers:{'Authorization':'token ghp_MuA3RRxvNd4WlTckGjmWRJGpRRe0872L0UB0','Accept':'application/vnd.github.v3+json'}});
+    var sha=null;
+    if(getRes.ok){var d=await getRes.json();sha=d.sha;}
+    var body={message:'Update rates',content:encoded};
+    if(sha) body.sha=sha;
+    var res=await fetch('https://api.github.com/repos/anasfityan/price-app/contents/rates.json',
+      {method:'PUT',headers:{'Authorization':'token ghp_MuA3RRxvNd4WlTckGjmWRJGpRRe0872L0UB0','Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(res.ok){
+      var ok=document.getElementById('saveOk');
+      ok.textContent='✅ Synced to all devices!';
+      ok.style.opacity='1';
+      setTimeout(function(){ok.style.opacity='0';ok.textContent='✅ Saved!';},3000);
+    }
+  }catch(e){}
+}
+
+async function fetchRatesFromGitHub(){
+  try{
+    var res=await fetch('https://raw.githubusercontent.com/anasfityan/price-app/main/rates.json?t='+Date.now(),{cache:'no-store'});
+    if(res.ok){
+      var data=await res.json();
+      if(data.usdIqd&&data.usdTry){
+        document.getElementById('usdIqd').value=data.usdIqd;
+        document.getElementById('usdTry').value=data.usdTry;
+        try{localStorage.setItem('settings',JSON.stringify({usdIqd:data.usdIqd,usdTry:data.usdTry}));}catch(e){}
+        calc();
+      }
+    }
+  }catch(e){}
+}
+
+setTimeout(fetchRatesFromGitHub,2000);
+setInterval(fetchRatesFromGitHub,5*60*1000);
 
 </script>
 </body>
