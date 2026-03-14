@@ -1211,6 +1211,8 @@ function setTheme(t){
   updateThemeSelectors(t);
   const _tbtn=document.getElementById('theme-toggle-btn');
   if(_tbtn)_tbtn.textContent=(t==='white')?'🌙':'☀️';
+  // إعادة بناء الكيبورد بعد تغيير الثيم
+  if(typeof currentKb !== 'undefined') setKb(currentKb);
   updateChart();
 }
 
@@ -1304,11 +1306,23 @@ function updateChart(){
 // ===== LIVE TICKER (feeds chart) =====
 async function fetchTicker(){
   const t=T[currentLang];
+  // عرض آخر سعر محفوظ فوراً
+  try{
+    const cached=localStorage.getItem('last_try_rate');
+    if(cached){
+      const obj=JSON.parse(cached);
+      document.getElementById('tickerRate').textContent=obj.rate+' TL';
+      document.getElementById('tickerChange').textContent='● '+t.live;
+      document.getElementById('tickerChange').className='ticker-change up';
+    }
+  }catch(e){}
   try{
     const r=await fetch('https://open.er-api.com/v6/latest/USD');
     const d=await r.json();
     const tryRate=d.rates.TRY;
     const iqdRate=d.rates.IQD;
+    // حفظ السعر
+    try{localStorage.setItem('last_try_rate',JSON.stringify({rate:tryRate.toFixed(2),t:Date.now()}));}catch(e){}
     document.getElementById('tickerRate').textContent=tryRate.toFixed(2)+' TL';
     document.getElementById('tickerChange').textContent=t.live;
     document.getElementById('tickerChange').className='ticker-change up';
