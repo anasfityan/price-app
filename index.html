@@ -808,7 +808,7 @@ body.th-forest .footer-bar{background:#0e160e!important;color:#2a4a2a!important;
         <span style="font-size:11px;color:#b8860b;font-family:'Outfit',sans-serif;font-weight:700;" id="lbl-light-mode">Light</span>
       </div>
     </div>
-    section-lbl-inline" style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#c9a84c;font-weight:700;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #242424;font-family:'Outfit',sans-serif;" id="lbl-ap-kb">Keyboard Style</div>
+    <div class="section-lbl-inline" style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#c9a84c;font-weight:700;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #242424;font-family:'Outfit',sans-serif;" id="lbl-ap-kb">Keyboard Style</div>
     <div class="kb-sel-row">
       <div class="kbdot active" id="kb-dot-1" onclick="setKb(1)">💎</div>
       <div class="kbdot"        id="kb-dot-2" onclick="setKb(2)">🫧</div>
@@ -909,6 +909,7 @@ function setKb(n){
   }
 }
 function kbPress(k){
+  try{if(navigator.vibrate)navigator.vibrate(15);}catch(e){}
   if(k==='DEL'){liraVal=liraVal.slice(0,-1);}
   else if(k==='✓'){closeAll();calc();return;}
   else{if(liraVal.length>=6)return;liraVal+=k;}
