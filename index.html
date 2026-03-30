@@ -1594,10 +1594,19 @@ async function fetchRatesFromGitHub(){
     if(res.ok){
       const data = await res.json();
       if(data.usdIqd){
-        document.getElementById('usdIqd').value = data.usdIqd;
-        document.getElementById('usdTry').value = data.usdTry;
-        localStorage.setItem('settings',JSON.stringify({usdIqd:data.usdIqd,usdTry:data.usdTry}));
-        calc();
+        // نقارن وقت GitHub مع وقت آخر حفظ محلي
+        const ghTime = data.updated ? new Date(data.updated).getTime() : 0;
+        const localStr = localStorage.getItem('settings_time');
+        const localTime = localStr ? parseInt(localStr) : 0;
+
+        // نطبق من GitHub فقط إذا كان أحدث من الحفظ المحلي
+        if(ghTime > localTime){
+          document.getElementById('usdIqd').value = data.usdIqd;
+          document.getElementById('usdTry').value = data.usdTry;
+          localStorage.setItem('settings',JSON.stringify({usdIqd:data.usdIqd,usdTry:data.usdTry}));
+          localStorage.setItem('settings_time', ghTime.toString());
+          calc();
+        }
       }
     }
   }catch(e){}
