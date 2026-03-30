@@ -866,7 +866,7 @@ body.th-forest .footer-bar{background:#0e160e!important;color:#2a4a2a!important;
       <label for="usdTry" id="lbl-try">USD to Turkish Lira</label>
       <div class="diw"><input type="number" id="usdTry" value="43" min="1" inputmode="numeric"><div class="dunit">TRY</div></div>
     </div>
-    <button class="save-btn" id="lbl-save" onclick="saveSettings()">💾 Save</button>
+    <button class="save-btn" id="lbl-save" onclick="saveSettings()">💾 Save for All</button>
     <div id="adminSaveRow" style="display:none;margin-top:8px;">
       <button class="save-btn" onclick="pushRatesToGitHub()" style="background:linear-gradient(135deg,#2e7d32,#4caf7d);">🌐 Sync to All Devices</button>
       <div id="syncStatus" class="sync-status" style="display:none;margin-top:6px;width:100%;text-align:center;"></div>
@@ -1587,29 +1587,20 @@ async function pushRatesToGitHub(){
 // Fetch rates from GitHub (all devices)
 async function fetchRatesFromGitHub(){
   try{
-    const cfg = getAdminConfig();
-    // Use public URL - no token needed for public repos
-    const user = cfg ? cfg.user : 'anasfityan';
-    const repo = cfg ? cfg.repo : 'price-app';
-    
     const res = await fetch(
-      `https://raw.githubusercontent.com/${user}/${repo}/main/rates.json?t=${Date.now()}`,
-      { cache: 'no-store' }
+      'https://raw.githubusercontent.com/anasfityan/price-app/main/rates.json?t='+Date.now(),
+      {cache:'no-store'}
     );
     if(res.ok){
       const data = await res.json();
       if(data.usdIqd){
-        // فقط نحدث إذا لم يكن المستخدم قد حفظ إعدادات خاصة به
-        const local = localStorage.getItem('settings');
-        if(!local){
-          document.getElementById('usdIqd').value = data.usdIqd;
-          document.getElementById('usdTry').value = data.usdTry;
-          try{ localStorage.setItem('settings', JSON.stringify({usdIqd: data.usdIqd, usdTry: data.usdTry})); }catch(e){}
-          calc();
-        }
+        document.getElementById('usdIqd').value = data.usdIqd;
+        document.getElementById('usdTry').value = data.usdTry;
+        localStorage.setItem('settings',JSON.stringify({usdIqd:data.usdIqd,usdTry:data.usdTry}));
+        calc();
       }
     }
-  } catch(e){ /* silent fail - use local */ }
+  }catch(e){}
 }
 
 // Fetch on load + every 5 minutes
