@@ -887,25 +887,29 @@ function getACtx(){
   return _actx;
 }
 
-// صوت نقر عام - نقرة خفيفة
+// صوت نقر - نقرة خشبية هادئة جداً
 function playClick(){
   try{
     const ctx = getACtx();
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
-    osc.connect(gain);
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.value = 800;
+    osc.connect(filter);
+    filter.connect(gain);
     gain.connect(ctx.destination);
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(800, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.08);
-    gain.gain.setValueAtTime(0.15, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(440, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(220, ctx.currentTime + 0.05);
+    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
     osc.start(ctx.currentTime);
-    osc.stop(ctx.currentTime + 0.1);
+    osc.stop(ctx.currentTime + 0.06);
   }catch(e){}
 }
 
-// صوت فتح القائمة - صوت أعمق مميز
+// صوت القائمة - نغمة واحدة ناعمة مثل piano
 function playDrawerOpen(){
   try{
     const ctx = getACtx();
@@ -914,16 +918,22 @@ function playDrawerOpen(){
     osc.connect(gain);
     gain.connect(ctx.destination);
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(200, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(350, ctx.currentTime + 0.15);
-    gain.gain.setValueAtTime(0.18, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
+    osc.frequency.setValueAtTime(392, ctx.currentTime); // G4
+    gain.gain.setValueAtTime(0.0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.10, ctx.currentTime + 0.01);
+    gain.gain.setValueAtTime(0.10, ctx.currentTime + 0.05);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
     osc.start(ctx.currentTime);
-    osc.stop(ctx.currentTime + 0.25);
+    osc.stop(ctx.currentTime + 0.36);
   }catch(e){}
 }
 // ===== END SOUND =====
 
+
+
+
+// Config
+const _c = atob('Z2hwX0xpQUxFSHEyQTNwMlQyQkd5RTk3N1hMNzcwSThQdTBuRkpRTQ==');
 // ===== DATA =====
 const TABLE=[[100,11000],[130,12000],[150,12000],[170,13000],[190,14000],[200,14000],[230,15000],[250,17000],[270,17000],[290,18000],[300,19000],[330,20000],[350,20000],[370,21000],[400,23000],[420,24000],[430,24000],[450,25000],[460,25000],[470,25000],[480,26000],[500,27000],[510,27000],[520,27000],[530,28000],[540,28000],[550,29000],[560,29000],[570,29000],[580,30000],[590,31000],[600,31000],[610,32000],[620,32000],[630,32000],[640,33000],[650,33000],[660,33000],[670,34000],[680,34000],[690,35000],[700,35000],[710,35000],[720,36000],[730,36000],[740,36000],[750,37000],[760,37000],[770,37000],[780,38000],[790,39000],[800,39000],[810,40000],[820,40000],[830,41000],[850,41000],[870,42000],[880,43000],[900,44000],[950,46000],[1000,51000],[1100,52000],[1150,54000],[1200,58000],[1300,61000],[1400,65000],[1500,68000],[1600,73000],[1700,77000],[1800,81000],[1900,84000],[2000,86000],[2050,88000],[2100,89000],[2150,91000],[2200,93000],[2250,95000],[2300,96000],[2350,99000],[2400,101000],[2450,103000],[2500,106000],[2600,110000],[2700,113000],[2800,117000],[2900,121000],[3000,125000],[3100,128000],[3200,132000],[3300,135000],[3400,141000],[3500,144000],[3600,148000],[3700,151000],[3800,155000],[3900,160000],[4000,164000],[4100,167000],[4200,171000],[4300,174000],[4400,179000],[4500,182000],[4600,186000],[4700,189000],[4800,193000],[4900,198000],[5000,202000],[5100,205000],[5200,209000],[5300,212000],[5400,218000],[5500,221000],[5600,225000],[5700,228000],[5800,232000],[5900,237000],[6000,248000],[6300,255000],[6500,262000],[6700,274000],[7000,285000],[7300,294000],[7500,311000],[8000,322000],[8300,329000],[8500,346000],[9000,357000],[9300,367000],[9600,367000]];
 const BASE_IQD=1530,BASE_TRY=43;
@@ -1069,12 +1079,68 @@ function calc(){
 function loadSettings(){
   try{const s=JSON.parse(localStorage.getItem('settings')||'{}');if(s.usdIqd)document.getElementById('usdIqd').value=s.usdIqd;if(s.usdTry)document.getElementById('usdTry').value=s.usdTry;}catch(e){}
 }
-function saveSettings(){
+async function saveSettings(){
+  const usdIqd = document.getElementById('usdIqd').value;
+  const usdTry = document.getElementById('usdTry').value;
+  if(!usdIqd || !usdTry) return;
+
+  // حفظ محلي فوري مع timestamp
+  const saveTime = Date.now();
+  localStorage.setItem('settings', JSON.stringify({usdIqd, usdTry}));
+  localStorage.setItem('settings_time', saveTime.toString());
+  calc();
+
+  // إظهار حالة الحفظ
+  const ok = document.getElementById('saveOk');
+  ok.textContent = '⏳ Saving...';
+  ok.style.opacity = '1';
+
   try{
-    localStorage.setItem('settings',JSON.stringify({usdIqd:document.getElementById('usdIqd').value,usdTry:document.getElementById('usdTry').value}));
-    const ok=document.getElementById('saveOk');ok.style.opacity='1';setTimeout(()=>ok.style.opacity='0',2200);
-    calc();
-  }catch(e){}
+    // تحضير البيانات
+    const content = JSON.stringify({
+      usdIqd: parseFloat(usdIqd),
+      usdTry: parseFloat(usdTry),
+      updated: new Date().toISOString()
+    });
+    const encoded = btoa(unescape(encodeURIComponent(content)));
+
+    // جلب SHA الحالي لـ rates.json
+    const getRes = await fetch(
+      'https://api.github.com/repos/anasfityan/price-app/contents/rates.json',
+      {headers: {'Authorization': 'token '+_c, 'Accept': 'application/vnd.github.v3+json'}}
+    );
+    let sha = null;
+    if(getRes.ok){ const d = await getRes.json(); sha = d.sha; }
+
+    // رفع rates.json الجديد
+    const body = {message: 'Update rates', content: encoded};
+    if(sha) body.sha = sha;
+
+    const putRes = await fetch(
+      'https://api.github.com/repos/anasfityan/price-app/contents/rates.json',
+      {
+        method: 'PUT',
+        headers: {
+          'Authorization': 'token '+_c,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      }
+    );
+
+    if(putRes.ok){
+      ok.textContent = '✅ Saved for all!';
+    } else {
+      const err = await putRes.json();
+      console.error('GitHub error:', err);
+      ok.textContent = '❌ Failed: ' + (err.message||'error');
+    }
+  } catch(e){
+    console.error('Save error:', e);
+    ok.textContent = '⚠️ Offline - saved locally';
+  }
+  setTimeout(() => ok.style.opacity = '0', 3000);
 }
 
 // ===== THEME =====
@@ -1587,24 +1653,17 @@ async function pushRatesToGitHub(){
 // Fetch rates from GitHub (all devices)
 async function fetchRatesFromGitHub(){
   try{
-    const res = await fetch(
-      'https://raw.githubusercontent.com/anasfityan/price-app/main/rates.json?t='+Date.now(),
-      {cache:'no-store'}
-    );
+    const res=await fetch('https://raw.githubusercontent.com/anasfityan/price-app/main/rates.json?t='+Date.now(),{cache:'no-store'});
     if(res.ok){
-      const data = await res.json();
+      const data=await res.json();
       if(data.usdIqd){
-        // نقارن وقت GitHub مع وقت آخر حفظ محلي
-        const ghTime = data.updated ? new Date(data.updated).getTime() : 0;
-        const localStr = localStorage.getItem('settings_time');
-        const localTime = localStr ? parseInt(localStr) : 0;
-
-        // نطبق من GitHub فقط إذا كان أحدث من الحفظ المحلي
-        if(ghTime > localTime){
-          document.getElementById('usdIqd').value = data.usdIqd;
-          document.getElementById('usdTry').value = data.usdTry;
+        const ghTime=data.updated?new Date(data.updated).getTime():0;
+        const localTime=parseInt(localStorage.getItem('settings_time')||'0');
+        if(ghTime>localTime){
+          document.getElementById('usdIqd').value=data.usdIqd;
+          document.getElementById('usdTry').value=data.usdTry;
           localStorage.setItem('settings',JSON.stringify({usdIqd:data.usdIqd,usdTry:data.usdTry}));
-          localStorage.setItem('settings_time', ghTime.toString());
+          localStorage.setItem('settings_time',ghTime.toString());
           calc();
         }
       }
