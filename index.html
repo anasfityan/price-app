@@ -649,24 +649,10 @@ body.th-forest .section-lbl{color:#6aaa6a!important;}
 body.th-forest .tdot.active{outline:3px solid #6aaa6a!important;}
 body.th-forest .footer-bar{background:#0e160e!important;color:#2a4a2a!important;}
 
-/* ===== ADMIN SYSTEM ===== */
-.admin-badge{position:fixed;top:60px;right:8px;background:#c9a84c;color:#000;font-size:9px;font-weight:900;padding:2px 7px;border-radius:20px;font-family:'Outfit',sans-serif;letter-spacing:1px;z-index:999;display:none;}
-.admin-badge.show{display:block;}
-.admin-unlock{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:2000;display:none;align-items:center;justify-content:center;}
-.admin-unlock.show{display:flex;}
-.admin-box{background:#131313;border:1px solid #c9a84c44;border-radius:16px;padding:24px;width:280px;text-align:center;}
-.admin-box h3{color:#c9a84c;font-family:'Outfit',sans-serif;font-size:16px;margin:0 0 6px;}
-.admin-box p{color:#6a6258;font-size:12px;margin:0 0 16px;font-family:'Tajawal',sans-serif;}
-.admin-input{width:100%;background:#1a1a1a;border:1px solid #2e2e2e;border-radius:10px;color:#f0ece0;font-size:20px;padding:12px;text-align:center;font-family:'Space Mono',monospace;letter-spacing:4px;box-sizing:border-box;margin-bottom:12px;}
-.admin-btn{width:100%;background:linear-gradient(135deg,#c9a84c,#e8c96a);color:#000;border:none;border-radius:10px;padding:12px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:800;cursor:pointer;margin-bottom:8px;}
-.admin-cancel{width:100%;background:transparent;border:1px solid #2e2e2e;color:#6a6258;border-radius:10px;padding:10px;font-family:'Outfit',sans-serif;font-size:13px;cursor:pointer;}
 .sync-status{font-size:10px;font-family:'Space Mono',monospace;padding:4px 10px;border-radius:20px;display:inline-block;margin-top:8px;}
 .sync-ok{background:#4caf7d22;color:#4caf7d;}
 .sync-err{background:#e05c5c22;color:#e05c5c;}
 .sync-loading{background:#c9a84c22;color:#c9a84c;}
-.admin-setup{margin-top:16px;border-top:1px solid #2e2e2e;padding-top:16px;}
-.admin-setup input{width:100%;background:#1a1a1a;border:1px solid #2e2e2e;border-radius:8px;color:#f0ece0;font-size:12px;padding:8px;box-sizing:border-box;margin-bottom:8px;font-family:'Space Mono',monospace;}
-.admin-setup label{color:#6a6258;font-size:10px;text-align:left;display:block;margin-bottom:3px;font-family:'Outfit',sans-serif;}
 </style>
 </head>
 <body class="th-gold">
@@ -786,7 +772,7 @@ body.th-forest .footer-bar{background:#0e160e!important;color:#2a4a2a!important;
       <span style="font-size:10px;color:#3a3a3a;font-family:'Space Mono',monospace;">v17729164</span>
       <span style="font-size:10px;color:#3a3a3a;font-family:'Outfit',sans-serif;">Tap to refresh ↺</span>
     </div>
-    <div class="drawer-credit" id="drawer-credit" onclick="adminCreditTap()" style="cursor:pointer;font-size:10px;text-align:center;color:#3a3a3a;font-family:'Outfit',sans-serif;">Designed by Anas Fityan</div>
+    <div class="drawer-credit" id="drawer-credit" style="font-size:10px;text-align:center;color:#3a3a3a;font-family:'Outfit',sans-serif;">Designed by Anas Fityan</div>
   </div>
 
 <!-- APPEARANCE PANEL -->
@@ -866,11 +852,7 @@ body.th-forest .footer-bar{background:#0e160e!important;color:#2a4a2a!important;
       <label for="usdTry" id="lbl-try">USD to Turkish Lira</label>
       <div class="diw"><input type="number" id="usdTry" value="43" min="1" inputmode="numeric"><div class="dunit">TRY</div></div>
     </div>
-    <button class="save-btn" id="lbl-save" onclick="saveSettings()">💾 Save for All</button>
-    <div id="adminSaveRow" style="display:none;margin-top:8px;">
-      <button class="save-btn" onclick="pushRatesToGitHub()" style="background:linear-gradient(135deg,#2e7d32,#4caf7d);">🌐 Sync to All Devices</button>
-      <div id="syncStatus" class="sync-status" style="display:none;margin-top:6px;width:100%;text-align:center;"></div>
-    </div>
+    <button class="save-btn" id="lbl-save" onclick="saveSettings()">🌐 حفظ ومزامنة جميع الأجهزة</button>
     <div class="save-ok" id="saveOk">✅ Saved!</div>
   </div>
 </div>
@@ -956,7 +938,7 @@ const T={
     langTitle:'Language',
     back:'Back',panelTitle:'Exchange Rates',
     iqdLbl:'USD to Iraqi Dinar',tryLbl:'USD to Turkish Lira',
-    save:'💾 Save Settings',saved:'✅ Saved!',
+    save:'🌐 Save & Sync All Devices',saved:'✅ Saved for all!',
     resLbl:'Selling Price',resCur:'Iraqi Dinar',profit:'Profit',usdPrice:'USD Cost',
     footer:'Designed by Anes Fittan',credit:'Designed by Anes Fittan'
   },
@@ -972,7 +954,7 @@ const T={
     langTitle:'اللغة',
     back:'رجوع',panelTitle:'أسعار الصرف',
     iqdLbl:'سعر الدولار بالدينار العراقي',tryLbl:'سعر الدولار بالليرة التركية',
-    save:'💾 حفظ الإعدادات',saved:'✅ تم الحفظ!',
+    save:'🌐 حفظ ومزامنة جميع الأجهزة',saved:'✅ تم الحفظ على جميع الأجهزة!',
     resLbl:'سعر البيع',resCur:'دينار عراقي',profit:'ربح',usdPrice:'بالدولار',
     footer:'تصميم Anes Fittan',credit:'تصميم Anes Fittan'
   }
@@ -1092,7 +1074,7 @@ async function saveSettings(){
 
   // إظهار حالة الحفظ
   const ok = document.getElementById('saveOk');
-  ok.textContent = '⏳ Saving...';
+  ok.textContent = '⏳ جاري الحفظ...';
   ok.style.opacity = '1';
 
   try{
@@ -1130,15 +1112,15 @@ async function saveSettings(){
     );
 
     if(putRes.ok){
-      ok.textContent = '✅ Saved for all!';
+      ok.textContent = '✅ تم الحفظ على جميع الأجهزة!';
     } else {
       const err = await putRes.json();
       console.error('GitHub error:', err);
-      ok.textContent = '❌ Failed: ' + (err.message||'error');
+      ok.textContent = '❌ فشل: ' + (err.message||'error');
     }
   } catch(e){
     console.error('Save error:', e);
-    ok.textContent = '⚠️ Offline - saved locally';
+    ok.textContent = '⚠️ بدون إنترنت - تم الحفظ محلياً';
   }
   setTimeout(() => ok.style.opacity = '0', 3000);
 }
@@ -1495,160 +1477,6 @@ window.addEventListener('load',()=>{
 
 // v17729164
 
-// ============================================================
-// ADMIN SYSTEM
-// ============================================================
-let isAdmin = false;
-let logoTapCount = 0;
-let logoTapTimer = null;
-
-// Tap logo 5 times quickly to open admin
-// Logo tap - 5 times
-function handleLogoTap(){
-  logoTapCount++;
-  clearTimeout(logoTapTimer);
-  logoTapTimer = setTimeout(function(){ logoTapCount=0; }, 2500);
-  if(logoTapCount >= 5){
-    logoTapCount = 0;
-    openAdminUnlock();
-  }
-}
-var logoEl = document.querySelector('.topbar-logo-wrap');
-if(logoEl){
-  logoEl.addEventListener('touchend', function(e){ e.preventDefault(); handleLogoTap(); });
-  logoEl.addEventListener('click', handleLogoTap);
-}
-
-// Credit tap - 3 times
-let creditTapCount = 0, creditTimer = null;
-function adminCreditTap(){
-  creditTapCount++;
-  clearTimeout(creditTimer);
-  creditTimer = setTimeout(function(){ creditTapCount=0; }, 2000);
-  if(creditTapCount >= 3){
-    creditTapCount = 0;
-    closeDrawer();
-    setTimeout(openAdminUnlock, 300);
-  }
-}
-
-function openAdminUnlock(){
-  const cfg = getAdminConfig();
-  if(!cfg){
-    document.getElementById('adminSetup').classList.add('show');
-  } else {
-    document.getElementById('adminCodeInput').value='';
-    document.getElementById('adminUnlockMsg').textContent = 'Enter admin code';
-    document.getElementById('adminUnlock').classList.add('show');
-  }
-}
-
-function closeAdminUnlock(){
-  document.getElementById('adminUnlock').classList.remove('show');
-}
-
-function getAdminConfig(){
-  try{
-    const c = localStorage.getItem('admin_cfg');
-    return c ? JSON.parse(c) : null;
-  }catch(e){ return null; }
-}
-
-function saveAdminSetup(){
-  const user = document.getElementById('setupUser').value.trim();
-  const repo = document.getElementById('setupRepo').value.trim();
-  const token = document.getElementById('setupToken').value.trim();
-  const code = document.getElementById('setupCode').value.trim();
-  if(!user||!repo||!token||!code){
-    alert('Please fill all fields');
-    return;
-  }
-  try{
-    localStorage.setItem('admin_cfg', JSON.stringify({user,repo,token,code}));
-    document.getElementById('adminSetup').classList.remove('show');
-    alert('Setup saved! Now tap the logo 5 times and enter your code.');
-  }catch(e){ alert('Error saving setup'); }
-}
-
-function checkAdminCode(){
-  const cfg = getAdminConfig();
-  if(!cfg) return;
-  const entered = document.getElementById('adminCodeInput').value;
-  if(entered === cfg.code){
-    isAdmin = true;
-    document.getElementById('adminUnlock').classList.remove('show');
-    document.getElementById('adminBadge').classList.add('show');
-    // Show save button in rates panel
-    document.getElementById('adminSaveRow').style.display = 'block';
-    showSyncStatus('Admin mode ON', 'ok');
-  } else {
-    document.getElementById('adminUnlockMsg').textContent = '❌ Wrong code, try again';
-    document.getElementById('adminCodeInput').value = '';
-  }
-}
-
-function showSyncStatus(msg, type){
-  const el = document.getElementById('syncStatus');
-  if(!el) return;
-  el.textContent = msg;
-  el.className = 'sync-status sync-' + type;
-  el.style.display = 'inline-block';
-  if(type === 'ok') setTimeout(()=>{ el.style.display='none'; }, 3000);
-}
-
-// Push rates to GitHub
-async function pushRatesToGitHub(){
-  if(!isAdmin){ return; }
-  const cfg = getAdminConfig();
-  if(!cfg){ alert('No admin config'); return; }
-  
-  const usdIqd = document.getElementById('usdIqd').value;
-  const usdTry = document.getElementById('usdTry').value;
-  
-  showSyncStatus('Saving...', 'loading');
-  
-  const content = JSON.stringify({ usdIqd: parseFloat(usdIqd), usdTry: parseFloat(usdTry), updated: new Date().toISOString() });
-  const encoded = btoa(unescape(encodeURIComponent(content)));
-  
-  try{
-    // First get current file SHA (needed for update)
-    const getRes = await fetch(
-      `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/rates.json`,
-      { headers: { 'Authorization': 'token ' + cfg.token, 'Accept': 'application/vnd.github.v3+json' } }
-    );
-    
-    let sha = null;
-    if(getRes.ok){
-      const data = await getRes.json();
-      sha = data.sha;
-    }
-    
-    // Push new content
-    const body = { message: 'Update rates', content: encoded };
-    if(sha) body.sha = sha;
-    
-    const putRes = await fetch(
-      `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/rates.json`,
-      {
-        method: 'PUT',
-        headers: { 'Authorization': 'token ' + cfg.token, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      }
-    );
-    
-    if(putRes.ok){
-      showSyncStatus('✓ Saved & synced to all devices!', 'ok');
-      // Also save locally
-      try{ localStorage.setItem('settings', JSON.stringify({usdIqd, usdTry})); }catch(e){}
-      calc();
-    } else {
-      const err = await putRes.json();
-      showSyncStatus('Error: ' + (err.message||'failed'), 'err');
-    }
-  } catch(e){
-    showSyncStatus('Network error', 'err');
-  }
-}
 
 // Fetch rates from GitHub (all devices)
 async function fetchRatesFromGitHub(){
@@ -1679,39 +1507,6 @@ window.addEventListener('load', function(){
 
 </script>
 
-<!-- ADMIN BADGE -->
-<div class="admin-badge" id="adminBadge">ADMIN</div>
-
-<!-- ADMIN UNLOCK SCREEN -->
-<div class="admin-unlock" id="adminUnlock">
-  <div class="admin-box">
-    <h3>🔐 Admin Access</h3>
-    <p id="adminUnlockMsg">Enter admin code</p>
-    <input class="admin-input" type="password" id="adminCodeInput" placeholder="••••" maxlength="20">
-    <button class="admin-btn" onclick="checkAdminCode()">Enter</button>
-    <button class="admin-cancel" onclick="closeAdminUnlock()">Cancel</button>
-  </div>
-</div>
-
-<!-- ADMIN SETUP (first time) -->
-<div class="admin-unlock" id="adminSetup">
-  <div class="admin-box">
-    <h3>⚙️ Admin Setup</h3>
-    <p>First time setup — enter your GitHub details</p>
-    <div class="admin-setup">
-      <label>GitHub Username</label>
-      <input type="text" id="setupUser" placeholder="anasfityan">
-      <label>Repository Name</label>
-      <input type="text" id="setupRepo" placeholder="price-app">
-      <label>Personal Access Token</label>
-      <input type="text" id="setupToken" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off" autocorrect="off" autocapitalize="off">
-      <label>Admin Code (password you choose)</label>
-      <input type="text" id="setupCode" placeholder="Choose a secret code" autocomplete="off">
-    </div>
-    <button class="admin-btn" onclick="saveAdminSetup()" style="margin-top:8px;">Save Setup</button>
-    <button class="admin-cancel" onclick="document.getElementById('adminSetup').classList.remove('show')">Cancel</button>
-  </div>
-</div>
 
 </body>
 </html>
