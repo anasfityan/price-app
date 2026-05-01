@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Trendy Store">
 <title>Trendy Store</title>
-<link rel="apple-touch-icon" href="icon-192%20(1).png">
+<link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.json">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;800;900&family=Space+Mono:wght@700&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
@@ -405,6 +405,20 @@ body.th-forest .footer-bar{background:#0e160e!important;color:#2a4a2a!important;
 .sync-ok{background:#4caf7d22;color:#4caf7d;}
 .sync-err{background:#e05c5c22;color:#e05c5c;}
 .sync-loading{background:#c9a84c22;color:#c9a84c;}
+/* ===== PWA INSTALL BANNER ===== */
+#pwa-banner{position:fixed;bottom:0;left:0;right:0;background:#131313;border-top:1px solid #c9a84c44;padding:12px 16px;display:flex;align-items:center;gap:12px;z-index:9999;transform:translateY(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);}
+#pwa-banner.show{transform:translateY(0);}
+#pwa-banner img{width:44px;height:44px;border-radius:10px;flex-shrink:0;}
+#pwa-banner-text{flex:1;}
+#pwa-banner-text b{display:block;font-size:13px;color:#f0ece0;font-family:'Outfit',sans-serif;font-weight:800;}
+#pwa-banner-text span{display:block;font-size:11px;color:#6a6258;font-family:'Tajawal',sans-serif;margin-top:2px;}
+#pwa-install-btn{background:linear-gradient(135deg,#c9a84c,#e8c96a);color:#0a0a0a;border:none;border-radius:10px;padding:9px 16px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:800;cursor:pointer;white-space:nowrap;}
+#pwa-dismiss{background:none;border:none;color:#6a6258;font-size:20px;cursor:pointer;padding:4px;line-height:1;}
+#ios-hint{position:fixed;bottom:0;left:0;right:0;background:#131313;border-top:1px solid #c9a84c44;padding:14px 16px;z-index:9999;transform:translateY(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);text-align:center;}
+#ios-hint.show{transform:translateY(0);}
+#ios-hint p{color:#f0ece0;font-size:13px;font-family:'Tajawal',sans-serif;margin:0 0 4px;}
+#ios-hint small{color:#6a6258;font-size:11px;font-family:'Tajawal',sans-serif;}
+#ios-hint-close{position:absolute;top:10px;left:14px;background:none;border:none;color:#6a6258;font-size:20px;cursor:pointer;}
 </style>
 </head>
 <body class="th-gold">
@@ -1131,6 +1145,56 @@ function clearCacheAndReload(){
   setTimeout(()=>window.location.reload(true), 300);
 }
 
+// ===== PWA INSTALL =====
+let _pwaPrompt = null;
+
+// Android / Samsung Internet
+window.addEventListener('beforeinstallprompt', function(e){
+  e.preventDefault();
+  _pwaPrompt = e;
+  // show banner after 2s if not dismissed before
+  const dismissed = localStorage.getItem('pwa_dismissed');
+  if(!dismissed) setTimeout(function(){ document.getElementById('pwa-banner').classList.add('show'); }, 2000);
+});
+
+function pwaInstall(){
+  if(!_pwaPrompt) return;
+  document.getElementById('pwa-banner').classList.remove('show');
+  _pwaPrompt.prompt();
+  _pwaPrompt.userChoice.then(function(r){
+    if(r.outcome === 'accepted') localStorage.setItem('pwa_dismissed','1');
+    _pwaPrompt = null;
+  });
+}
+
+function pwaDismiss(){
+  document.getElementById('pwa-banner').classList.remove('show');
+  localStorage.setItem('pwa_dismissed','1');
+}
+
+window.addEventListener('appinstalled', function(){
+  document.getElementById('pwa-banner').classList.remove('show');
+  localStorage.setItem('pwa_dismissed','1');
+});
+
+// iOS Safari hint
+(function(){
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const isSafari = /safari/i.test(navigator.userAgent) && !/chrome|crios|fxios/i.test(navigator.userAgent);
+  const isStandalone = window.navigator.standalone === true;
+  const dismissed = localStorage.getItem('ios_hint_dismissed');
+  if(isIOS && isSafari && !isStandalone && !dismissed){
+    setTimeout(function(){
+      document.getElementById('ios-hint').classList.add('show');
+    }, 3000);
+  }
+  const closeBtn = document.getElementById('ios-hint-close');
+  if(closeBtn) closeBtn.addEventListener('click', function(){
+    document.getElementById('ios-hint').classList.remove('show');
+    localStorage.setItem('ios_hint_dismissed','1');
+  });
+})();
+
 // تسجيل Service Worker عند تحميل الصفحة
 if('serviceWorker' in navigator){
   window.addEventListener('load', function(){
@@ -1259,6 +1323,26 @@ window.addEventListener('load', function(){
 });
 
 </script>
+
+
+<!-- PWA INSTALL BANNER (Android/Samsung) -->
+<div id="pwa-banner">
+  <img src="icon-192.png" alt="Trendy Store">
+  <div id="pwa-banner-text">
+    <b>Trendy Store</b>
+    <span>ثبّت التطبيق على هاتفك</span>
+  </div>
+  <button id="pwa-install-btn" onclick="pwaInstall()">تثبيت</button>
+  <button id="pwa-dismiss" onclick="pwaDismiss()">✕</button>
+</div>
+
+<!-- IOS INSTALL HINT -->
+<div id="ios-hint">
+  <button id="ios-hint-close" onclick="document.getElementById('ios-hint').classList.remove('show')">✕</button>
+  <p>لتثبيت التطبيق على iPhone</p>
+  <p>اضغط <b style="color:#c9a84c;">⎙ مشاركة</b> ثم <b style="color:#c9a84c;">إضافة إلى الشاشة الرئيسية</b></p>
+  <small>Add to Home Screen</small>
+</div>
 
 
 </body>
