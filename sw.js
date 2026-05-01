@@ -1,20 +1,11 @@
-const CACHE = 'trendy-v2';
-const CORE = [
-  '/price-app/',
-  '/price-app/index.html',
-  '/price-app/manifest.json',
-  '/price-app/icon-192.png',
-  '/price-app/icon-512.png'
-];
+const CACHE = 'trendy-v3';
 
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(CACHE).then(c =>
-      Promise.all(CORE.map(url =>
-        fetch(url).then(r => {
-          if (r.ok) return c.put(url, r);
-        }).catch(() => {})
-      ))
+      fetch('./index.html').then(r => {
+        if (r.ok) return c.put('./index.html', r);
+      }).catch(() => {})
     ).then(() => self.skipWaiting())
   );
 });
@@ -30,13 +21,27 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const url = e.request.url;
 
-  // rates.json - دائماً من الشبكة
-  if (url.includes('rates.json') || url.includes('api.github.com') || url.includes('raw.githubusercontent.com')) {
-    e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+  // طلبات API والأسعار - دائماً من الشبكة
+  if (url.includes('api.github.com') || url.includes('raw.githubusercontent.com') || url.includes('open.er-api.com')) {
+    e.respondWith(fetch(e.request).catch(() => new Response('{}', {headers:{'Content-Type':'application/json'}})));
     return;
   }
 
-  // باقي الطلبات - كاش أولاً ثم شبكة
+  // HTML - شبكة أولاً، ثم كاش كـ fallback
+  if (e.request.mode === 'navigate') {
+    e.respondWith(
+      fetch(e.request).then(res => {
+        if (res.ok) {
+          const clone = res.clone();
+          caches.open(CACHE).then(c => c.put(e.request, clone));
+        }
+        return res;
+      }).catch(() => caches.match(e.request) || caches.match('./index.html'))
+    );
+    return;
+  }
+
+  // باقي الملفات - كاش أولاً
   e.respondWith(
     caches.match(e.request).then(cached => {
       if (cached) return cached;
@@ -46,10 +51,7 @@ self.addEventListener('fetch', e => {
           caches.open(CACHE).then(c => c.put(e.request, clone));
         }
         return res;
-      }).catch(() => {
-        // إذا فشل كل شيء، ارجع الصفحة الرئيسية من الكاش
-        return caches.match('/price-app/index.html');
-      });
+      }).catch(() => new Response('', {status: 408}));
     })
   );
 });
