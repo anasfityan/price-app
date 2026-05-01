@@ -1198,7 +1198,7 @@ window.addEventListener('appinstalled', function(){
 // تسجيل Service Worker عند تحميل الصفحة
 if('serviceWorker' in navigator){
   window.addEventListener('load', function(){
-    navigator.serviceWorker.register('/price-app/sw.js', {scope:'/price-app/'})
+    navigator.serviceWorker.register('/price-app/sw.js?v=2', {scope:'/price-app/'})
       .then(r => console.log('SW registered:', r.scope))
       .catch(e => console.log('SW error:', e));
   });

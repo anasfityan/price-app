@@ -6,7 +6,7 @@
   "background_color": "#0a0a0a",
   "theme_color": "#0a0a0a",
   "orientation": "portrait",
-  "start_url": "/price-app/?v=4",
+  "start_url": "/price-app/",
   "scope": "/price-app/",
   "icons": [
     {

@@ -1,14 +1,21 @@
-const CACHE = 'trendy-v1';
-const ASSETS = [
+const CACHE = 'trendy-v2';
+const CORE = [
   '/price-app/',
   '/price-app/index.html',
-  '/price-app/icon-192%20(1).png',
-  '/price-app/icon-512%20(1).png'
+  '/price-app/manifest.json',
+  '/price-app/icon-192.png',
+  '/price-app/icon-512.png'
 ];
 
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting())
+    caches.open(CACHE).then(c =>
+      Promise.all(CORE.map(url =>
+        fetch(url).then(r => {
+          if (r.ok) return c.put(url, r);
+        }).catch(() => {})
+      ))
+    ).then(() => self.skipWaiting())
   );
 });
 
@@ -21,17 +28,28 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-  // rates.json - always fetch fresh from network
-  if (e.request.url.includes('rates.json')) {
+  const url = e.request.url;
+
+  // rates.json - دائماً من الشبكة
+  if (url.includes('rates.json') || url.includes('api.github.com') || url.includes('raw.githubusercontent.com')) {
     e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
     return;
   }
-  // everything else - cache first, fallback to network
+
+  // باقي الطلبات - كاش أولاً ثم شبكة
   e.respondWith(
-    caches.match(e.request).then(cached => cached || fetch(e.request).then(res => {
-      const clone = res.clone();
-      caches.open(CACHE).then(c => c.put(e.request, clone));
-      return res;
-    }))
+    caches.match(e.request).then(cached => {
+      if (cached) return cached;
+      return fetch(e.request).then(res => {
+        if (res && res.ok) {
+          const clone = res.clone();
+          caches.open(CACHE).then(c => c.put(e.request, clone));
+        }
+        return res;
+      }).catch(() => {
+        // إذا فشل كل شيء، ارجع الصفحة الرئيسية من الكاش
+        return caches.match('/price-app/index.html');
+      });
+    })
   );
 });
