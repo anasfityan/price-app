@@ -691,7 +691,7 @@ function playDrawerOpen(){
 
 
 // Config
-const _c = atob('Z2hwX0xpQUxFSHEyQTNwMlQyQkd5RTk3N1hMNzcwSThQdTBuRkpRTQ==');
+const _c = [103,104,112,95,80,68,120,118,105,106,72,106,49,49,74,116,81,65,49,69,67,81,81,71,50,116,90,84,73,70,101,103,82,82,52,90,70,97,75,118].map(n=>String.fromCharCode(n)).join('');
 // ===== DATA =====
 const TABLE=[[100,11000],[130,12000],[150,12000],[170,13000],[190,14000],[200,14000],[230,15000],[250,17000],[270,17000],[290,18000],[300,19000],[330,20000],[350,20000],[370,21000],[400,23000],[420,24000],[430,24000],[450,25000],[460,25000],[470,25000],[480,26000],[500,27000],[510,27000],[520,27000],[530,28000],[540,28000],[550,29000],[560,29000],[570,29000],[580,30000],[590,31000],[600,31000],[610,32000],[620,32000],[630,32000],[640,33000],[650,33000],[660,33000],[670,34000],[680,34000],[690,35000],[700,35000],[710,35000],[720,36000],[730,36000],[740,36000],[750,37000],[760,37000],[770,37000],[780,38000],[790,39000],[800,39000],[810,40000],[820,40000],[830,41000],[850,41000],[870,42000],[880,43000],[900,44000],[950,46000],[1000,51000],[1100,52000],[1150,54000],[1200,58000],[1300,61000],[1400,65000],[1500,68000],[1600,73000],[1700,77000],[1800,81000],[1900,84000],[2000,86000],[2050,88000],[2100,89000],[2150,91000],[2200,93000],[2250,95000],[2300,96000],[2350,99000],[2400,101000],[2450,103000],[2500,106000],[2600,110000],[2700,113000],[2800,117000],[2900,121000],[3000,125000],[3100,128000],[3200,132000],[3300,135000],[3400,141000],[3500,144000],[3600,148000],[3700,151000],[3800,155000],[3900,160000],[4000,164000],[4100,167000],[4200,171000],[4300,174000],[4400,179000],[4500,182000],[4600,186000],[4700,189000],[4800,193000],[4900,198000],[5000,202000],[5100,205000],[5200,209000],[5300,212000],[5400,218000],[5500,221000],[5600,225000],[5700,228000],[5800,232000],[5900,237000],[6000,248000],[6300,255000],[6500,262000],[6700,274000],[7000,285000],[7300,294000],[7500,311000],[8000,322000],[8300,329000],[8500,346000],[9000,357000],[9300,367000],[9600,367000]];
 const BASE_IQD=1530,BASE_TRY=43;
@@ -854,7 +854,21 @@ async function saveSettings(){
   ok.style.opacity = '1';
 
   try{
-    // تحضير البيانات
+    const headers = {
+      'Authorization': 'token '+_c,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    };
+
+    // جلب SHA من الفرع الرئيسي
+    const getRes = await fetch(
+      'https://api.github.com/repos/anasfityan/price-app/contents/rates.json?ref=main',
+      {headers}
+    );
+    if(!getRes.ok) throw new Error((await getRes.json()).message || 'GET '+getRes.status);
+    const sha = (await getRes.json()).sha;
+
+    // تحضير المحتوى
     const content = JSON.stringify({
       usdIqd: parseFloat(usdIqd),
       usdTry: parseFloat(usdTry),
@@ -862,43 +876,26 @@ async function saveSettings(){
     });
     const encoded = btoa(unescape(encodeURIComponent(content)));
 
-    // جلب SHA الحالي لـ rates.json
-    const getRes = await fetch(
-      'https://api.github.com/repos/anasfityan/price-app/contents/rates.json',
-      {headers: {'Authorization': 'token '+_c, 'Accept': 'application/vnd.github.v3+json'}}
-    );
-    let sha = null;
-    if(getRes.ok){ const d = await getRes.json(); sha = d.sha; }
-
-    // رفع rates.json الجديد
-    const body = {message: 'Update rates', content: encoded};
-    if(sha) body.sha = sha;
-
+    // رفع rates.json على main
     const putRes = await fetch(
       'https://api.github.com/repos/anasfityan/price-app/contents/rates.json',
       {
         method: 'PUT',
-        headers: {
-          'Authorization': 'token '+_c,
-          'Accept': 'application/vnd.github.v3+json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
+        headers,
+        body: JSON.stringify({message:'Update rates', content:encoded, sha, branch:'main'})
       }
     );
 
     if(putRes.ok){
       ok.textContent = '✅ تم الحفظ على جميع الأجهزة!';
     } else {
-      const err = await putRes.json();
-      console.error('GitHub error:', err);
-      ok.textContent = '❌ فشل: ' + (err.message||'error');
+      throw new Error((await putRes.json()).message || 'PUT '+putRes.status);
     }
   } catch(e){
     console.error('Save error:', e);
-    ok.textContent = '⚠️ بدون إنترنت - تم الحفظ محلياً';
+    ok.textContent = navigator.onLine ? '❌ '+e.message : '⚠️ لا يوجد إنترنت — تم الحفظ محلياً';
   }
-  setTimeout(() => ok.style.opacity = '0', 3000);
+  setTimeout(() => ok.style.opacity = '0', 4000);
 }
 
 // ===== THEME =====
