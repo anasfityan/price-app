@@ -1,4 +1,4 @@
-const CACHE = 'trendy-v3';
+const CACHE = 'trendy-v4';
 
 self.addEventListener('install', e => {
   e.waitUntil(
@@ -24,6 +24,12 @@ self.addEventListener('fetch', e => {
   // طلبات API والأسعار - دائماً من الشبكة
   if (url.includes('api.github.com') || url.includes('raw.githubusercontent.com') || url.includes('open.er-api.com')) {
     e.respondWith(fetch(e.request).catch(() => new Response('{}', {headers:{'Content-Type':'application/json'}})));
+    return;
+  }
+
+  // الأيقونات - دائماً من الشبكة (لا تُكاش)
+  if (url.includes('icon-') || url.includes('.png') || url.includes('.ico')) {
+    e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
     return;
   }
 
