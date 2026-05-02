@@ -420,23 +420,31 @@ body.th-forest .footer-bar{background:#0e160e!important;color:#2a4a2a!important;
 #ios-hint small{color:#6a6258;font-size:11px;font-family:'Tajawal',sans-serif;}
 #ios-hint-close{position:absolute;top:10px;left:14px;background:none;border:none;color:#6a6258;font-size:20px;cursor:pointer;}
 
-/* MINI CALCULATOR */
-.mini-calc-card{background:#131313;border:1px solid rgba(255,255,255,.05);border-radius:14px;overflow:hidden;}
-.mini-calc-header{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;cursor:pointer;user-select:none;}
-.mc-lbl{font-size:12px;font-weight:700;font-family:'Outfit',sans-serif;color:#8a8070;}
-.mini-calc-arrow{font-size:11px;color:#6a6258;transition:transform .25s;}
-.mini-calc-arrow.open{transform:rotate(180deg);}
-.mini-calc-body{padding:8px;}
-.mc-display{background:#0a0a0a;border-radius:10px;padding:10px 14px;margin-bottom:8px;text-align:right;}
-.mc-expr{font-size:11px;color:#6a6258;min-height:16px;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:'Space Mono',monospace;direction:ltr;}
-.mc-val{font-size:26px;font-weight:700;color:#f0ece0;direction:ltr;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:'Space Mono',monospace;}
-.mc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
-.mc-btn{background:#1e1e1e;border:1px solid #2e2e2e;border-radius:11px;padding:13px 0;font-size:17px;font-weight:700;color:#f0ece0;cursor:pointer;text-align:center;font-family:'Space Mono',monospace;transition:background .1s,transform .1s;}
+/* CALCULATOR TAB */
+.mc-display{background:#0a0a0a;border-radius:14px;padding:16px 18px;margin-bottom:0;text-align:right;}
+.mc-expr{font-size:12px;color:#6a6258;min-height:18px;margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:'Space Mono',monospace;direction:ltr;}
+.mc-val{font-size:34px;font-weight:700;color:#f0ece0;direction:ltr;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:'Space Mono',monospace;}
+.mc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;}
+.mc-btn{background:#1e1e1e;border:1px solid #2e2e2e;border-radius:13px;padding:15px 0;font-size:19px;font-weight:700;color:#f0ece0;cursor:pointer;text-align:center;font-family:'Space Mono',monospace;transition:background .1s,transform .1s;}
 .mc-btn:active{transform:scale(.92);opacity:.8;}
-.mc-btn.mc-op{color:#c9a84c;background:rgba(201,168,76,.06);border-color:rgba(201,168,76,.2);}
-.mc-btn.mc-eq{background:linear-gradient(135deg,#c9a84c,#e8c96a);color:#0a0a0a;border:none;font-size:20px;}
-.mc-btn.mc-clr{color:#e05c5c;background:rgba(224,92,92,.06);border-color:rgba(224,92,92,.2);}
+.mc-btn.mc-op{color:#c9a84c;background:rgba(201,168,76,.08);border-color:rgba(201,168,76,.25);}
+.mc-btn.mc-eq{background:linear-gradient(135deg,#c9a84c,#e8c96a);color:#0a0a0a;border:none;font-size:22px;}
+.mc-btn.mc-clr{color:#e05c5c;background:rgba(224,92,92,.08);border-color:rgba(224,92,92,.25);}
 .mc-btn.mc-del{color:#e05c5c;}
+
+/* BOTTOM NAV */
+.bottom-nav{flex-shrink:0;background:#131313;border-top:1px solid rgba(201,168,76,.1);display:flex;align-items:stretch;padding-bottom:env(safe-area-inset-bottom,0px);}
+.bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;padding:8px 2px 6px;user-select:none;-webkit-tap-highlight-color:transparent;transition:opacity .15s;}
+.bnav-item:active{opacity:.6;}
+.bnav-icon{width:42px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:15px;transition:background .2s,color .2s;color:#6a6258;}
+.bnav-icon svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s;}
+.bnav-lbl{font-size:9px;color:#6a6258;font-family:'Tajawal',sans-serif;font-weight:700;transition:color .2s;letter-spacing:.2px;}
+.bnav-item.on .bnav-icon{background:rgba(201,168,76,.18);color:#c9a84c;}
+.bnav-item.on .bnav-lbl{color:#c9a84c;}
+
+/* SETTINGS TAB */
+.stab-card{background:#131313;border:1px solid rgba(255,255,255,.05);border-radius:14px;padding:14px 16px;}
+.stab-sec-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c9a84c;font-weight:700;margin-bottom:12px;font-family:'Outfit',sans-serif;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.05);}
 </style>
 </head>
 <body class="th-gold">
@@ -483,43 +491,27 @@ body.th-forest .footer-bar{background:#0e160e!important;color:#2a4a2a!important;
 </div>
 
 <!-- SCROLL -->
-<div class="scroll-area">
-  <div class="display-card">
-    <div class="display-right">
-      <div class="display-lbl" id="lbl-input">TL Turkish Lira</div>
-      <div class="display-val empty" id="displayVal">0</div>
+<div class="scroll-area" id="mainScroll">
+
+  <!-- TAB: HOME -->
+  <div id="sec-home">
+    <div class="display-card">
+      <div class="display-right">
+        <div class="display-lbl" id="lbl-input">TL Turkish Lira</div>
+        <div class="display-val empty" id="displayVal">0</div>
+      </div>
+      <div class="display-sym" style="font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;letter-spacing:-1px;">TL</div>
     </div>
-    <div class="display-sym" style="font-family:'Outfit',sans-serif;font-size:20px;font-weight:900;letter-spacing:-1px;">TL</div>
+    <div class="kb-card" id="kbCard"></div>
   </div>
 
-  <div class="kb-card" id="kbCard"></div>
-
-  <div class="chart-card">
-    <div class="chart-head">
-      <div class="chart-title" id="lbl-chart">Chart</div>
-      <div class="chart-tabs">
-        <button class="chart-tab on" id="ctab-try" onclick="switchChart('try')">TRY/USD</button>
-        <button class="chart-tab" id="ctab-usd" onclick="switchChart('usd')">USD/IQD</button>
-        <button class="chart-tab" id="ctab-calc" onclick="switchChart('calc')">My Calcs</button>
-      </div>
+  <!-- TAB: CALCULATOR -->
+  <div id="sec-calc" style="display:none;flex-direction:column;gap:8px;">
+    <div class="mc-display">
+      <div class="mc-expr" id="mc-expr"></div>
+      <div class="mc-val" id="mc-val">0</div>
     </div>
-    <div class="chart-wrap"><canvas id="myChart"></canvas></div>
-  </div>
-
-  <!-- MINI CALCULATOR -->
-  <div class="mini-calc-card">
-    <div class="mini-calc-header" onclick="toggleMiniCalc()">
-      <div style="display:flex;align-items:center;gap:8px;">
-        <span style="font-size:16px;">🧮</span>
-        <span class="mc-lbl" id="lbl-mini-calc">Calculator</span>
-      </div>
-      <span class="mini-calc-arrow" id="mini-calc-arrow">▼</span>
-    </div>
-    <div id="mini-calc-body" style="display:none;">
-      <div class="mc-display">
-        <div class="mc-expr" id="mc-expr"></div>
-        <div class="mc-val" id="mc-val">0</div>
-      </div>
+    <div style="background:#131313;border:1px solid rgba(255,255,255,.05);border-radius:14px;padding:10px;">
       <div class="mc-grid">
         <div class="mc-btn mc-clr" onclick="mcPress('C')">C</div>
         <div class="mc-btn mc-del" onclick="mcPress('DEL')">⌫</div>
@@ -545,6 +537,138 @@ body.th-forest .footer-bar{background:#0e160e!important;color:#2a4a2a!important;
     </div>
   </div>
 
+  <!-- TAB: CHART -->
+  <div id="sec-chart" style="display:none;flex-direction:column;gap:8px;">
+    <div class="chart-card">
+      <div class="chart-head">
+        <div class="chart-title" id="lbl-chart">Chart</div>
+        <div class="chart-tabs">
+          <button class="chart-tab on" id="ctab-try" onclick="switchChart('try')">TRY/USD</button>
+          <button class="chart-tab" id="ctab-usd" onclick="switchChart('usd')">USD/IQD</button>
+          <button class="chart-tab" id="ctab-calc" onclick="switchChart('calc')">My Calcs</button>
+        </div>
+      </div>
+      <div class="chart-wrap" style="height:200px;"><canvas id="myChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- TAB: SETTINGS -->
+  <div id="sec-settings" style="display:none;flex-direction:column;gap:10px;">
+
+    <!-- Exchange Rates -->
+    <div class="stab-card">
+      <div class="stab-sec-title" id="lbl-stab-rates">Exchange Rates</div>
+      <div class="dfield">
+        <label for="usdIqd" id="lbl-iqd">USD to Iraqi Dinar</label>
+        <div class="diw"><input type="number" id="usdIqd" value="1530" min="1" inputmode="numeric"><div class="dunit">IQD</div></div>
+      </div>
+      <div class="dfield" style="margin-bottom:12px;">
+        <label for="usdTry" id="lbl-try">USD to Turkish Lira</label>
+        <div class="diw"><input type="number" id="usdTry" value="43" min="1" inputmode="numeric"><div class="dunit">TRY</div></div>
+      </div>
+      <button class="save-btn" id="lbl-save" onclick="saveSettings()">🌐 حفظ ومزامنة جميع الأجهزة</button>
+      <div class="save-ok" id="saveOk">✅ Saved!</div>
+    </div>
+
+    <!-- Appearance -->
+    <div class="stab-card">
+      <div class="stab-sec-title" id="lbl-stab-appear">Appearance</div>
+      <!-- Vibration -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:18px;">📳</span>
+          <div>
+            <div style="font-size:12px;font-weight:700;font-family:'Outfit',sans-serif;" id="lbl-vib-title">Keyboard Vibration</div>
+            <div style="font-size:10px;color:#6a6258;font-family:'Outfit',sans-serif;" id="lbl-vib-sub">Tap feedback</div>
+          </div>
+        </div>
+        <div onclick="toggleVibration()" id="vib-toggle" style="width:48px;height:26px;border-radius:13px;background:#c9a84c;cursor:pointer;position:relative;transition:background .25s;flex-shrink:0;">
+          <div id="vib-knob" style="width:22px;height:22px;border-radius:50%;background:#fff;position:absolute;top:2px;left:24px;transition:left .25s;box-shadow:0 1px 4px rgba(0,0,0,.4);"></div>
+        </div>
+      </div>
+      <!-- Themes -->
+      <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#8a8070;font-weight:700;margin-bottom:8px;font-family:'Outfit',sans-serif;" id="lbl-ap-theme">Theme</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;">
+        <div onclick="setTheme('gold')" id="ts-gold" style="padding:10px 8px;border-radius:12px;background:linear-gradient(135deg,#111,#1c1c1c);border:2px solid #c9a84c;cursor:pointer;display:flex;align-items:center;gap:7px;">
+          <div style="width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#0a0a0a,#c9a84c);flex-shrink:0;"></div>
+          <span style="font-size:11px;color:#c9a84c;font-family:'Outfit',sans-serif;font-weight:700;">Gold</span>
+        </div>
+        <div onclick="setTheme('white')" id="ts-white" style="padding:10px 8px;border-radius:12px;background:linear-gradient(135deg,#f5f0e8,#e8e0d0);border:1.5px solid #d4c9b0;cursor:pointer;display:flex;align-items:center;gap:7px;">
+          <div style="width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#fff,#b8860b);flex-shrink:0;"></div>
+          <span style="font-size:11px;color:#7a5c00;font-family:'Outfit',sans-serif;font-weight:700;">Light</span>
+        </div>
+        <div onclick="setTheme('dark')" id="ts-dark" style="padding:10px 8px;border-radius:12px;background:linear-gradient(135deg,#000,#111);border:1.5px solid #333;cursor:pointer;display:flex;align-items:center;gap:7px;">
+          <div style="width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#000,#c9a84c);flex-shrink:0;"></div>
+          <span style="font-size:11px;color:#c9a84c;font-family:'Outfit',sans-serif;font-weight:700;">Dark</span>
+        </div>
+        <div onclick="setTheme('slate')" id="ts-slate" style="padding:10px 8px;border-radius:12px;background:linear-gradient(135deg,#0e1117,#1a2333);border:1.5px solid #2c354e;cursor:pointer;display:flex;align-items:center;gap:7px;">
+          <div style="width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#0e1117,#7c9cbf);flex-shrink:0;"></div>
+          <span style="font-size:11px;color:#7c9cbf;font-family:'Outfit',sans-serif;font-weight:700;">Slate</span>
+        </div>
+        <div onclick="setTheme('midnight')" id="ts-midnight" style="padding:10px 8px;border-radius:12px;background:linear-gradient(135deg,#080c14,#12182c);border:1.5px solid #202844;cursor:pointer;display:flex;align-items:center;gap:7px;">
+          <div style="width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#080c14,#5e8bd4);flex-shrink:0;"></div>
+          <span style="font-size:11px;color:#5e8bd4;font-family:'Outfit',sans-serif;font-weight:700;">Night</span>
+        </div>
+        <div onclick="setTheme('forest')" id="ts-forest" style="padding:10px 8px;border-radius:12px;background:linear-gradient(135deg,#0a110a,#142014);border:1.5px solid #223422;cursor:pointer;display:flex;align-items:center;gap:7px;">
+          <div style="width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#0e160e,#6aaa6a);flex-shrink:0;"></div>
+          <span style="font-size:11px;color:#6aaa6a;font-family:'Outfit',sans-serif;font-weight:700;">Forest</span>
+        </div>
+      </div>
+      <!-- Keyboard -->
+      <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#8a8070;font-weight:700;margin-bottom:8px;font-family:'Outfit',sans-serif;" id="lbl-ap-kb">Keyboard Style</div>
+      <div class="kb-sel-row">
+        <div class="kbdot active" id="kb-dot-1" onclick="setKb(1)">💎</div>
+        <div class="kbdot" id="kb-dot-2" onclick="setKb(2)">🫧</div>
+        <div class="kbdot" id="kb-dot-3" onclick="setKb(3)">⚡</div>
+        <div class="kbdot" id="kb-dot-4" onclick="setKb(4)">▪️</div>
+        <div class="kbdot" id="kb-dot-5" onclick="setKb(5)">⭕</div>
+      </div>
+    </div>
+
+    <!-- Language -->
+    <div class="stab-card">
+      <div class="stab-sec-title" id="lbl-stab-lang">Language</div>
+      <div style="display:flex;gap:8px;">
+        <button class="lang-btn" id="lang-ar" onclick="setLang('ar')">🇮🇶 العربية</button>
+        <button class="lang-btn on" id="lang-en" onclick="setLang('en')">🇬🇧 English</button>
+      </div>
+    </div>
+
+    <!-- Version -->
+    <div onclick="clearCacheAndReload()" style="text-align:center;padding:10px;cursor:pointer;">
+      <span style="font-size:10px;color:#3a3a3a;font-family:'Space Mono',monospace;">v17729164 · Tap to refresh ↺</span>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav" id="bottomNav">
+  <div class="bnav-item on" id="bn-home" onclick="switchTab('home')">
+    <div class="bnav-icon">
+      <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><polyline points="9 21 9 12 15 12 15 21"/></svg>
+    </div>
+    <div class="bnav-lbl" id="lbl-bn-home">الرئيسية</div>
+  </div>
+  <div class="bnav-item" id="bn-calc" onclick="switchTab('calc')">
+    <div class="bnav-icon">
+      <svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="11" y2="11"/><line x1="8" y1="15" x2="11" y2="15"/><line x1="14" y1="11" x2="16" y2="11"/><line x1="14" y1="15" x2="16" y2="15"/><line x1="14" y1="19" x2="16" y2="19"/><line x1="8" y1="19" x2="11" y2="19"/></svg>
+    </div>
+    <div class="bnav-lbl" id="lbl-bn-calc">الحاسبة</div>
+  </div>
+  <div class="bnav-item" id="bn-chart" onclick="switchTab('chart')">
+    <div class="bnav-icon">
+      <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    </div>
+    <div class="bnav-lbl" id="lbl-bn-chart">المخطط</div>
+  </div>
+  <div class="bnav-item" id="bn-settings" onclick="switchTab('settings')">
+    <div class="bnav-icon">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+    </div>
+    <div class="bnav-lbl" id="lbl-bn-settings">الإعدادات</div>
+  </div>
 </div>
 
 
@@ -599,95 +723,6 @@ body.th-forest .footer-bar{background:#0e160e!important;color:#2a4a2a!important;
     <div class="drawer-credit" id="drawer-credit" style="font-size:10px;text-align:center;color:#3a3a3a;font-family:'Outfit',sans-serif;">Designed by Anas Fityan</div>
   </div>
 
-<!-- APPEARANCE PANEL -->
-<div class="panel" id="appearPanel">
-  <div class="panel-header">
-    <div class="panel-back" onclick="closeAppearPanel()">‹ <span id="lbl-back2">Back</span></div>
-    <div class="panel-title" id="lbl-appear-panel-title">Appearance</div>
-  </div>
-  <div style="padding:16px;flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:20px;">
-
-    <!-- VIBRATION -->
-    <div style="background:rgba(255,255,255,.04);border-radius:14px;padding:14px 16px;border:1px solid rgba(255,255,255,.07);">
-      <div style="display:flex;align-items:center;justify-content:space-between;">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span style="font-size:20px;">📳</span>
-          <div>
-            <div style="font-size:13px;font-weight:700;color:#f0ece0;font-family:'Outfit',sans-serif;">Keyboard Vibration</div>
-            <div style="font-size:10px;color:#6a6258;font-family:'Outfit',sans-serif;margin-top:2px;">Tap feedback on/off</div>
-          </div>
-        </div>
-        <div onclick="toggleVibration()" id="vib-toggle" style="width:48px;height:26px;border-radius:13px;background:#c9a84c;cursor:pointer;position:relative;transition:background .25s;flex-shrink:0;">
-          <div id="vib-knob" style="width:22px;height:22px;border-radius:50%;background:#fff;position:absolute;top:2px;left:24px;transition:left .25s;box-shadow:0 1px 4px rgba(0,0,0,.4);"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- THEMES -->
-    <div>
-      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c9a84c;font-weight:700;margin-bottom:12px;font-family:'Outfit',sans-serif;">Theme</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-        <div onclick="setTheme('gold')" id="ts-gold" style="padding:14px 12px;border-radius:14px;background:linear-gradient(135deg,#111,#1c1c1c);border:2px solid #c9a84c;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s,border-color .15s,transform .15s;">
-          <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#0a0a0a,#c9a84c);flex-shrink:0;"></div>
-          <span style="font-size:12px;color:#c9a84c;font-family:'Outfit',sans-serif;font-weight:700;">Gold</span>
-        </div>
-        <div onclick="setTheme('white')" id="ts-white" style="padding:14px 12px;border-radius:14px;background:linear-gradient(135deg,#f5f0e8,#e8e0d0);border:1.5px solid #d4c9b0;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s,border-color .15s,transform .15s;">
-          <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#fff,#b8860b);flex-shrink:0;"></div>
-          <span style="font-size:12px;color:#7a5c00;font-family:'Outfit',sans-serif;font-weight:700;">Light</span>
-        </div>
-        <div onclick="setTheme('dark')" id="ts-dark" style="padding:14px 12px;border-radius:14px;background:linear-gradient(135deg,#000,#111);border:1.5px solid #333;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s,border-color .15s,transform .15s;">
-          <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#000,#c9a84c);flex-shrink:0;"></div>
-          <span style="font-size:12px;color:#c9a84c;font-family:'Outfit',sans-serif;font-weight:700;">Dark</span>
-        </div>
-        <div onclick="setTheme('slate')" id="ts-slate" style="padding:14px 12px;border-radius:14px;background:linear-gradient(135deg,#0e1117,#1a2333);border:1.5px solid #2c354e;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s,border-color .15s,transform .15s;">
-          <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#0e1117,#7c9cbf);flex-shrink:0;"></div>
-          <span style="font-size:12px;color:#7c9cbf;font-family:'Outfit',sans-serif;font-weight:700;">Slate</span>
-        </div>
-        <div onclick="setTheme('midnight')" id="ts-midnight" style="padding:14px 12px;border-radius:14px;background:linear-gradient(135deg,#080c14,#12182c);border:1.5px solid #202844;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s,border-color .15s,transform .15s;">
-          <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#080c14,#5e8bd4);flex-shrink:0;"></div>
-          <span style="font-size:12px;color:#5e8bd4;font-family:'Outfit',sans-serif;font-weight:700;">Midnight</span>
-        </div>
-        <div onclick="setTheme('forest')" id="ts-forest" style="padding:14px 12px;border-radius:14px;background:linear-gradient(135deg,#0a110a,#142014);border:1.5px solid #223422;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s,border-color .15s,transform .15s;">
-          <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#0e160e,#6aaa6a);flex-shrink:0;"></div>
-          <span style="font-size:12px;color:#6aaa6a;font-family:'Outfit',sans-serif;font-weight:700;">Forest</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- KEYBOARD -->
-    <div>
-      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c9a84c;font-weight:700;margin-bottom:12px;font-family:'Outfit',sans-serif;" id="lbl-ap-kb">Keyboard Style</div>
-      <div class="kb-sel-row">
-        <div class="kbdot active" id="kb-dot-1" onclick="setKb(1)">💎</div>
-        <div class="kbdot" id="kb-dot-2" onclick="setKb(2)">🫧</div>
-        <div class="kbdot" id="kb-dot-3" onclick="setKb(3)">⚡</div>
-        <div class="kbdot" id="kb-dot-4" onclick="setKb(4)">▪️</div>
-        <div class="kbdot" id="kb-dot-5" onclick="setKb(5)">⭕</div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- RATES PANEL -->
-<div class="panel" id="ratesPanel">
-  <div class="panel-header">
-    <div class="panel-back" onclick="closePanel()">‹ <span id="lbl-back">Back</span></div>
-    <div class="panel-title" id="lbl-panel-title">Exchange Rates</div>
-  </div>
-  <div style="padding:14px;flex:1;">
-    <div class="dfield">
-      <label for="usdIqd" id="lbl-iqd">USD to Iraqi Dinar</label>
-      <div class="diw"><input type="number" id="usdIqd" value="1530" min="1" inputmode="numeric"><div class="dunit">IQD</div></div>
-    </div>
-    <div class="dfield">
-      <label for="usdTry" id="lbl-try">USD to Turkish Lira</label>
-      <div class="diw"><input type="number" id="usdTry" value="43" min="1" inputmode="numeric"><div class="dunit">TRY</div></div>
-    </div>
-    <button class="save-btn" id="lbl-save" onclick="saveSettings()">🌐 حفظ ومزامنة جميع الأجهزة</button>
-    <div class="save-ok" id="saveOk">✅ Saved!</div>
-  </div>
-</div>
 
 <script>
 
@@ -773,7 +808,10 @@ const T={
     save:'🌐 Save & Sync All Devices',saved:'✅ Saved for all!',
     resLbl:'Selling Price',resCur:'Iraqi Dinar',profit:'Profit',usdPrice:'USD Cost',
     footer:'Designed by Anes Fittan',credit:'Designed by Anes Fittan',
-    calcTitle:'Calculator'
+    calcTitle:'Calculator',
+    bnHome:'Home',bnCalc:'Calc',bnChart:'Chart',bnSettings:'Settings',
+    stabRates:'Exchange Rates',stabAppear:'Appearance',stabLang:'Language',
+    vibTitle:'Keyboard Vibration',vibSub:'Tap feedback'
   },
   ar:{
     dir:'rtl',lang:'ar',font:'Tajawal',
@@ -790,7 +828,10 @@ const T={
     save:'🌐 حفظ ومزامنة جميع الأجهزة',saved:'✅ تم الحفظ على جميع الأجهزة!',
     resLbl:'سعر البيع',resCur:'دينار عراقي',profit:'ربح',usdPrice:'بالدولار',
     footer:'تصميم Anes Fittan',credit:'تصميم Anes Fittan',
-    calcTitle:'الحاسبة'
+    calcTitle:'الحاسبة',
+    bnHome:'الرئيسية',bnCalc:'الحاسبة',bnChart:'المخطط',bnSettings:'الإعدادات',
+    stabRates:'أسعار الصرف',stabAppear:'المظهر',stabLang:'اللغة',
+    vibTitle:'اهتزاز الكيبورد',vibSub:'تأكيد باللمس'
   }
 };
 
@@ -1123,6 +1164,7 @@ function applyThemeStyles(c){
     else{e.style.borderColor=c.bg5;e.style.color=c.muted2;e.style.background=c.bg3;}
   });
 
+  applyBnavTheme(c);
   window._tc=c;
 }
 
@@ -1210,7 +1252,15 @@ function setLang(l){
   document.getElementById('lang-ar').classList.toggle('on',l==='ar');
   document.getElementById('lang-en').classList.toggle('on',l==='en');
   setText('lbl-profit-box',t.profit+' 0%');
-  setText('lbl-mini-calc',t.calcTitle);
+  setText('lbl-bn-home',t.bnHome);
+  setText('lbl-bn-calc',t.bnCalc);
+  setText('lbl-bn-chart',t.bnChart);
+  setText('lbl-bn-settings',t.bnSettings);
+  setText('lbl-stab-rates',t.stabRates);
+  setText('lbl-stab-appear',t.stabAppear);
+  setText('lbl-stab-lang',t.stabLang);
+  setText('lbl-vib-title',t.vibTitle);
+  setText('lbl-vib-sub',t.vibSub);
   calc();
 }
 
@@ -1287,11 +1337,11 @@ function openDrawer(){
   document.getElementById('overlay').classList.add('open');
 }
 
-function closeAll(){document.getElementById('drawer').classList.remove('open');document.getElementById('overlay').classList.remove('open');document.getElementById('ratesPanel').classList.remove('open');}
-function openPanel(){document.getElementById('ratesPanel').classList.add('open');}
-function closePanel(){document.getElementById('ratesPanel').classList.remove('open');}
-function openAppearPanel(){document.getElementById('appearPanel').classList.add('open');}
-function closeAppearPanel(){document.getElementById('appearPanel').classList.remove('open');}
+function closeAll(){document.getElementById('drawer').classList.remove('open');document.getElementById('overlay').classList.remove('open');}
+function openPanel(){closeAll();switchTab('settings');}
+function closePanel(){}
+function openAppearPanel(){closeAll();switchTab('settings');}
+function closeAppearPanel(){}
 
 // ===== CHART =====
 function switchChart(type){
@@ -1353,6 +1403,7 @@ window.addEventListener('load',()=>{
   setKb(currentKb);
   try{const ch=sessionStorage.getItem('calc_h');if(ch){const p=JSON.parse(ch);if(p.t&&(Date.now()-p.t)<5*60*1000)calcHistory=p.d||[];}}catch(e){}
   try{const lv=sessionStorage.getItem('last_lira');if(lv){const p=JSON.parse(lv);if(p.t&&(Date.now()-p.t)<5*60*1000&&p.v){liraVal=p.v;const dv=document.getElementById('displayVal');dv.textContent=parseInt(liraVal).toLocaleString('en-US');dv.classList.remove('empty');calc();}}}catch(e){}
+  switchTab('home');
   updateChart();
   fetchTicker();
   setInterval(fetchTicker,300000);
@@ -1370,17 +1421,51 @@ window.addEventListener('load',()=>{
   document.addEventListener('click',()=>{if(liraVal)try{sessionStorage.setItem('last_lira',JSON.stringify({t:Date.now(),v:liraVal}));}catch(e){}}); 
 });
 
+// ===== TAB NAVIGATION =====
+let currentTab = 'home';
+function switchTab(tab){
+  currentTab = tab;
+  ['home','calc','chart','settings'].forEach(function(t){
+    const sec = document.getElementById('sec-'+t);
+    const btn = document.getElementById('bn-'+t);
+    if(sec){sec.style.display = (t===tab) ? 'flex' : 'none';}
+    if(btn){btn.classList.toggle('on', t===tab);}
+  });
+  // result bar only on home
+  const res = document.getElementById('resultFixed');
+  if(res) res.style.display = (tab==='home') ? 'flex' : 'none';
+  // update chart when switching to chart tab
+  if(tab==='chart') updateChart();
+  // apply theme to bottom nav
+  if(window._tc) applyBnavTheme(window._tc);
+  // scroll to top
+  const ms = document.getElementById('mainScroll');
+  if(ms) ms.scrollTop = 0;
+}
+
+function applyBnavTheme(c){
+  const $$=s=>document.querySelectorAll(s);
+  $$('.bnav-item').forEach(function(e){
+    const icon = e.querySelector('.bnav-icon');
+    const lbl = e.querySelector('.bnav-lbl');
+    if(e.classList.contains('on')){
+      if(icon){icon.style.background=c.gold+'22';icon.style.color=c.gold;}
+      if(lbl)lbl.style.color=c.gold;
+    } else {
+      if(icon){icon.style.background='transparent';icon.style.color=c.muted;}
+      if(lbl)lbl.style.color=c.muted;
+    }
+  });
+  const nav = document.getElementById('bottomNav');
+  if(nav){nav.style.background=c.bg2;nav.style.borderTopColor=c.gold+'22';}
+  $$('.stab-card').forEach(function(e){e.style.background=c.bg2;e.style.borderColor=c.bg4;});
+  $$('.stab-sec-title').forEach(function(e){e.style.color=c.gold;e.style.borderBottomColor=c.bg4;});
+}
+
 // ===== MINI CALCULATOR =====
 let mcDisplay='0',mcPrev=null,mcOp=null,mcFresh=true;
 
-function toggleMiniCalc(){
-  const body=document.getElementById('mini-calc-body');
-  const arrow=document.getElementById('mini-calc-arrow');
-  const open=body.style.display!=='none';
-  body.style.display=open?'none':'block';
-  if(arrow)arrow.classList.toggle('open',!open);
-  if(!open&&window._tc)applyThemeStyles(window._tc);
-}
+function toggleMiniCalc(){ switchTab('calc'); }
 
 function mcUpdateDisplay(){
   const valEl=document.getElementById('mc-val');
