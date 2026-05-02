@@ -419,6 +419,24 @@ body.th-forest .footer-bar{background:#0e160e!important;color:#2a4a2a!important;
 #ios-hint p{color:#f0ece0;font-size:13px;font-family:'Tajawal',sans-serif;margin:0 0 4px;}
 #ios-hint small{color:#6a6258;font-size:11px;font-family:'Tajawal',sans-serif;}
 #ios-hint-close{position:absolute;top:10px;left:14px;background:none;border:none;color:#6a6258;font-size:20px;cursor:pointer;}
+
+/* MINI CALCULATOR */
+.mini-calc-card{background:#131313;border:1px solid rgba(255,255,255,.05);border-radius:14px;overflow:hidden;}
+.mini-calc-header{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;cursor:pointer;user-select:none;}
+.mc-lbl{font-size:12px;font-weight:700;font-family:'Outfit',sans-serif;color:#8a8070;}
+.mini-calc-arrow{font-size:11px;color:#6a6258;transition:transform .25s;}
+.mini-calc-arrow.open{transform:rotate(180deg);}
+.mini-calc-body{padding:8px;}
+.mc-display{background:#0a0a0a;border-radius:10px;padding:10px 14px;margin-bottom:8px;text-align:right;}
+.mc-expr{font-size:11px;color:#6a6258;min-height:16px;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:'Space Mono',monospace;direction:ltr;}
+.mc-val{font-size:26px;font-weight:700;color:#f0ece0;direction:ltr;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:'Space Mono',monospace;}
+.mc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.mc-btn{background:#1e1e1e;border:1px solid #2e2e2e;border-radius:11px;padding:13px 0;font-size:17px;font-weight:700;color:#f0ece0;cursor:pointer;text-align:center;font-family:'Space Mono',monospace;transition:background .1s,transform .1s;}
+.mc-btn:active{transform:scale(.92);opacity:.8;}
+.mc-btn.mc-op{color:#c9a84c;background:rgba(201,168,76,.06);border-color:rgba(201,168,76,.2);}
+.mc-btn.mc-eq{background:linear-gradient(135deg,#c9a84c,#e8c96a);color:#0a0a0a;border:none;font-size:20px;}
+.mc-btn.mc-clr{color:#e05c5c;background:rgba(224,92,92,.06);border-color:rgba(224,92,92,.2);}
+.mc-btn.mc-del{color:#e05c5c;}
 </style>
 </head>
 <body class="th-gold">
@@ -487,6 +505,46 @@ body.th-forest .footer-bar{background:#0e160e!important;color:#2a4a2a!important;
     </div>
     <div class="chart-wrap"><canvas id="myChart"></canvas></div>
   </div>
+
+  <!-- MINI CALCULATOR -->
+  <div class="mini-calc-card">
+    <div class="mini-calc-header" onclick="toggleMiniCalc()">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:16px;">🧮</span>
+        <span class="mc-lbl" id="lbl-mini-calc">Calculator</span>
+      </div>
+      <span class="mini-calc-arrow" id="mini-calc-arrow">▼</span>
+    </div>
+    <div id="mini-calc-body" style="display:none;">
+      <div class="mc-display">
+        <div class="mc-expr" id="mc-expr"></div>
+        <div class="mc-val" id="mc-val">0</div>
+      </div>
+      <div class="mc-grid">
+        <div class="mc-btn mc-clr" onclick="mcPress('C')">C</div>
+        <div class="mc-btn mc-del" onclick="mcPress('DEL')">⌫</div>
+        <div class="mc-btn mc-op" onclick="mcPress('%')">%</div>
+        <div class="mc-btn mc-op" onclick="mcPress('÷')">÷</div>
+        <div class="mc-btn" onclick="mcPress('7')">7</div>
+        <div class="mc-btn" onclick="mcPress('8')">8</div>
+        <div class="mc-btn" onclick="mcPress('9')">9</div>
+        <div class="mc-btn mc-op" onclick="mcPress('×')">×</div>
+        <div class="mc-btn" onclick="mcPress('4')">4</div>
+        <div class="mc-btn" onclick="mcPress('5')">5</div>
+        <div class="mc-btn" onclick="mcPress('6')">6</div>
+        <div class="mc-btn mc-op" onclick="mcPress('-')">−</div>
+        <div class="mc-btn" onclick="mcPress('1')">1</div>
+        <div class="mc-btn" onclick="mcPress('2')">2</div>
+        <div class="mc-btn" onclick="mcPress('3')">3</div>
+        <div class="mc-btn mc-op" onclick="mcPress('+')">+</div>
+        <div class="mc-btn" onclick="mcPress('±')">±</div>
+        <div class="mc-btn" onclick="mcPress('0')">0</div>
+        <div class="mc-btn" onclick="mcPress('.')">.</div>
+        <div class="mc-btn mc-eq" onclick="mcPress('=')">=</div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 
@@ -714,7 +772,8 @@ const T={
     iqdLbl:'USD to Iraqi Dinar',tryLbl:'USD to Turkish Lira',
     save:'🌐 Save & Sync All Devices',saved:'✅ Saved for all!',
     resLbl:'Selling Price',resCur:'Iraqi Dinar',profit:'Profit',usdPrice:'USD Cost',
-    footer:'Designed by Anes Fittan',credit:'Designed by Anes Fittan'
+    footer:'Designed by Anes Fittan',credit:'Designed by Anes Fittan',
+    calcTitle:'Calculator'
   },
   ar:{
     dir:'rtl',lang:'ar',font:'Tajawal',
@@ -730,7 +789,8 @@ const T={
     iqdLbl:'سعر الدولار بالدينار العراقي',tryLbl:'سعر الدولار بالليرة التركية',
     save:'🌐 حفظ ومزامنة جميع الأجهزة',saved:'✅ تم الحفظ على جميع الأجهزة!',
     resLbl:'سعر البيع',resCur:'دينار عراقي',profit:'ربح',usdPrice:'بالدولار',
-    footer:'تصميم Anes Fittan',credit:'تصميم Anes Fittan'
+    footer:'تصميم Anes Fittan',credit:'تصميم Anes Fittan',
+    calcTitle:'الحاسبة'
   }
 };
 
@@ -1027,6 +1087,23 @@ function applyThemeStyles(c){
   if(el)el.style.color=c.muted;
   $$('.section-lbl-inline').forEach(function(e){e.style.color=c.gold;e.style.borderBottomColor=c.bg4;});
 
+  // MINI CALCULATOR
+  el=$('.mini-calc-card');
+  if(el){el.style.background=c.bg2;el.style.borderColor=c.bg4;}
+  el=$('.mc-display');
+  if(el)el.style.background=c.bg;
+  $$('.mc-expr').forEach(function(e){e.style.color=c.muted;});
+  $$('.mc-val').forEach(function(e){e.style.color=c.text;});
+  $$('.mc-lbl').forEach(function(e){e.style.color=c.muted2;});
+  $$('.mini-calc-arrow').forEach(function(e){e.style.color=c.muted;});
+  $$('.mc-btn').forEach(function(e){
+    if(e.classList.contains('mc-eq')){e.style.background='linear-gradient(135deg,'+c.gold+','+c.gold_l+')';e.style.color=c.bg;e.style.borderColor='transparent';}
+    else if(e.classList.contains('mc-op')){e.style.color=c.gold;e.style.background=c.gold+'11';e.style.borderColor=c.gold+'33';}
+    else if(e.classList.contains('mc-clr')){e.style.color=c.red;e.style.background=c.red+'11';e.style.borderColor=c.red+'33';}
+    else if(e.classList.contains('mc-del')){e.style.color=c.red;e.style.background=c.bg3;e.style.borderColor=c.bg5;}
+    else{e.style.background=c.bg3;e.style.color=c.text;e.style.borderColor=c.bg5;}
+  });
+
   // OVERLAY
   el=$('.overlay');
   if(el)el.style.background='rgba(0,0,0,0.7)';
@@ -1133,6 +1210,7 @@ function setLang(l){
   document.getElementById('lang-ar').classList.toggle('on',l==='ar');
   document.getElementById('lang-en').classList.toggle('on',l==='en');
   setText('lbl-profit-box',t.profit+' 0%');
+  setText('lbl-mini-calc',t.calcTitle);
   calc();
 }
 
@@ -1291,6 +1369,73 @@ window.addEventListener('load',()=>{
   }, true);
   document.addEventListener('click',()=>{if(liraVal)try{sessionStorage.setItem('last_lira',JSON.stringify({t:Date.now(),v:liraVal}));}catch(e){}}); 
 });
+
+// ===== MINI CALCULATOR =====
+let mcDisplay='0',mcPrev=null,mcOp=null,mcFresh=true;
+
+function toggleMiniCalc(){
+  const body=document.getElementById('mini-calc-body');
+  const arrow=document.getElementById('mini-calc-arrow');
+  const open=body.style.display!=='none';
+  body.style.display=open?'none':'block';
+  if(arrow)arrow.classList.toggle('open',!open);
+  if(!open&&window._tc)applyThemeStyles(window._tc);
+}
+
+function mcUpdateDisplay(){
+  const valEl=document.getElementById('mc-val');
+  const exEl=document.getElementById('mc-expr');
+  if(valEl){
+    const s=mcDisplay.length>13?parseFloat(mcDisplay).toExponential(4):mcDisplay;
+    valEl.textContent=s;
+  }
+  if(exEl)exEl.textContent=(mcPrev!==null&&mcOp)?mcPrev+' '+mcOp:'';
+}
+
+function mcDoCalc(){
+  const a=mcPrev,b=parseFloat(mcDisplay);
+  let res;
+  if(mcOp==='+')res=a+b;
+  else if(mcOp==='-')res=a-b;
+  else if(mcOp==='×')res=a*b;
+  else if(mcOp==='÷')res=b!==0?a/b:NaN;
+  if(isNaN(res)){mcDisplay='خطأ';}
+  else{mcDisplay=String(parseFloat(res.toPrecision(12)));}
+  mcFresh=true;
+}
+
+function mcPress(k){
+  try{if(vibrationEnabled&&navigator.vibrate)navigator.vibrate(15);}catch(e){}
+  if(k==='C'){mcDisplay='0';mcPrev=null;mcOp=null;mcFresh=true;}
+  else if(k==='DEL'){
+    if(!mcFresh&&mcDisplay.length>1)mcDisplay=mcDisplay.slice(0,-1);
+    else{mcDisplay='0';mcFresh=true;}
+  }
+  else if(k==='±'){
+    if(mcDisplay!=='0'&&mcDisplay!=='خطأ')mcDisplay=mcDisplay.startsWith('-')?mcDisplay.slice(1):'-'+mcDisplay;
+  }
+  else if(k==='%'){
+    const v=parseFloat(mcDisplay);
+    if(!isNaN(v)){mcDisplay=String(v/100);mcFresh=true;}
+  }
+  else if(['+','-','×','÷'].includes(k)){
+    if(mcOp&&!mcFresh)mcDoCalc();
+    mcPrev=parseFloat(mcDisplay);
+    mcOp=k;mcFresh=true;
+  }
+  else if(k==='='){
+    if(mcOp&&mcPrev!==null){mcDoCalc();mcOp=null;mcPrev=null;}
+  }
+  else if(k==='.'){
+    if(mcFresh){mcDisplay='0.';mcFresh=false;}
+    else if(!mcDisplay.includes('.'))mcDisplay+='.';
+  }
+  else{
+    if(mcFresh||mcDisplay==='0'||mcDisplay==='خطأ'){mcDisplay=k;mcFresh=false;}
+    else if(mcDisplay.length<13)mcDisplay+=k;
+  }
+  mcUpdateDisplay();
+}
 
 // v17729164
 
