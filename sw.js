@@ -28,7 +28,7 @@ self.addEventListener('fetch', e => {
   }
 
   // الأيقونات - دائماً من الشبكة (لا تُكاش)
-  if (url.includes('icon-') || url.includes('.png') || url.includes('.ico')) {
+  if (url.includes('.png') || url.includes('.ico') || url.includes('icon') || url.includes('logo') || url.includes('apple-icon')) {
     e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
     return;
   }
