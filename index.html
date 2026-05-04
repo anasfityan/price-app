@@ -18,6 +18,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;800;900&family=Space+Mono:wght@700&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
 <style>
+/* ===== THEME VARIABLES — set on body by JS ===== */
+body{
+  --bg:#0a0a0a; --bg2:#131313; --bg3:#1c1c1c; --bg4:#242424; --bg5:#2e2e2e;
+  --txt:#f0ece0; --mu:#6a6258; --mu2:#8a8070;
+  --gld:#c9a84c; --gld2:#e8c96a; --grn:#4caf7d; --red:#e05c5c;
+  --bn-gold:#c9a84c;
+  --font-main:'Tajawal',sans-serif;
+}
+/* legacy vars for old components */
 :root{
   --gold:#c9a84c;--gold-light:#e8c96a;--gold-dim:rgba(201,168,76,0.15);
   --dark:#0a0a0a;--dark2:#131313;--dark3:#1a1a1a;--dark4:#242424;--dark5:#2e2e2e;
@@ -185,14 +194,14 @@ body{font-family:var(--font-main);background-color:var(--dark);color:#f0ece0;hei
 
 /* ===== BOTTOM NAV BAR — PILL STYLE ===== */
 @keyframes bnPulse{
-  0%{transform:scale(1);opacity:.7;}
-  60%{transform:scale(1.65);opacity:.1;}
-  100%{transform:scale(1.65);opacity:0;}
+  0%{transform:scale(1);opacity:.35;}
+  70%{transform:scale(1.3);opacity:.05;}
+  100%{transform:scale(1.3);opacity:0;}
 }
 @keyframes bnPulse2{
-  0%{transform:scale(1);opacity:.5;}
-  60%{transform:scale(2.1);opacity:.05;}
-  100%{transform:scale(2.1);opacity:0;}
+  0%{transform:scale(1);opacity:.2;}
+  70%{transform:scale(1.55);opacity:.02;}
+  100%{transform:scale(1.55);opacity:0;}
 }
 .bottom-nav-wrap{
   position:fixed;bottom:0;left:0;right:0;
@@ -202,15 +211,15 @@ body{font-family:var(--font-main);background-color:var(--dark);color:#f0ece0;hei
 }
 .bottom-nav{
   pointer-events:all;
-  background:rgba(10,10,10,.45);
-  backdrop-filter:blur(24px) saturate(1.6);
-  -webkit-backdrop-filter:blur(24px) saturate(1.6);
+  background:rgba(10,10,10,.3);
+  backdrop-filter:blur(28px) saturate(1.8);
+  -webkit-backdrop-filter:blur(28px) saturate(1.8);
   border:none;
   border-radius:40px;
   display:flex;align-items:center;
   padding:8px 10px;
   gap:4px;
-  box-shadow:0 8px 32px rgba(0,0,0,.35);
+  box-shadow:0 4px 20px rgba(0,0,0,.25);
   width:100%;max-width:420px;
   transition:background .3s, box-shadow .3s;
 }
@@ -228,32 +237,33 @@ body{font-family:var(--font-main);background-color:var(--dark);color:#f0ece0;hei
   transition:background .28s cubic-bezier(.4,0,.2,1),box-shadow .28s,transform .15s;
   background:transparent;
 }
+/* ALL active tabs — dark with subtle gold glow */
 .bn-tab.active .bn-ico-wrap{
-  background:linear-gradient(145deg,#c9a84c,#f0d060);
-  box-shadow:0 4px 18px rgba(201,168,76,.45);
+  background:rgba(0,0,0,.45);
+  box-shadow:0 0 12px rgba(201,168,76,.2);
 }
 .bn-tab:active .bn-ico-wrap{transform:scale(.88);}
-/* pulse rings — oval shape matching container */
+/* pulse rings — on ALL active tabs */
 .bn-ring1,.bn-ring2{
   position:absolute;
-  inset:-3px;
-  border-radius:20px;
-  border:1.5px solid rgba(201,168,76,.75);
+  inset:0;
+  border-radius:17px;
+  border:1px solid rgba(201,168,76,.5);
   opacity:0;pointer-events:none;
 }
-.bn-tab.active .bn-ring1{animation:bnPulse 2.4s ease-out infinite;}
-.bn-tab.active .bn-ring2{animation:bnPulse2 2.4s ease-out .6s infinite;}
+.bn-tab.active .bn-ring1{animation:bnPulse 3s ease-out infinite;}
+.bn-tab.active .bn-ring2{animation:bnPulse2 3s ease-out .8s infinite;}
 /* icon SVG */
 .bn-svg{display:block;transition:stroke .25s,fill .25s;}
-.bn-tab .bn-svg{stroke:#505050;fill:none;}
-.bn-tab.active .bn-svg{stroke:#0a0a0a;fill:none;}
+.bn-tab .bn-svg{stroke:#484848;fill:none;}
+.bn-tab.active .bn-svg{stroke:var(--bn-gold,#c9a84c);fill:none;}
 /* label */
 .bn-label{
   font-size:9px;font-weight:800;letter-spacing:.5px;
   color:#404040;font-family:'Outfit',sans-serif;
   transition:color .25s;text-transform:uppercase;line-height:1;
 }
-.bn-tab.active .bn-label{color:#c9a84c;}
+.bn-tab.active .bn-label{color:var(--bn-gold,#c9a84c);}
 
 /* ===== SCREENS ===== */
 .screen{display:none;flex:1;flex-direction:column;overflow:hidden;}
@@ -325,70 +335,88 @@ body{font-family:var(--font-main);background-color:var(--dark);color:#f0ece0;hei
 .calc-toggle-arrow.open{transform:rotate(180deg);}
 .calc-toggle-lbl{font-size:9px;color:#4a4030;font-family:'Outfit',sans-serif;letter-spacing:1.5px;text-transform:uppercase;}
 
+/* Keyboard card — same as home kb-card */
+.calc-kb-card{
+  background:#131313;
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:14px;
+  padding:8px;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  box-shadow:0 2px 8px rgba(0,0,0,.3);
+  overflow:hidden;
+}
+
 /* Main grid */
 .calc-kb{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   grid-template-rows:repeat(5,1fr);
-  gap:6px;
+  gap:5px;
   flex:1;
 }
 
-/* ── Base button — matches screenshot exactly ── */
+/* ── Rectangular like home screen ── */
 .ck{
-  border-radius:14px;
-  font-size:18px;font-weight:700;
+  border-radius:10px;
+  font-size:16px;font-weight:700;
   cursor:pointer;
   display:flex;align-items:center;justify-content:center;
   font-family:'Space Mono',monospace;
   border:none;outline:none;
-  transition:opacity .1s, transform .08s;
+  transition:background .1s,transform .1s;
   user-select:none;
   -webkit-tap-highlight-color:transparent;
 }
-.ck:active{opacity:.65;transform:scale(.96);}
+.ck:active{transform:scale(.94);opacity:.85;}
 
-/* Numbers — dark background like screenshot */
+/* Numbers */
 .ck-num{
-  background:#1c1c1e;
-  color:#f5f5f0;
+  background:linear-gradient(160deg,#1e1e1e,#141414);
+  border:1px solid #2a2a2a;
+  color:#f0ece0;
+  box-shadow:0 2px 4px rgba(0,0,0,.3);
 }
 
-/* Function buttons AC +/- % — slightly lighter */
+/* Function AC +/- % */
 .ck-fn{
-  background:#2c2c2e;
-  color:#f5f5f0;
-  font-size:14px;
-  font-family:'Outfit',sans-serif;font-weight:700;
+  background:linear-gradient(160deg,#252018,#1a1810);
+  border:1px solid #2e2818;
+  color:#a08840;
+  font-size:13px;
+  font-family:'Outfit',sans-serif;font-weight:800;
+  box-shadow:0 2px 4px rgba(0,0,0,.3);
 }
 
-/* Operators — gold */
+/* Operators */
 .ck-op{
-  background:#c9a84c;
-  color:#1a1000;
-  font-size:20px;
-  font-weight:600;
+  background:linear-gradient(135deg,#c9a84c,#e8c96a);
+  color:#0a0a0a;
+  font-size:18px;font-weight:700;
+  box-shadow:0 2px 8px rgba(201,168,76,.25);
 }
 
-/* Equals — gold */
+/* Equals */
 .ck-eq{
-  background:#c9a84c;
-  color:#1a1000;
-  font-size:22px;
-  font-weight:600;
+  background:linear-gradient(135deg,#c9a84c,#e8c96a);
+  color:#0a0a0a;
+  font-size:20px;font-weight:700;
+  box-shadow:0 4px 14px rgba(201,168,76,.3);
 }
 
 /* Scientific */
 .ck-sci{
-  border-radius:12px;font-size:11px;font-weight:600;
+  border-radius:9px;font-size:11px;font-weight:600;
   cursor:pointer;display:flex;align-items:center;justify-content:center;
-  font-family:'Outfit',sans-serif;border:none;outline:none;
-  background:#1c1c1e;color:#666;padding:8px 2px;
+  font-family:'Outfit',sans-serif;
+  border:1px solid #242424;outline:none;
+  background:#1a1a1a;color:#555;padding:8px 2px;
   -webkit-tap-highlight-color:transparent;
 }
 .ck-sci:active{opacity:.6;}
 
-.ck-zero{grid-column:span 2;justify-content:flex-start;padding-left:20px;}
+.ck-zero{grid-column:span 2;justify-content:flex-start;padding-left:18px;}
 
 
 /* ===== APPEARANCE SCREEN ===== */
@@ -398,6 +426,89 @@ body{font-family:var(--font-main);background-color:var(--dark);color:#f0ece0;hei
 
 /* ===== RATES SCREEN ===== */
 .rates-screen-scroll{flex:1;overflow-y:auto;padding:10px 12px 70px;display:flex;flex-direction:column;gap:14px;}
+
+/* ===== UNIVERSAL THEME-AWARE STYLES (CSS vars) ===== */
+body{background:var(--bg);color:var(--txt);}
+.topbar{background:var(--bg2)!important;}
+.topbar-store span{color:var(--gld)!important;}
+.topbar-sub{color:var(--mu)!important;}
+.topbar-logo-wrap{background:var(--bg3)!important;border-color:var(--gld)!important;}
+.rate-ticker{background:var(--bg2)!important;}
+.ticker-label{color:var(--mu)!important;}
+.ticker-val{color:var(--gld)!important;}
+.ticker-dot{background:var(--grn)!important;}
+.ticker-change.up{color:var(--grn)!important;}
+.ticker-change.dn{color:var(--red)!important;}
+/* result area */
+#resultFixed{border-color:var(--bg4)!important;}
+#resultFixed>div:first-child{background:linear-gradient(135deg,color-mix(in srgb,var(--gld) 12%,transparent),color-mix(in srgb,var(--gld) 3%,transparent))!important;border-color:color-mix(in srgb,var(--gld) 25%,transparent)!important;}
+#res-amount{background:linear-gradient(135deg,var(--gld),var(--gld2))!important;-webkit-background-clip:text!important;-webkit-text-fill-color:transparent!important;}
+#res-cur,#lbl-res{color:var(--mu2)!important;}
+#res-usd-box,#res-profit-box{background:var(--bg2)!important;border-color:var(--bg4)!important;}
+#res-usd-val{color:var(--gld)!important;}
+#lbl-usd-box,#lbl-profit-box{color:var(--mu)!important;}
+#res-profit-val{color:var(--grn)!important;}
+/* scroll & display */
+.scroll-area{background:var(--bg)!important;}
+.display-card{background:var(--bg2)!important;border-color:var(--bg4)!important;}
+.display-lbl{color:var(--mu)!important;}
+.display-val{color:var(--txt)!important;}
+.display-sym{color:var(--gld)!important;}
+/* chart */
+.chart-card{background:var(--bg2)!important;border-color:var(--bg4)!important;}
+.chart-title{color:var(--mu)!important;}
+.chart-tab{background:var(--bg3)!important;color:var(--mu2)!important;border-color:var(--bg5)!important;}
+.chart-tab.on{background:color-mix(in srgb,var(--gld) 15%,transparent)!important;color:var(--gld)!important;border-color:var(--gld)!important;}
+/* keyboard */
+.kb-card{background:var(--bg2)!important;border-color:var(--bg4)!important;}
+.kb-luxury .k,.kb-neon .k,.kb-flat .k{background:var(--bg3)!important;color:var(--txt)!important;border-color:var(--bg4)!important;}
+.kb-luxury .k.k-ok,.kb-glass .k.k-ok,.kb-neon .k.k-ok,.kb-flat .k.k-ok,.kb-round .k.k-ok{background:linear-gradient(135deg,var(--gld),var(--gld2))!important;color:var(--bg)!important;}
+.kb-luxury .k.k-del,.kb-glass .k.k-del,.kb-neon .k.k-del,.kb-flat .k.k-del,.kb-round .k.k-del{color:var(--red)!important;}
+/* calc screen */
+.calc-display-card{background:linear-gradient(160deg,color-mix(in srgb,var(--gld) 9%,transparent),transparent)!important;border-color:color-mix(in srgb,var(--gld) 18%,transparent)!important;}
+#sc-calcDisplay{color:var(--txt)!important;}
+#sc-calcExpr,#sc-calcHistory{color:var(--mu)!important;}
+.calc-sub-row{border-color:color-mix(in srgb,var(--gld) 15%,transparent)!important;}
+.calc-mem-lbl,#sc-calcResult{color:var(--mu)!important;}
+.calc-kb-card{background:var(--bg2)!important;border-color:var(--bg4)!important;}
+.ck-num{background:linear-gradient(160deg,var(--bg3),var(--bg2))!important;color:var(--txt)!important;border-color:var(--bg4)!important;}
+.ck-fn{background:var(--bg4)!important;color:var(--mu2)!important;border-color:var(--bg5)!important;}
+.ck-op,.ck-eq{background:linear-gradient(135deg,var(--gld),var(--gld2))!important;color:var(--bg)!important;}
+.ck-sci{background:var(--bg3)!important;color:var(--mu)!important;border-color:var(--bg4)!important;}
+.calc-toggle-lbl,.calc-toggle-arrow{color:var(--mu)!important;}
+/* rates screen */
+.rates-screen-scroll{background:var(--bg)!important;}
+/* appear screen */
+.appear-screen-scroll{background:var(--bg)!important;}
+.appear-section{background:var(--bg2)!important;border-color:var(--bg4)!important;}
+.appear-section-title{color:var(--gld)!important;}
+/* drawer & panels */
+.drawer{background:var(--bg2)!important;}
+.panel{background:var(--bg2)!important;}
+.panel-header{background:var(--bg3)!important;}
+.panel-back{background:var(--bg4)!important;color:var(--txt)!important;border-color:var(--bg5)!important;}
+.panel-title{color:var(--gld)!important;}
+.dsec-title{color:var(--gld)!important;}
+.dfield label{color:var(--mu)!important;}
+.diw{background:var(--bg3)!important;border-color:var(--bg4)!important;}
+.diw input{color:var(--txt)!important;background:transparent!important;}
+.diw .dunit{color:var(--gld)!important;border-color:var(--bg4)!important;}
+.save-btn{background:linear-gradient(135deg,var(--gld),var(--gld2))!important;color:var(--bg)!important;}
+.lang-btn{background:var(--bg3)!important;color:var(--mu2)!important;border-color:var(--bg5)!important;}
+.lang-btn.on{background:color-mix(in srgb,var(--gld) 15%,transparent)!important;color:var(--gld)!important;border-color:var(--gld)!important;}
+.theme-row .tdot.active{outline-color:var(--gld)!important;}
+.kbdot{background:var(--bg3)!important;border-color:var(--bg5)!important;}
+.kbdot.active{background:color-mix(in srgb,var(--gld) 15%,transparent)!important;border-color:var(--gld)!important;}
+/* snav buttons */
+.snav-btn{background:var(--bg3)!important;border-color:var(--bg4)!important;}
+.snav-icon{background:color-mix(in srgb,var(--gld) 12%,transparent)!important;}
+.snav-title{color:var(--txt)!important;}
+.snav-sub{color:var(--mu)!important;}
+/* bottom nav active */
+.bn-tab.active .bn-svg{stroke:var(--bn-gold,var(--gld))!important;}
+.bn-tab.active .bn-label{color:var(--bn-gold,var(--gld))!important;}
+.bn-tab.active .bn-ico-wrap{background:color-mix(in srgb,var(--gld) 18%,rgba(0,0,0,.4))!important;}
+.bn-ring1,.bn-ring2{border-color:color-mix(in srgb,var(--gld) 50%,transparent)!important;}
 
 /* ===== CONCRETE THEME STYLES (Samsung-safe: no CSS vars) ===== */
 body.th-gold .topbar { background-color:#131313 !important; border-bottom-color:rgba(128,128,128,0.15) !important; }
@@ -990,6 +1101,7 @@ body.th-forest .footer-bar{background:#0e160e!important;color:#2a4a2a!important;
       </div>
     </div>
 
+    <div class="calc-kb-card">
     <div class="calc-kb">
       <button class="ck ck-fn" onclick="scCalcInput('C')">AC</button>
       <button class="ck ck-fn" onclick="scCalcInput('±')">+/-</button>
@@ -1011,6 +1123,7 @@ body.th-forest .footer-bar{background:#0e160e!important;color:#2a4a2a!important;
       <button class="ck ck-num" onclick="scCalcInput('.')">.</button>
       <button class="ck ck-eq" onclick="scCalcInput('=')">=</button>
     </div>
+    </div>
 
   </div>
 </div>
@@ -1018,29 +1131,71 @@ body.th-forest .footer-bar{background:#0e160e!important;color:#2a4a2a!important;
 <!-- ===================== SCREEN: RATES ===================== -->
 <div class="screen" id="screen-rates">
   <div class="rates-screen-scroll">
-    <div style="background:#131313;border:1px solid rgba(201,168,76,.15);border-radius:16px;padding:16px;">
-      <div style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:#c9a84c;font-weight:700;margin-bottom:14px;font-family:'Outfit',sans-serif;padding-bottom:8px;border-bottom:1px solid #242424;">💱 Exchange Rates</div>
-      <div class="dfield">
-        <label for="usdIqd2" id="lbl-iqd2">USD to Iraqi Dinar</label>
-        <div class="diw"><input type="number" id="usdIqd2" value="1530" min="1" inputmode="numeric"><div class="dunit">IQD</div></div>
-      </div>
-      <div class="dfield" style="margin-top:10px;">
-        <label for="usdTry2" id="lbl-try2">USD to Turkish Lira</label>
-        <div class="diw"><input type="number" id="usdTry2" value="43" min="1" inputmode="numeric"><div class="dunit">TRY</div></div>
-      </div>
-      <button class="save-btn" style="margin-top:14px;" onclick="saveRatesFromScreen()">💾 Save Rates</button>
-      <div id="ratesSaveOk" style="text-align:center;font-size:12px;color:#4caf7d;margin-top:6px;opacity:0;transition:opacity .3s;height:16px;font-family:'Outfit',sans-serif;"></div>
+
+    <!-- Header -->
+    <div style="padding:2px 2px 6px;">
+      <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#c9a84c;font-weight:700;font-family:'Outfit',sans-serif;">Exchange Rates</div>
+      <div style="font-size:20px;font-weight:900;color:#f0ece0;font-family:'Outfit',sans-serif;margin-top:2px;">Live & Custom Rates</div>
     </div>
 
-    <div style="background:#131313;border:1px solid rgba(255,255,255,.05);border-radius:16px;padding:16px;">
-      <div style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:#c9a84c;font-weight:700;margin-bottom:12px;font-family:'Outfit',sans-serif;">📊 Live Rate</div>
-      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(201,168,76,.05);border-radius:12px;border:1px solid rgba(201,168,76,.1);">
-        <div class="ticker-dot"></div>
-        <div style="font-size:11px;color:#6a6258;" id="tl-ticker2">TRY / USD</div>
-        <div style="color:#c9a84c;font-weight:700;font-family:'Space Mono',monospace;font-size:14px;margin-right:auto;" id="tickerRate2">...</div>
-        <div style="font-size:11px;" id="tickerChange2" class="ticker-change up">Updating...</div>
+    <!-- Live rates row -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+
+      <!-- TRY/USD live -->
+      <div style="background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.02));border:1px solid rgba(201,168,76,.18);border-radius:16px;padding:12px 14px;">
+        <div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#6a6258;font-family:'Outfit',sans-serif;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:5px;">
+          <div class="ticker-dot" style="width:5px;height:5px;"></div>TRY/USD
+        </div>
+        <div style="font-size:22px;font-weight:900;color:#f0ece0;font-family:'Space Mono',monospace;line-height:1;" id="tickerRate2">...</div>
+        <div id="tickerChange2" class="ticker-change up" style="font-size:10px;margin-top:4px;font-family:'Outfit',sans-serif;">live</div>
+      </div>
+
+      <!-- EUR/USD live -->
+      <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:12px 14px;">
+        <div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#6a6258;font-family:'Outfit',sans-serif;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:5px;">
+          <div class="ticker-dot" style="width:5px;height:5px;"></div>EUR/USD
+        </div>
+        <div style="font-size:22px;font-weight:900;color:#f0ece0;font-family:'Space Mono',monospace;line-height:1;" id="eurUsdRate">...</div>
+        <div style="font-size:10px;color:#6a6258;margin-top:4px;font-family:'Outfit',sans-serif;" id="eurUsdLbl">live</div>
+      </div>
+
+    </div>
+
+    <!-- Divider -->
+    <div style="display:flex;align-items:center;gap:10px;padding:2px 0;">
+      <div style="flex:1;height:1px;background:rgba(255,255,255,.06);"></div>
+      <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#3a3a3a;font-family:'Outfit',sans-serif;">Custom Rates</div>
+      <div style="flex:1;height:1px;background:rgba(255,255,255,.06);"></div>
+    </div>
+
+    <!-- IQD input -->
+    <div style="background:#131313;border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:12px 14px;">
+      <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#6a6258;font-family:'Outfit',sans-serif;font-weight:700;margin-bottom:8px;" id="lbl-iqd2">USD → Iraqi Dinar</div>
+      <div style="display:flex;align-items:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;overflow:hidden;">
+        <div style="padding:0 12px;font-size:10px;font-weight:700;color:#4a4a4a;font-family:'Outfit',sans-serif;border-right:1px solid rgba(255,255,255,.05);white-space:nowrap;flex-shrink:0;">1 USD</div>
+        <input type="number" id="usdIqd2" value="1530" min="1" inputmode="numeric"
+          style="flex:1;background:transparent;border:none;outline:none;color:#f0ece0;font-family:'Space Mono',monospace;font-size:18px;font-weight:700;padding:12px 10px;text-align:right;direction:ltr;width:0;">
+        <div style="padding:0 12px;font-size:11px;font-weight:800;color:#c9a84c;font-family:'Outfit',sans-serif;flex-shrink:0;">IQD</div>
       </div>
     </div>
+
+    <!-- TRY input -->
+    <div style="background:#131313;border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:12px 14px;">
+      <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#6a6258;font-family:'Outfit',sans-serif;font-weight:700;margin-bottom:8px;" id="lbl-try2">USD → Turkish Lira</div>
+      <div style="display:flex;align-items:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;overflow:hidden;">
+        <div style="padding:0 12px;font-size:10px;font-weight:700;color:#4a4a4a;font-family:'Outfit',sans-serif;border-right:1px solid rgba(255,255,255,.05);white-space:nowrap;flex-shrink:0;">1 USD</div>
+        <input type="number" id="usdTry2" value="43" min="1" inputmode="numeric"
+          style="flex:1;background:transparent;border:none;outline:none;color:#f0ece0;font-family:'Space Mono',monospace;font-size:18px;font-weight:700;padding:12px 10px;text-align:right;direction:ltr;width:0;">
+        <div style="padding:0 12px;font-size:11px;font-weight:800;color:#c9a84c;font-family:'Outfit',sans-serif;flex-shrink:0;">TRY</div>
+      </div>
+    </div>
+
+    <!-- Save -->
+    <button onclick="saveRatesFromScreen()" style="width:100%;background:linear-gradient(135deg,#c9a84c,#e8c96a);color:#0a0a0a;border:none;border-radius:14px;padding:14px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:800;cursor:pointer;letter-spacing:.5px;box-shadow:0 4px 16px rgba(201,168,76,.25);transition:opacity .15s;">
+      Save Rates
+    </button>
+    <div id="ratesSaveOk" style="text-align:center;font-size:11px;color:#4caf7d;opacity:0;transition:opacity .3s;height:14px;font-family:'Outfit',sans-serif;margin-top:-6px;"></div>
+
   </div>
 </div>
 
@@ -1572,159 +1727,37 @@ const THEME_COLORS={
 
 
 function applyThemeStyles(c){
-  const $=s=>document.querySelector(s);
-  const $$=s=>document.querySelectorAll(s);
-
-  // BODY
-  document.body.style.cssText='background:'+c.bg+'!important;color:'+c.text+'!important;';
-
-  // TOPBAR
-  var el=$('.topbar');
-  if(el)el.style.cssText='background:'+c.bg2+'!important;';
-  el=$('.topbar-store');
-  if(el){el.style.color=c.text;}
-  var sp=document.querySelector('.topbar-store span');
-  if(sp)sp.style.color=c.gold;
-  el=$('.topbar-sub');
-  if(el)el.style.color=c.muted;
-  el=$('.topbar-logo-wrap');
-  if(el){el.style.background=c.bg3;el.style.borderColor=c.gold+'99';}
-  el=$('.menu-btn');
-  if(el){el.style.background=c.bg3;el.style.borderColor=c.bg5;}
-  $$('.menu-btn span').forEach(function(e){e.style.background=c.muted2;});
-
-  // TICKER
-  el=$('.rate-ticker');
-  if(el)el.style.background=c.bg2;
-  el=$('.ticker-label');
-  if(el)el.style.color=c.muted;
-  el=$('.ticker-val');
-  if(el)el.style.color=c.gold;
-  el=$('.ticker-dot');
-  if(el)el.style.background=c.green;
-  $$('.ticker-change.up').forEach(function(e){e.style.color=c.green;});
-  $$('.ticker-change.dn').forEach(function(e){e.style.color=c.red;});
-
-  // SCROLL AREA & DISPLAY CARD
-  el=$('.scroll-area');
-  if(el)el.style.background=c.bg;
-  el=$('.display-card');
-  if(el){el.style.background=c.bg2;el.style.borderColor=c.bg4;}
-  $$('.display-lbl').forEach(function(e){e.style.color=c.muted;});
-  $$('.display-val').forEach(function(e){e.style.color=c.text;});
-  $$('.display-sym').forEach(function(e){e.style.color=c.gold;});
-
-  // KEYBOARD
-  el=$('.kb-card');
-  if(el){el.style.background=c.bg2;el.style.borderColor=c.bg4;}
-  $$('.k').forEach(function(e){
-    if(e.classList.contains('k-ok')){e.style.background=c.gold;e.style.color=c.bg;}
-    else if(e.classList.contains('k-del')){e.style.background=c.bg3;e.style.color=c.red;e.style.borderColor=c.bg5;}
-    else{e.style.background=c.bg3;e.style.color=c.text;e.style.borderColor=c.bg5;}
-  });
-
-  // CHART
-  el=$('.chart-card');
-  if(el){el.style.background=c.bg2;el.style.borderColor=c.bg4;}
-  el=$('.chart-head');
-  if(el)el.style.background=c.bg2;
-  $$('.chart-title').forEach(function(e){e.style.color=c.muted;});
-  $$('.chart-tab').forEach(function(e){
-    if(e.classList.contains('on')){e.style.background=c.gold+'22';e.style.color=c.gold;e.style.borderColor=c.gold;}
-    else{e.style.background=c.bg3;e.style.color=c.muted2;e.style.borderColor=c.bg5;}
-  });
-
-  // RESULT BOXES (snav)
-  el=$('.snav-btn');
-  $$('.snav-btn').forEach(function(e){e.style.background=c.bg2;e.style.borderColor=c.bg4;});
-  $$('.snav-title').forEach(function(e){e.style.color=c.text;});
-  $$('.snav-sub').forEach(function(e){e.style.color=c.muted;});
-  $$('.snav-icon').forEach(function(e){e.style.color=c.gold;});
-  $$('.res-amount').forEach(function(e){e.style.color=c.gold;});
-
-  // DRAWER
-  el=$('.drawer');
-  if(el)el.style.background=c.bg2;
-  el=$('.drawer-header');
-  if(el)el.style.background=c.bg3;
-  el=$('.drawer-header-text');
-  if(el)el.style.color=c.text;
-  $$('.ddiv').forEach(function(e){e.style.borderColor=c.bg4;});
-  $$('.dsec-title').forEach(function(e){e.style.color=c.gold;});
-  $$('.dunit').forEach(function(e){e.style.color=c.text;});
-
-  // PANEL
-  $$('.panel').forEach(function(e){e.style.background=c.bg2;});
-  $$('.panel-header').forEach(function(e){e.style.background=c.bg3;});
-  $$('.panel-back').forEach(function(e){e.style.background=c.bg4;e.style.color=c.text;e.style.borderColor=c.bg5;});
-  $$('.panel-title').forEach(function(e){e.style.color=c.gold;});
-
-  // SETTINGS FIELDS  
-  $$('.dfield').forEach(function(e){e.style.background=c.bg3;e.style.borderColor=c.bg5;});
-  $$('.dsec').forEach(function(e){e.style.background=c.bg3;});
-  $$('input').forEach(function(e){e.style.background=c.bg3;e.style.color=c.text;e.style.borderColor=c.bg5;});
-  el=$('.save-btn');
-  if(el){el.style.background='linear-gradient(135deg,'+c.gold+','+c.gold_l+')';el.style.color=c.bg;}
-
-  // RESULT SIDE BOXES (inline styled)
-  el=document.getElementById('lbl-res');
-  if(el)el.style.color=c.muted2;
-  el=document.getElementById('res-amount');
-  if(el){el.style.background='linear-gradient(135deg,'+c.gold+','+c.gold_l+')';el.style.webkitBackgroundClip='text';el.style.webkitTextFillColor='transparent';}
-  el=document.getElementById('res-cur');
-  if(el)el.style.color=c.muted2;
-  el=document.getElementById('res-usd-box');
-  if(el){el.style.background=c.bg2;el.style.borderColor=c.bg4;}
-  el=document.getElementById('res-usd-val');
-  if(el)el.style.color=c.gold;
-  el=document.getElementById('lbl-usd-box');
-  if(el)el.style.color=c.muted;
-  el=document.getElementById('res-profit-box');
-  if(el){el.style.background=c.bg2;el.style.borderColor=c.bg4;}
-  el=document.getElementById('res-profit-val');
-  if(el)el.style.color=c.green;
-  el=document.getElementById('lbl-profit-box');
-  if(el)el.style.color=c.muted;
-  $$('.section-lbl-inline').forEach(function(e){e.style.color=c.gold;e.style.borderBottomColor=c.bg4;});
-
-  // OVERLAY
-  el=$('.overlay');
-  if(el)el.style.background='rgba(0,0,0,0.7)';
-
-  // THEME DOTS active color
-  $$('.tdot.active').forEach(function(e){e.style.outline='3px solid '+c.gold;e.style.outlineOffset='2px';});
-
-  // KB SELECTOR DOTS
-  $$('.kbdot').forEach(function(e){
-    if(e.classList.contains('active')){e.style.borderColor=c.gold;e.style.background=c.gold+'22';}
-    else{e.style.borderColor=c.bg5;e.style.background=c.bg3;}
-  });
-
-  // LANG BUTTONS
-  $$('.lang-btn').forEach(function(e){
-    if(e.classList.contains('on')){e.style.borderColor=c.gold;e.style.color=c.gold;e.style.background=c.gold+'22';}
-    else{e.style.borderColor=c.bg5;e.style.color=c.muted2;e.style.background=c.bg3;}
-  });
-
-  // BOTTOM NAV BAR
-  var nav=$('.bottom-nav');
+  // Single source of truth — all CSS vars on body
+  var b=document.body;
+  b.style.setProperty('--bg',  c.bg);
+  b.style.setProperty('--bg2', c.bg2);
+  b.style.setProperty('--bg3', c.bg3);
+  b.style.setProperty('--bg4', c.bg4);
+  b.style.setProperty('--bg5', c.bg5);
+  b.style.setProperty('--txt', c.text);
+  b.style.setProperty('--mu',  c.muted);
+  b.style.setProperty('--mu2', c.muted2);
+  b.style.setProperty('--gld', c.gold);
+  b.style.setProperty('--gld2',c.gold_l);
+  b.style.setProperty('--grn', c.green);
+  b.style.setProperty('--red', c.red);
+  b.style.setProperty('--bn-gold', c.gold);
+  b.style.cssText += ';background:'+c.bg+'!important;color:'+c.text+'!important;';
+  // nav bar bg
+  var nav=document.querySelector('.bottom-nav');
   if(nav){
-    // extract rgb from bg2 hex for semi-transparent version
     var hex=c.bg2.replace('#','');
-    var r=parseInt(hex.substr(0,2),16),g=parseInt(hex.substr(2,2),16),b=parseInt(hex.substr(4,2),16);
-    nav.style.background='rgba('+r+','+g+','+b+',.55)';
-    nav.style.boxShadow='0 8px 32px rgba(0,0,0,.3)';
+    var r=parseInt(hex.substr(0,2),16),g=parseInt(hex.substr(2,2),16),bv=parseInt(hex.substr(4,2),16);
+    nav.style.background='rgba('+r+','+g+','+bv+',.45)';
   }
-  // active tab label color
-  $$('.bn-tab.active .bn-label').forEach(function(e){e.style.color=c.gold;});
-  $$('.bn-tab.active .bn-ico-wrap').forEach(function(e){
-    e.style.background='linear-gradient(145deg,'+c.gold+','+c.gold_l+')';
-    e.style.boxShadow='0 4px 16px '+c.gold+'55';
-  });
-  $$('.bn-ring1,.bn-ring2').forEach(function(e){e.style.borderColor=c.gold+'cc';});
-
+  // clear stale inline colors on nav labels/icons
+  document.querySelectorAll('.bn-label').forEach(function(e){e.style.color='';});
+  document.querySelectorAll('.bn-svg').forEach(function(e){e.style.stroke='';});
+  // chart color update
+  updateChart();
   window._tc=c;
 }
+
 
 
 let vibrationEnabled=true;
@@ -1762,12 +1795,27 @@ function setTheme(t){
   THEMES.forEach(function(th){document.body.classList.remove('th-'+th);});
   document.body.classList.add('th-'+t);
   var c=THEME_COLORS[t];
-  if(c)applyThemeStyles(c);
+  if(c){
+    applyThemeStyles(c);
+    // also sync legacy :root-style vars on documentElement for old CSS
+    var r=document.documentElement;
+    r.style.setProperty('--gold',c.gold);
+    r.style.setProperty('--gold-light',c.gold_l);
+    r.style.setProperty('--dark',c.bg);
+    r.style.setProperty('--dark2',c.bg2);
+    r.style.setProperty('--dark3',c.bg3);
+    r.style.setProperty('--dark4',c.bg4);
+    r.style.setProperty('--dark5',c.bg5);
+    r.style.setProperty('--text',c.text);
+    r.style.setProperty('--muted',c.muted);
+    r.style.setProperty('--muted2',c.muted2);
+    r.style.setProperty('--green',c.green);
+    r.style.setProperty('--red',c.red);
+  }
   document.querySelectorAll('.tdot').forEach(function(el){el.classList.remove('active');});
   document.querySelectorAll('#td-'+t).forEach(function(el){el.classList.add('active');});
   try{localStorage.setItem('theme',t);}catch(e){}
   updateThemeSelectors(t);
-  // لا نستدعي setKb هنا - يُستدعى من init بشكل مستقل
   updateChart();
 }
 
@@ -1857,12 +1905,13 @@ function closeAppearPanel(){document.getElementById('appearPanel').classList.rem
 function switchScreen(name){
   ['home','calc','rates','appear'].forEach(function(s){
     document.getElementById('screen-'+s).classList.toggle('active', s===name);
-    // Home icon stays gold always — only toggle label color for others
-    if(s==='home'){
-      document.getElementById('bn-home').classList.add('active');
-    } else {
-      document.getElementById('bn-'+s).classList.toggle('active', s===name);
-    }
+    var btn=document.getElementById('bn-'+s);
+    btn.classList.toggle('active', s===name);
+    // clear inline style overrides so CSS .active class controls colors cleanly
+    var lbl=btn.querySelector('.bn-label');
+    var svg=btn.querySelector('.bn-svg');
+    if(lbl) lbl.style.color='';
+    if(svg) svg.style.stroke='';
   });
   // sync rates inputs when opening rates screen
   if(name==='rates'){
@@ -2020,15 +2069,25 @@ async function fetchTicker(){
     const d=await r.json();
     const tryRate=d.rates.TRY;
     const iqdRate=d.rates.IQD;
+    const eurRate=d.rates.EUR;
     document.getElementById('tickerRate').textContent=tryRate.toFixed(2)+' TL';
     document.getElementById('tickerChange').textContent=t.live;
     document.getElementById('tickerChange').className='ticker-change up';
+    // Rates screen
+    var tr2=document.getElementById('tickerRate2');
+    if(tr2)tr2.textContent=tryRate.toFixed(2);
+    var tc2=document.getElementById('tickerChange2');
+    if(tc2){tc2.textContent='live';tc2.className='ticker-change up';}
+    // EUR/USD
+    var eur=document.getElementById('eurUsdRate');
+    if(eur&&eurRate)eur.textContent=(1/eurRate).toFixed(4);
+    var eurLbl=document.getElementById('eurUsdLbl');
+    if(eurLbl)eurLbl.textContent='live';
     // Feed chart history
     tryHistory.push(parseFloat(tryRate.toFixed(2)));
     if(tryHistory.length>48)tryHistory.shift();
     usdHistory.push(parseFloat(iqdRate.toFixed(0)));
     if(usdHistory.length>48)usdHistory.shift();
-    // Save to localStorage for persistence
     try{localStorage.setItem('tryH',JSON.stringify({t:Date.now(),d:tryHistory}));
         localStorage.setItem('usdH',JSON.stringify({t:Date.now(),d:usdHistory}));}catch(e){}
     updateChart();
