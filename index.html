@@ -46,19 +46,6 @@ body.th-midnight{
   --btn-2:#1a2138; --btn-2-tx:#a8b6d4; --label:#6f86b3; --hl:#1f2a4a;
   --pos:#82b89a; --neg:#d9869a;
 }
-/* BRONZE — warm copper */
-body.th-bronze{
-  --bg:#0d0a08; --bg2:#16110d; --bg3:#211a14; --bg4:#2d2419; --bg5:#3a2f22;
-  --txt:#f0e6d8; --mu:#8a7d6a; --mu2:#a89a85;
-  --gld:#d49266; --gld2:#e8ad85; --gld-rgb:212,146,102;
-  --grn:#8ab884; --grn-rgb:138,184,132;
-  --red:#d97a72; --red-rgb:217,122,114;
-  --nav-acc:#d49266; --bn-gold:#d49266;
-  --shadow-color:0,0,0;
-  --num:#f5d8b8; --sym:#d49266; --field:#1c130e; --field-bd:#4a3624;
-  --btn-2:#2a1f15; --btn-2-tx:#c9a888; --label:#a88060; --hl:#3d2818;
-  --pos:#8ab884; --neg:#d97a72;
-}
 /* EMERALD — cool green dark */
 body.th-emerald{
   --bg:#060e0b; --bg2:#0c1812; --bg3:#12231a; --bg4:#1a3026; --bg5:#243d32;
@@ -347,22 +334,22 @@ body{font-family:var(--font-main);background-color:var(--dark);color:#f0ece0;hei
   transition:background .28s cubic-bezier(.4,0,.2,1),box-shadow .28s,transform .15s;
   background:transparent;
 }
-/* ALL active tabs — dark with subtle gold glow */
+/* ALL active tabs — themed glow */
 .bn-tab.active .bn-ico-wrap{
-  background:rgba(0,0,0,.45);
-  box-shadow:0 0 12px rgba(201,168,76,.2);
+  background:color-mix(in srgb,var(--nav-acc,#c9a84c) 15%,rgba(0,0,0,.4));
+  box-shadow:0 0 14px rgba(var(--gld-rgb,201,168,76),.25);
 }
 .bn-tab:active .bn-ico-wrap{transform:scale(.88);}
-/* pulse rings — on ALL active tabs */
+/* pulse rings — themed color */
 .bn-ring1,.bn-ring2{
   position:absolute;
   inset:0;
   border-radius:17px;
-  border:1px solid rgba(201,168,76,.5);
+  border:1.5px solid rgba(var(--gld-rgb,201,168,76),.55);
   opacity:0;pointer-events:none;
 }
-.bn-tab.active .bn-ring1{animation:bnPulse 3s ease-out infinite;}
-.bn-tab.active .bn-ring2{animation:bnPulse2 3s ease-out .8s infinite;}
+.bn-tab.active .bn-ring1{animation:bnPulse 2.5s ease-out infinite;}
+.bn-tab.active .bn-ring2{animation:bnPulse2 2.5s ease-out .7s infinite;}
 /* icon SVG */
 .bn-svg{display:block;transition:stroke .25s,fill .25s;}
 .bn-tab .bn-svg{stroke:color-mix(in srgb,var(--txt,#f0f0f0) 30%,transparent);fill:none;}
@@ -851,33 +838,35 @@ body{background:var(--bg)!important;color:var(--txt)!important;}
     </div>
 
     <!-- Live rates row -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
 
       <!-- TRY/USD live -->
-      <div style="background:linear-gradient(135deg,color-mix(in srgb,var(--gld) 10%,transparent),color-mix(in srgb,var(--gld) 2%,transparent));border:1px solid color-mix(in srgb,var(--gld) 20%,transparent);border-radius:16px;padding:12px 14px;">
-        <div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mu);font-family:'Outfit',sans-serif;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:5px;">
-          <div class="ticker-dot" style="width:5px;height:5px;"></div>TRY/USD
+      <div style="background:linear-gradient(145deg,color-mix(in srgb,var(--gld) 14%,var(--bg2)),var(--bg2));border:1.5px solid color-mix(in srgb,var(--gld) 28%,transparent);border-radius:16px;padding:14px;">
+        <div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mu2);font-family:'Outfit',sans-serif;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:5px;">
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--grn);box-shadow:0 0 6px rgba(var(--grn-rgb),.6);animation:pulse 2s infinite;flex-shrink:0;"></div>TRY/USD
         </div>
-        <div style="font-size:22px;font-weight:900;color:var(--txt);font-family:'Space Mono',monospace;line-height:1;" id="tickerRate2">...</div>
-        <div id="tickerChange2" class="ticker-change up" style="font-size:10px;margin-top:4px;font-family:'Outfit',sans-serif;">live</div>
+        <div style="font-size:26px;font-weight:900;color:var(--gld);font-family:'Space Mono',monospace;line-height:1;letter-spacing:-1px;" id="tickerRate2">...</div>
+        <div style="margin-top:2px;font-size:9px;font-weight:700;color:var(--mu);font-family:'Outfit',sans-serif;">Turkish Lira</div>
+        <div id="tickerChange2" class="ticker-change up" style="font-size:10px;margin-top:6px;font-family:'Outfit',sans-serif;font-weight:700;">● live</div>
       </div>
 
-      <!-- EUR/USD live -->
-      <div style="background:color-mix(in srgb,var(--bg3) 80%,transparent);border:1px solid color-mix(in srgb,var(--txt) 10%,transparent);border-radius:16px;padding:12px 14px;">
-        <div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mu);font-family:'Outfit',sans-serif;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:5px;">
-          <div class="ticker-dot" style="width:5px;height:5px;"></div>EUR/TRY
+      <!-- EUR/TRY live -->
+      <div style="background:linear-gradient(145deg,color-mix(in srgb,var(--mu) 8%,var(--bg2)),var(--bg2));border:1.5px solid color-mix(in srgb,var(--txt) 12%,transparent);border-radius:16px;padding:14px;">
+        <div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mu2);font-family:'Outfit',sans-serif;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:5px;">
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--grn);box-shadow:0 0 6px rgba(var(--grn-rgb),.6);animation:pulse 2s infinite .5s;flex-shrink:0;"></div>EUR/TRY
         </div>
-        <div style="font-size:22px;font-weight:900;color:var(--txt);font-family:'Space Mono',monospace;line-height:1;" id="eurUsdRate">...</div>
-        <div style="font-size:10px;color:var(--mu);margin-top:4px;font-family:'Outfit',sans-serif;" id="eurUsdLbl">live</div>
+        <div style="font-size:26px;font-weight:900;color:var(--num);font-family:'Space Mono',monospace;line-height:1;letter-spacing:-1px;" id="eurUsdRate">...</div>
+        <div style="margin-top:2px;font-size:9px;font-weight:700;color:var(--mu);font-family:'Outfit',sans-serif;">Turkish Lira</div>
+        <div style="font-size:10px;margin-top:6px;font-family:'Outfit',sans-serif;font-weight:700;color:var(--grn);" id="eurUsdLbl">● live</div>
       </div>
 
     </div>
 
     <!-- Divider -->
-    <div style="display:flex;align-items:center;gap:10px;padding:2px 0;">
-      <div style="flex:1;height:1px;background:color-mix(in srgb,var(--txt) 8%,transparent);"></div>
-      <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);font-family:'Outfit',sans-serif;">Custom Rates</div>
-      <div style="flex:1;height:1px;background:color-mix(in srgb,var(--txt) 8%,transparent);"></div>
+    <div style="display:flex;align-items:center;gap:10px;padding:4px 0;">
+      <div style="flex:1;height:1.5px;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--gld) 30%,transparent),transparent);"></div>
+      <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--label);font-family:'Outfit',sans-serif;font-weight:800;padding:3px 10px;border:1px solid color-mix(in srgb,var(--gld) 20%,transparent);border-radius:20px;background:color-mix(in srgb,var(--gld) 6%,transparent);">Custom Rates</div>
+      <div style="flex:1;height:1.5px;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--gld) 30%,transparent),transparent);"></div>
     </div>
 
     <!-- IQD input -->
@@ -931,7 +920,6 @@ body{background:var(--bg)!important;color:var(--txt)!important;}
       <div style="display:flex;gap:8px;flex-wrap:wrap;" id="sc-theme-row">
         <div class="tswatch active" data-th="th-gold"    onclick="setThemeRow(this,'gold')"    style="background:linear-gradient(135deg,#15120c 50%,#d4b366 50%);" title="Gold"></div>
         <div class="tswatch" data-th="th-midnight"       onclick="setThemeRow(this,'midnight')" style="background:linear-gradient(135deg,#0f1320 50%,#7ba8e0 50%);" title="Midnight"></div>
-        <div class="tswatch" data-th="th-bronze"         onclick="setThemeRow(this,'bronze')"   style="background:linear-gradient(135deg,#16110d 50%,#d49266 50%);" title="Bronze"></div>
         <div class="tswatch" data-th="th-emerald"        onclick="setThemeRow(this,'emerald')"  style="background:linear-gradient(135deg,#0c1812 50%,#5ec4a2 50%);" title="Emerald"></div>
         <div class="tswatch" data-th="th-violet"         onclick="setThemeRow(this,'violet')"   style="background:linear-gradient(135deg,#100d1c 50%,#a88ee8 50%);" title="Violet"></div>
         <div class="tswatch" data-th="th-crimson"        onclick="setThemeRow(this,'crimson')"  style="background:linear-gradient(135deg,#181010 50%,#e07878 50%);" title="Crimson"></div>
@@ -1436,7 +1424,7 @@ async function saveSettings(){
 }
 
 // ===== THEME =====
-const THEMES=['gold','midnight','bronze','emerald','violet','crimson','pearl'];
+const THEMES=['gold','midnight','emerald','violet','crimson','pearl'];
 
 // ===== THEME COLORS — matches CSS vars exactly =====
 function makeT(bg,bg2,bg3,bg4,bg5,txt,mu,mu2,gld,gld2,grn,red,cls){
@@ -1446,7 +1434,6 @@ function makeT(bg,bg2,bg3,bg4,bg5,txt,mu,mu2,gld,gld2,grn,red,cls){
 const THEME_COLORS={
   'gold':    makeT('#0c0a07','#15120c','#1f1b13','#2a251a','#363023','#f2ede0','#8a8270','#a8a090','#d4b366','#e6cc85','#7cb88a','#d98a7a',''),
   'midnight':makeT('#0a0d14','#0f1320','#171c2e','#222840','#2e3552','#e8ecf5','#7a8299','#9aa2b8','#7ba8e0','#a3c5ed','#82b89a','#d9869a','th-midnight'),
-  'bronze':  makeT('#0d0a08','#16110d','#211a14','#2d2419','#3a2f22','#f0e6d8','#8a7d6a','#a89a85','#d49266','#e8ad85','#8ab884','#d97a72','th-bronze'),
   'emerald': makeT('#060e0b','#0c1812','#12231a','#1a3026','#243d32','#dff5ec','#6a9a82','#88b89e','#5ec4a2','#88dcc0','#5ec4a2','#d98a7a','th-emerald'),
   'violet':  makeT('#090710','#100d1c','#18152a','#221d38','#2e2748','#ede8ff','#8880aa','#a8a0c8','#a88ee8','#c4aeff','#82b89a','#d9869a','th-violet'),
   'crimson': makeT('#0e0808','#181010','#221616','#2e1e1e','#3a2828','#ffecea','#9a8080','#b89898','#e07878','#f09898','#82b88a','#e07878','th-crimson'),
