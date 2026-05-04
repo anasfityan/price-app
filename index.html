@@ -18,21 +18,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;800;900&family=Space+Mono:wght@700&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
 <style>
-/* ===== THEME VARIABLES — set on body by JS ===== */
+/* ===== THEME VARIABLES — accent changes, base stays neutral ===== */
 body{
-  --bg:#0a0a0a; --bg2:#131313; --bg3:#1c1c1c; --bg4:#242424; --bg5:#2e2e2e;
-  --txt:#f0ece0; --mu:#6a6258; --mu2:#8a8070;
-  --gld:#c9a84c; --gld2:#e8c96a; --grn:#4caf7d; --red:#e05c5c;
-  --bn-gold:#c9a84c;
+  /* Fixed dark neutral base */
+  --bg:#0a0a0a; --bg2:#141414; --bg3:#1e1e1e; --bg4:#272727; --bg5:#323232;
+  --txt:#f0f0f0; --mu:#707070; --mu2:#909090;
+  --grn:#4caf7d; --red:#e05c5c;
+  /* Accent — changes per theme */
+  --gld:#c9a84c; --gld2:#e8c96a;
+  --nav-acc:#c9a84c; --bn-gold:#c9a84c;
   --font-main:'Tajawal',sans-serif;
 }
-/* legacy vars for old components */
-:root{
-  --gold:#c9a84c;--gold-light:#e8c96a;--gold-dim:rgba(201,168,76,0.15);
-  --dark:#0a0a0a;--dark2:#131313;--dark3:#1a1a1a;--dark4:#242424;--dark5:#2e2e2e;
-  --text:#f0ece0;--muted:#6a6258;--muted2:#8a8070;
-  --green:#4caf7d;--red:#e05c5c;
-  --font-main:'Tajawal',sans-serif;
+/* Light mode override */
+body.th-white{
+  --bg:#f5f5f5; --bg2:#ebebeb; --bg3:#dedede; --bg4:#cccccc; --bg5:#b8b8b8;
+  --txt:#141414; --mu:#707070; --mu2:#505050;
+  --grn:#2e7d32; --red:#c62828;
 }
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
@@ -819,13 +820,13 @@ body{background:var(--bg)!important;color:var(--txt)!important;}
     <div class="appear-section">
       <div class="appear-section-title">🎨 Theme</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;" id="sc-theme-row">
-        <div class="tswatch active" data-th="th-gold" onclick="setThemeRow(this,'gold')" style="background:linear-gradient(135deg,#0a0a0a 50%,#c9a84c 50%);"></div>
-        <div class="tswatch" data-th="th-dark" onclick="setThemeRow(this,'dark')" style="background:linear-gradient(135deg,#000 50%,#c8c8ff 50%);"></div>
-        <div class="tswatch" data-th="th-bronze" onclick="setThemeRow(this,'bronze')" style="background:linear-gradient(135deg,#0a0700 50%,#b87333 50%);"></div>
-        <div class="tswatch" data-th="th-white" onclick="setThemeRow(this,'white')" style="background:linear-gradient(135deg,#f0ede6 50%,#996600 50%);"></div>
-        <div class="tswatch" data-th="th-slate" onclick="setThemeRow(this,'slate')" style="background:linear-gradient(135deg,#141922 50%,#90b8d8 50%);"></div>
-        <div class="tswatch" data-th="th-midnight" onclick="setThemeRow(this,'midnight')" style="background:linear-gradient(135deg,#080c14 50%,#6a9ee8 50%);"></div>
-        <div class="tswatch" data-th="th-forest" onclick="setThemeRow(this,'forest')" style="background:linear-gradient(135deg,#080e08 50%,#6aaa6a 50%);"></div>
+        <div class="tswatch active" data-th="th-gold"    onclick="setThemeRow(this,'gold')"    style="background:linear-gradient(135deg,#141414 50%,#c9a84c 50%);"></div>
+        <div class="tswatch" data-th="th-dark"           onclick="setThemeRow(this,'dark')"    style="background:linear-gradient(135deg,#141414 50%,#d0d0ff 50%);"></div>
+        <div class="tswatch" data-th="th-bronze"         onclick="setThemeRow(this,'bronze')"  style="background:linear-gradient(135deg,#141414 50%,#c07838 50%);"></div>
+        <div class="tswatch" data-th="th-white"          onclick="setThemeRow(this,'white')"   style="background:linear-gradient(135deg,#ebebeb 50%,#7a5500 50%);"></div>
+        <div class="tswatch" data-th="th-slate"          onclick="setThemeRow(this,'slate')"   style="background:linear-gradient(135deg,#141414 50%,#6aabcf 50%);"></div>
+        <div class="tswatch" data-th="th-midnight"       onclick="setThemeRow(this,'midnight')" style="background:linear-gradient(135deg,#141414 50%,#6a9eea 50%);"></div>
+        <div class="tswatch" data-th="th-forest"         onclick="setThemeRow(this,'forest')"  style="background:linear-gradient(135deg,#141414 50%,#5cb87a 50%);"></div>
       </div>
     </div>
 
@@ -1319,14 +1320,30 @@ async function saveSettings(){
 
 // ===== THEME =====
 const THEMES=['gold','white','dark','bronze','slate','midnight','forest'];
+// ===== NEW THEME SYSTEM =====
+// Base neutrals are FIXED — only accent color changes per theme
+// 'light' mode flips bg/text but keeps same accent logic
+const BASE_DARK = {
+  bg:'#0a0a0a', bg2:'#141414', bg3:'#1e1e1e', bg4:'#272727', bg5:'#323232',
+  text:'#f0f0f0', muted:'#707070', muted2:'#909090', green:'#4caf7d', red:'#e05c5c'
+};
+const BASE_LIGHT = {
+  bg:'#f5f5f5', bg2:'#ebebeb', bg3:'#dedede', bg4:'#cccccc', bg5:'#b8b8b8',
+  text:'#141414', muted:'#707070', muted2:'#505050', green:'#2e7d32', red:'#c62828'
+};
+
+function makeTheme(base, accent, accentLight, nav){
+  return Object.assign({}, base, {gold:accent, gold_l:accentLight, nav:nav||accent});
+}
+
 const THEME_COLORS={
-  'gold':    {'bg':'#0a0a0a','bg2':'#131313','bg3':'#1c1c1c','bg4':'#242424','bg5':'#2e2e2e','text':'#f0ece0','muted':'#6a6258','muted2':'#8a8070','gold':'#c9a84c','gold_l':'#e8c96a','green':'#4caf7d','red':'#e05c5c','nav':'#c9a84c'},
-  'white':   {'bg':'#ffffff','bg2':'#f0ede6','bg3':'#e5e0d8','bg4':'#d5cfc6','bg5':'#bfb8ae','text':'#1a1510','muted':'#7a7060','muted2':'#5a5040','gold':'#996600','gold_l':'#c8950a','green':'#2e7d32','red':'#c62828','nav':'#996600'},
-  'dark':    {'bg':'#000000','bg2':'#0d0d0d','bg3':'#141414','bg4':'#1e1e1e','bg5':'#282828','text':'#f5f5f5','muted':'#606060','muted2':'#888888','gold':'#e8e8ff','gold_l':'#ffffff','green':'#5cff9d','red':'#ff6b6b','nav':'#e0e0ff'},
-  'bronze':  {'bg':'#0a0700','bg2':'#130e04','bg3':'#1c1608','bg4':'#261e0c','bg5':'#332810','text':'#f5e8d0','muted':'#7a6040','muted2':'#a08050','gold':'#b87333','gold_l':'#d4924a','green':'#6aaa6a','red':'#e05c5c','nav':'#c88040'},
-  'slate':   {'bg':'#0e1117','bg2':'#141922','bg3':'#1a2030','bg4':'#222a3e','bg5':'#2c354e','text':'#d8e4f0','muted':'#3a4a60','muted2':'#5a6a80','gold':'#7c9cbf','gold_l':'#a8c4de','green':'#4caf7d','red':'#e05c5c','nav':'#90b8d8'},
-  'midnight':{'bg':'#080c14','bg2':'#0d1220','bg3':'#12182c','bg4':'#181e38','bg5':'#202844','text':'#d0dcf8','muted':'#2a3858','muted2':'#4a5878','gold':'#6a9ee8','gold_l':'#98c0ff','green':'#4caf7d','red':'#e05c5c','nav':'#80aaee'},
-  'forest':  {'bg':'#080e08','bg2':'#0e160e','bg3':'#141e14','bg4':'#1a2a1a','bg5':'#223422','text':'#d8f0d8','muted':'#2a4a2a','muted2':'#4a6a4a','gold':'#6aaa6a','gold_l':'#90cc90','green':'#6aaa6a','red':'#e05c5c','nav':'#80cc80'},
+  'gold':    makeTheme(BASE_DARK,  '#c9a84c','#e8c96a','#c9a84c'),
+  'dark':    makeTheme(BASE_DARK,  '#e0e0ff','#ffffff','#d0d0ff'),
+  'bronze':  makeTheme(BASE_DARK,  '#c07838','#e09050','#d08040'),
+  'slate':   makeTheme(BASE_DARK,  '#6aabcf','#90c8e8','#80b8d8'),
+  'midnight':makeTheme(BASE_DARK,  '#6a9eea','#98c0ff','#80aaee'),
+  'forest':  makeTheme(BASE_DARK,  '#5cb87a','#80d898','#70cc88'),
+  'white':   makeTheme(BASE_LIGHT, '#7a5500','#9a7010','#8a6200'),
 };
 
 
@@ -1404,6 +1421,8 @@ function toggleDarkLight(){
 function setTheme(t){
   var c=THEME_COLORS[t];
   if(!c)return;
+  // Toggle light mode class
+  document.body.classList.toggle('th-white', t==='white');
   applyThemeStyles(c);
   // sync theme swatches
   document.querySelectorAll('#sc-theme-row .tswatch').forEach(function(el){
