@@ -183,6 +183,108 @@ body{font-family:var(--font-main);background-color:var(--dark);color:#f0ece0;hei
 /* drawer footer credit */
 .drawer-credit{padding:12px 14px;text-align:center;font-size:10px;color:#2e2e2e;letter-spacing:1.5px;font-family:'Outfit',sans-serif;margin-top:auto;border-top:1px solid #242424;flex-shrink:0;}
 
+/* ===== BOTTOM NAV BAR — PILL STYLE ===== */
+@keyframes bnPulse{
+  0%{transform:scale(1);opacity:.7;}
+  60%{transform:scale(1.65);opacity:.1;}
+  100%{transform:scale(1.65);opacity:0;}
+}
+@keyframes bnPulse2{
+  0%{transform:scale(1);opacity:.5;}
+  60%{transform:scale(2.1);opacity:.05;}
+  100%{transform:scale(2.1);opacity:0;}
+}
+.bottom-nav-wrap{
+  position:fixed;bottom:0;left:0;right:0;
+  display:flex;justify-content:center;align-items:flex-end;
+  padding:0 14px 14px;z-index:150;
+  pointer-events:none;
+}
+.bottom-nav{
+  pointer-events:all;
+  background:rgba(10,10,10,.55);
+  backdrop-filter:blur(22px) saturate(1.4);
+  -webkit-backdrop-filter:blur(22px) saturate(1.4);
+  border:1px solid rgba(201,168,76,.18);
+  border-radius:40px;
+  display:flex;align-items:center;
+  padding:8px 10px;
+  gap:4px;
+  box-shadow:0 8px 40px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.05) inset;
+  width:100%;max-width:420px;
+}
+.bn-tab{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:5px;cursor:pointer;border:none;background:transparent;padding:4px 2px;
+  position:relative;border-radius:30px;
+  -webkit-tap-highlight-color:transparent;
+}
+/* oval/pill icon container */
+.bn-ico-wrap{
+  width:52px;height:34px;border-radius:17px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+  transition:background .28s cubic-bezier(.4,0,.2,1),box-shadow .28s,transform .15s;
+  background:transparent;
+}
+.bn-tab.active .bn-ico-wrap{
+  background:linear-gradient(145deg,#c9a84c,#f0d060);
+  box-shadow:0 4px 18px rgba(201,168,76,.45);
+}
+.bn-tab:active .bn-ico-wrap{transform:scale(.88);}
+/* pulse rings — oval shape matching container */
+.bn-ring1,.bn-ring2{
+  position:absolute;
+  inset:-3px;
+  border-radius:20px;
+  border:1.5px solid rgba(201,168,76,.75);
+  opacity:0;pointer-events:none;
+}
+.bn-tab.active .bn-ring1{animation:bnPulse 2.4s ease-out infinite;}
+.bn-tab.active .bn-ring2{animation:bnPulse2 2.4s ease-out .6s infinite;}
+/* icon SVG */
+.bn-svg{display:block;transition:stroke .25s,fill .25s;}
+.bn-tab .bn-svg{stroke:#505050;fill:none;}
+.bn-tab.active .bn-svg{stroke:#0a0a0a;fill:none;}
+/* label */
+.bn-label{
+  font-size:9px;font-weight:800;letter-spacing:.5px;
+  color:#404040;font-family:'Outfit',sans-serif;
+  transition:color .25s;text-transform:uppercase;line-height:1;
+}
+.bn-tab.active .bn-label{color:#c9a84c;}
+
+/* ===== SCREENS ===== */
+.screen{display:none;flex:1;flex-direction:column;overflow:hidden;}
+.screen.active{display:flex;}
+
+/* Adjust bottom padding for all screens for nav bar */
+.scroll-area{padding-bottom:90px!important;}
+.appear-screen-scroll{padding-bottom:90px!important;}
+.rates-screen-scroll{padding-bottom:90px!important;}
+
+/* ===== CALCULATOR SCREEN ===== */
+.calc-screen{flex:1;display:flex;flex-direction:column;padding:10px 10px 80px;gap:10px;overflow:hidden;}
+.calc-display-card{background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.02));border:1px solid rgba(201,168,76,.2);border-radius:18px;padding:18px 20px;flex-shrink:0;}
+.calc-expr{font-size:12px;color:#6a6258;font-family:'Space Mono',monospace;direction:ltr;text-align:right;min-height:18px;margin-bottom:4px;}
+.calc-val{font-size:40px;font-weight:900;color:#f0ece0;font-family:'Space Mono',monospace;direction:ltr;text-align:right;line-height:1;word-break:break-all;}
+.calc-kb{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;flex:1;}
+.ck{border-radius:14px;font-size:20px;font-weight:700;cursor:pointer;border:none;display:flex;align-items:center;justify-content:center;transition:transform .1s,opacity .1s;font-family:'Space Mono',monospace;}
+.ck:active{transform:scale(.92);opacity:.8;}
+.ck-num{background:#1e1e1e;border:1px solid #2a2a2a;color:#f0ece0;}
+.ck-op{background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.35);color:#c9a84c;font-size:22px;}
+.ck-fn{background:#1a1a1a;border:1px solid #2e2e2e;color:#8a8070;font-size:15px;font-family:'Outfit',sans-serif;font-weight:800;}
+.ck-eq{background:linear-gradient(135deg,#c9a84c,#e8c96a);color:#0a0a0a;font-size:24px;box-shadow:0 4px 16px rgba(201,168,76,.3);}
+.ck-zero{grid-column:span 2;}
+
+/* ===== APPEARANCE SCREEN ===== */
+.appear-screen-scroll{flex:1;overflow-y:auto;padding:10px 12px 70px;display:flex;flex-direction:column;gap:14px;}
+.appear-section{background:#131313;border:1px solid rgba(255,255,255,.05);border-radius:16px;padding:14px 16px;}
+.appear-section-title{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:#c9a84c;font-weight:700;margin-bottom:12px;font-family:'Outfit',sans-serif;}
+
+/* ===== RATES SCREEN ===== */
+.rates-screen-scroll{flex:1;overflow-y:auto;padding:10px 12px 70px;display:flex;flex-direction:column;gap:14px;}
+
 /* ===== CONCRETE THEME STYLES (Samsung-safe: no CSS vars) ===== */
 body.th-gold .topbar { background-color:#131313 !important; border-bottom-color:rgba(128,128,128,0.15) !important; }
 body.th-gold .topbar-store span { color:#c9a84c !important; }
@@ -680,7 +782,6 @@ body.th-forest .footer-bar{background:#0e160e!important;color:#2a4a2a!important;
   </div>
   <div style="display:flex;align-items:center;gap:6px;margin-left:auto;">
     <div onclick="toggleDarkLight()" id="theme-toggle-btn" style="cursor:pointer;font-size:21px;padding:4px;user-select:none;">☀️</div>
-    <div class="menu-btn" onclick="openDrawer()"><span></span><span></span><span></span></div>
   </div>
 </div>
 
@@ -692,6 +793,9 @@ body.th-forest .footer-bar{background:#0e160e!important;color:#2a4a2a!important;
   <div class="ticker-div"></div>
   <div class="ticker-change up" id="tickerChange">Updating...</div>
 </div>
+
+<!-- ===================== SCREEN: HOME ===================== -->
+<div class="screen active" id="screen-home">
 
 <!-- RESULT -->
 <div id="resultFixed" style="flex-shrink:0;padding:6px 10px;display:flex;gap:6px;align-items:stretch;border-bottom:1px solid rgba(201,168,76,.08);position:relative;z-index:1;">
@@ -741,6 +845,188 @@ body.th-forest .footer-bar{background:#0e160e!important;color:#2a4a2a!important;
 <!-- OVERLAY -->
 <div class="overlay" id="overlay" onclick="closeAll()"></div>
 
+</div><!-- END screen-home -->
+
+<!-- ===================== SCREEN: CALCULATOR ===================== -->
+<div class="screen" id="screen-calc">
+  <div class="calc-screen">
+    <div class="calc-display-card">
+      <div class="calc-expr" id="sc-calcExpr">&nbsp;</div>
+      <div class="calc-val" id="sc-calcDisplay">0</div>
+    </div>
+    <div class="calc-kb">
+      <button class="ck ck-fn" onclick="scCalcInput('C')">C</button>
+      <button class="ck ck-fn" onclick="scCalcInput('±')">±</button>
+      <button class="ck ck-fn" onclick="scCalcInput('%')">%</button>
+      <button class="ck ck-op" onclick="scCalcInput('÷')">÷</button>
+      <button class="ck ck-num" onclick="scCalcInput('7')">7</button>
+      <button class="ck ck-num" onclick="scCalcInput('8')">8</button>
+      <button class="ck ck-num" onclick="scCalcInput('9')">9</button>
+      <button class="ck ck-op" onclick="scCalcInput('×')">×</button>
+      <button class="ck ck-num" onclick="scCalcInput('4')">4</button>
+      <button class="ck ck-num" onclick="scCalcInput('5')">5</button>
+      <button class="ck ck-num" onclick="scCalcInput('6')">6</button>
+      <button class="ck ck-op" onclick="scCalcInput('-')">−</button>
+      <button class="ck ck-num" onclick="scCalcInput('1')">1</button>
+      <button class="ck ck-num" onclick="scCalcInput('2')">2</button>
+      <button class="ck ck-num" onclick="scCalcInput('3')">3</button>
+      <button class="ck ck-op" onclick="scCalcInput('+')">+</button>
+      <button class="ck ck-num ck-zero" onclick="scCalcInput('0')">0</button>
+      <button class="ck ck-num" onclick="scCalcInput('.')">.</button>
+      <button class="ck ck-eq" onclick="scCalcInput('=')">=</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SCREEN: RATES ===================== -->
+<div class="screen" id="screen-rates">
+  <div class="rates-screen-scroll">
+    <div style="background:#131313;border:1px solid rgba(201,168,76,.15);border-radius:16px;padding:16px;">
+      <div style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:#c9a84c;font-weight:700;margin-bottom:14px;font-family:'Outfit',sans-serif;padding-bottom:8px;border-bottom:1px solid #242424;">💱 Exchange Rates</div>
+      <div class="dfield">
+        <label for="usdIqd2" id="lbl-iqd2">USD to Iraqi Dinar</label>
+        <div class="diw"><input type="number" id="usdIqd2" value="1530" min="1" inputmode="numeric"><div class="dunit">IQD</div></div>
+      </div>
+      <div class="dfield" style="margin-top:10px;">
+        <label for="usdTry2" id="lbl-try2">USD to Turkish Lira</label>
+        <div class="diw"><input type="number" id="usdTry2" value="43" min="1" inputmode="numeric"><div class="dunit">TRY</div></div>
+      </div>
+      <button class="save-btn" style="margin-top:14px;" onclick="saveRatesFromScreen()">💾 Save Rates</button>
+      <div id="ratesSaveOk" style="text-align:center;font-size:12px;color:#4caf7d;margin-top:6px;opacity:0;transition:opacity .3s;height:16px;font-family:'Outfit',sans-serif;"></div>
+    </div>
+
+    <div style="background:#131313;border:1px solid rgba(255,255,255,.05);border-radius:16px;padding:16px;">
+      <div style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:#c9a84c;font-weight:700;margin-bottom:12px;font-family:'Outfit',sans-serif;">📊 Live Rate</div>
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(201,168,76,.05);border-radius:12px;border:1px solid rgba(201,168,76,.1);">
+        <div class="ticker-dot"></div>
+        <div style="font-size:11px;color:#6a6258;" id="tl-ticker2">TRY / USD</div>
+        <div style="color:#c9a84c;font-weight:700;font-family:'Space Mono',monospace;font-size:14px;margin-right:auto;" id="tickerRate2">...</div>
+        <div style="font-size:11px;" id="tickerChange2" class="ticker-change up">Updating...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SCREEN: APPEARANCE ===================== -->
+<div class="screen" id="screen-appear">
+  <div class="appear-screen-scroll" id="appearScreenScroll">
+
+    <!-- VIBRATION -->
+    <div class="appear-section">
+      <div class="appear-section-title">📳 Keyboard Vibration</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#f0ece0;font-family:'Outfit',sans-serif;">Tap Feedback</div>
+          <div style="font-size:10px;color:#6a6258;font-family:'Outfit',sans-serif;margin-top:2px;">Vibrate on button press</div>
+        </div>
+        <div onclick="toggleVibration()" id="vib-toggle2" style="width:48px;height:26px;border-radius:13px;background:#c9a84c;cursor:pointer;position:relative;transition:background .25s;flex-shrink:0;">
+          <div id="vib-knob2" style="position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:right .25s;box-shadow:0 1px 4px rgba(0,0,0,.4);"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THEME -->
+    <div class="appear-section">
+      <div class="appear-section-title">🎨 Theme</div>
+      <div class="theme-row" id="sc-theme-row">
+        <div class="tdot active" style="background:#1a1510;" data-th="th-gold" onclick="setTheme2(this,'th-gold')" title="Gold"></div>
+        <div class="tdot" style="background:#f0ede6;" data-th="th-white" onclick="setTheme2(this,'th-white')" title="Light"></div>
+        <div class="tdot" style="background:#0a0a0a;" data-th="th-dark" onclick="setTheme2(this,'th-dark')" title="Dark"></div>
+        <div class="tdot" style="background:#141922;" data-th="th-slate" onclick="setTheme2(this,'th-slate')" title="Slate"></div>
+        <div class="tdot" style="background:#0d1220;" data-th="th-midnight" onclick="setTheme2(this,'th-midnight')" title="Midnight"></div>
+        <div class="tdot" style="background:#0e160e;" data-th="th-forest" onclick="setTheme2(this,'th-forest')" title="Forest"></div>
+      </div>
+    </div>
+
+    <!-- KEYBOARD STYLE -->
+    <div class="appear-section">
+      <div class="appear-section-title">⌨️ Keyboard Style</div>
+      <div class="kb-sel-row" id="sc-kb-row">
+        <div class="kbdot active" data-kb="1" onclick="setKb2(this,1)" title="Luxury">▦</div>
+        <div class="kbdot" data-kb="2" onclick="setKb2(this,2)" title="Glass">◎</div>
+        <div class="kbdot" data-kb="3" onclick="setKb2(this,3)" title="Neon">◈</div>
+        <div class="kbdot" data-kb="4" onclick="setKb2(this,4)" title="Flat">▣</div>
+        <div class="kbdot" data-kb="5" onclick="setKb2(this,5)" title="Round">●</div>
+      </div>
+    </div>
+
+    <!-- LANGUAGE -->
+    <div class="appear-section">
+      <div class="appear-section-title">🌐 Language</div>
+      <div class="lang-row">
+        <button class="lang-btn" id="sc-lang-ar" onclick="setLang('ar');syncLangBtns2()">🇮🇶 العربية</button>
+        <button class="lang-btn on" id="sc-lang-en" onclick="setLang('en');syncLangBtns2()">🇬🇧 English</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== BOTTOM NAVIGATION BAR ===================== -->
+<div class="bottom-nav-wrap">
+<nav class="bottom-nav" id="bottomNav">
+
+  <!-- HOME -->
+  <button class="bn-tab active" id="bn-home" onclick="switchScreen('home')">
+    <div class="bn-ico-wrap">
+      <div class="bn-ring1"></div>
+      <div class="bn-ring2"></div>
+      <svg class="bn-svg" width="22" height="22" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12L12 3l9 9"/><path d="M9 21V12h6v9"/><path d="M3 12v9h18V12"/>
+      </svg>
+    </div>
+    <span class="bn-label" id="bn-lbl-home">Home</span>
+  </button>
+
+  <!-- CALCULATOR -->
+  <button class="bn-tab" id="bn-calc" onclick="switchScreen('calc')">
+    <div class="bn-ico-wrap">
+      <div class="bn-ring1"></div>
+      <div class="bn-ring2"></div>
+      <svg class="bn-svg" width="22" height="22" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="2" width="16" height="20" rx="3"/>
+        <line x1="8" y1="7" x2="16" y2="7"/>
+        <line x1="8" y1="12" x2="9" y2="12"/><line x1="12" y1="12" x2="13" y2="12"/><line x1="16" y1="12" x2="17" y2="12"/>
+        <line x1="8" y1="16" x2="9" y2="16"/><line x1="12" y1="16" x2="13" y2="16"/>
+        <path d="M16 15.5v1.5" stroke-width="2.5"/><path d="M15.3 16.2h1.4" stroke-width="2.5"/>
+      </svg>
+    </div>
+    <span class="bn-label" id="bn-lbl-calc">Calc</span>
+  </button>
+
+  <!-- RATES -->
+  <button class="bn-tab" id="bn-rates" onclick="switchScreen('rates')">
+    <div class="bn-ico-wrap">
+      <div class="bn-ring1"></div>
+      <div class="bn-ring2"></div>
+      <svg class="bn-svg" width="22" height="22" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M12 3v18M3 12h18" stroke-width="1.5"/>
+        <path d="M15.5 8.5c-.7-1-1.8-1.5-3.5-1.5-2 0-3.5 1-3.5 2.5s1 2 3.5 2.5c2.5.5 3.5 1.5 3.5 3S14 17.5 12 17.5c-1.8 0-3-.6-3.5-1.5"/>
+      </svg>
+    </div>
+    <span class="bn-label" id="bn-lbl-rates">Rates</span>
+  </button>
+
+  <!-- APPEARANCE -->
+  <button class="bn-tab" id="bn-appear" onclick="switchScreen('appear')">
+    <div class="bn-ico-wrap">
+      <div class="bn-ring1"></div>
+      <div class="bn-ring2"></div>
+      <svg class="bn-svg" width="22" height="22" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+      </svg>
+    </div>
+    <span class="bn-label" id="bn-lbl-appear">Style</span>
+  </button>
+
+</nav>
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeAll()"></div>
+
 <!-- DRAWER -->
 <div class="drawer" id="drawer">
   <div style="padding:22px 18px 18px;background:linear-gradient(180deg,rgba(201,168,76,.08),transparent);border-bottom:1px solid rgba(201,168,76,.1);flex-shrink:0;display:flex;align-items:center;justify-content:space-between;">
@@ -770,15 +1056,6 @@ body.th-forest .footer-bar{background:#0e160e!important;color:#2a4a2a!important;
       <div style="margin-left:auto;font-size:18px;color:#333;">›</div>
     </div>
 
-    <div onclick="openCalcPanel()" style="display:flex;align-items:center;gap:14px;padding:13px 18px;cursor:pointer;transition:background .2s;" onmouseover="this.style.background='rgba(201,168,76,.06)'" onmouseout="this.style.background='transparent'">
-      <div style="width:38px;height:38px;border-radius:11px;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;">🧮</div>
-      <div>
-        <div style="font-size:13px;font-weight:700;color:#f0ece0;font-family:'Outfit',sans-serif;" id="lbl-calc-btn">Calculator</div>
-        <div style="font-size:10px;color:#6a6258;font-family:'Outfit',sans-serif;" id="lbl-calc-sub">Basic operations</div>
-      </div>
-      <div style="margin-left:auto;font-size:18px;color:#333;">›</div>
-    </div>
-
     <div style="height:1px;background:rgba(255,255,255,.05);margin:6px 18px;"></div>
 
     <div style="padding:12px 18px;">
@@ -797,53 +1074,6 @@ body.th-forest .footer-bar{background:#0e160e!important;color:#2a4a2a!important;
     </div>
     <div class="drawer-credit" id="drawer-credit" onclick="adminCreditTap()" style="cursor:pointer;font-size:10px;text-align:center;color:#3a3a3a;font-family:'Outfit',sans-serif;">Designed by Anas Fityan</div>
   </div>
-
-<!-- CALCULATOR PANEL -->
-<div class="panel" id="calcPanel">
-  <div class="panel-header">
-    <div class="panel-back" onclick="closeCalcPanel()">‹ <span>Back</span></div>
-    <div class="panel-title">🧮 Calculator</div>
-  </div>
-  <div style="padding:16px;flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:14px;">
-
-    <!-- DISPLAY -->
-    <div style="background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.15);border-radius:16px;padding:16px 18px;">
-      <div style="font-size:10px;letter-spacing:2px;color:#6a6258;text-transform:uppercase;font-family:'Outfit',sans-serif;margin-bottom:6px;" id="calcExprDisplay">&nbsp;</div>
-      <div id="calcDisplay" style="font-size:34px;font-weight:900;color:#f0ece0;font-family:'Space Mono',monospace;direction:ltr;text-align:right;min-height:42px;letter-spacing:1px;word-break:break-all;">0</div>
-    </div>
-
-    <!-- KEYBOARD -->
-    <div style="background:#131313;border:1px solid rgba(255,255,255,.05);border-radius:16px;padding:10px;">
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px;">
-        <!-- Row 1 -->
-        <button onclick="calcInput('C')" style="background:rgba(224,92,92,.15);border:1px solid rgba(224,92,92,.3);border-radius:12px;padding:14px 0;font-size:15px;font-weight:800;color:#e05c5c;cursor:pointer;font-family:'Outfit',sans-serif;">C</button>
-        <button onclick="calcInput('±')" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px 0;font-size:16px;font-weight:700;color:#8a8070;cursor:pointer;font-family:'Space Mono',monospace;">±</button>
-        <button onclick="calcInput('%')" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px 0;font-size:16px;font-weight:700;color:#8a8070;cursor:pointer;font-family:'Space Mono',monospace;">%</button>
-        <button onclick="calcInput('÷')" style="background:rgba(201,168,76,.18);border:1px solid rgba(201,168,76,.4);border-radius:12px;padding:14px 0;font-size:20px;font-weight:700;color:#c9a84c;cursor:pointer;font-family:'Space Mono',monospace;">÷</button>
-        <!-- Row 2 -->
-        <button onclick="calcInput('7')" style="background:linear-gradient(160deg,#1e1e1e,#141414);border:1px solid #2e2e2e;border-radius:12px;padding:14px 0;font-size:20px;font-weight:700;color:#f0ece0;cursor:pointer;font-family:'Space Mono',monospace;">7</button>
-        <button onclick="calcInput('8')" style="background:linear-gradient(160deg,#1e1e1e,#141414);border:1px solid #2e2e2e;border-radius:12px;padding:14px 0;font-size:20px;font-weight:700;color:#f0ece0;cursor:pointer;font-family:'Space Mono',monospace;">8</button>
-        <button onclick="calcInput('9')" style="background:linear-gradient(160deg,#1e1e1e,#141414);border:1px solid #2e2e2e;border-radius:12px;padding:14px 0;font-size:20px;font-weight:700;color:#f0ece0;cursor:pointer;font-family:'Space Mono',monospace;">9</button>
-        <button onclick="calcInput('×')" style="background:rgba(201,168,76,.18);border:1px solid rgba(201,168,76,.4);border-radius:12px;padding:14px 0;font-size:20px;font-weight:700;color:#c9a84c;cursor:pointer;font-family:'Space Mono',monospace;">×</button>
-        <!-- Row 3 -->
-        <button onclick="calcInput('4')" style="background:linear-gradient(160deg,#1e1e1e,#141414);border:1px solid #2e2e2e;border-radius:12px;padding:14px 0;font-size:20px;font-weight:700;color:#f0ece0;cursor:pointer;font-family:'Space Mono',monospace;">4</button>
-        <button onclick="calcInput('5')" style="background:linear-gradient(160deg,#1e1e1e,#141414);border:1px solid #2e2e2e;border-radius:12px;padding:14px 0;font-size:20px;font-weight:700;color:#f0ece0;cursor:pointer;font-family:'Space Mono',monospace;">5</button>
-        <button onclick="calcInput('6')" style="background:linear-gradient(160deg,#1e1e1e,#141414);border:1px solid #2e2e2e;border-radius:12px;padding:14px 0;font-size:20px;font-weight:700;color:#f0ece0;cursor:pointer;font-family:'Space Mono',monospace;">6</button>
-        <button onclick="calcInput('-')" style="background:rgba(201,168,76,.18);border:1px solid rgba(201,168,76,.4);border-radius:12px;padding:14px 0;font-size:22px;font-weight:700;color:#c9a84c;cursor:pointer;font-family:'Space Mono',monospace;">−</button>
-        <!-- Row 4 -->
-        <button onclick="calcInput('1')" style="background:linear-gradient(160deg,#1e1e1e,#141414);border:1px solid #2e2e2e;border-radius:12px;padding:14px 0;font-size:20px;font-weight:700;color:#f0ece0;cursor:pointer;font-family:'Space Mono',monospace;">1</button>
-        <button onclick="calcInput('2')" style="background:linear-gradient(160deg,#1e1e1e,#141414);border:1px solid #2e2e2e;border-radius:12px;padding:14px 0;font-size:20px;font-weight:700;color:#f0ece0;cursor:pointer;font-family:'Space Mono',monospace;">2</button>
-        <button onclick="calcInput('3')" style="background:linear-gradient(160deg,#1e1e1e,#141414);border:1px solid #2e2e2e;border-radius:12px;padding:14px 0;font-size:20px;font-weight:700;color:#f0ece0;cursor:pointer;font-family:'Space Mono',monospace;">3</button>
-        <button onclick="calcInput('+')" style="background:rgba(201,168,76,.18);border:1px solid rgba(201,168,76,.4);border-radius:12px;padding:14px 0;font-size:22px;font-weight:700;color:#c9a84c;cursor:pointer;font-family:'Space Mono',monospace;">+</button>
-        <!-- Row 5 -->
-        <button onclick="calcInput('0')" style="background:linear-gradient(160deg,#1e1e1e,#141414);border:1px solid #2e2e2e;border-radius:12px;padding:14px 0;font-size:20px;font-weight:700;color:#f0ece0;cursor:pointer;font-family:'Space Mono',monospace;grid-column:span 2;">0</button>
-        <button onclick="calcInput('.')" style="background:linear-gradient(160deg,#1e1e1e,#141414);border:1px solid #2e2e2e;border-radius:12px;padding:14px 0;font-size:22px;font-weight:700;color:#f0ece0;cursor:pointer;font-family:'Space Mono',monospace;">.</button>
-        <button onclick="calcInput('=')" style="background:linear-gradient(135deg,#c9a84c,#e8c96a);border:none;border-radius:12px;padding:14px 0;font-size:22px;font-weight:700;color:#0a0a0a;cursor:pointer;font-family:'Space Mono',monospace;box-shadow:0 4px 14px rgba(201,168,76,.3);">=</button>
-      </div>
-    </div>
-
-  </div>
-</div>
 
 <!-- APPEARANCE PANEL -->
 <div class="panel" id="appearPanel">
@@ -1351,8 +1581,12 @@ function toggleVibration(){
   try{localStorage.setItem('vibration',vibrationEnabled?'on':'off');}catch(e){}
   const tog=document.getElementById('vib-toggle');
   const knob=document.getElementById('vib-knob');
+  const tog2=document.getElementById('vib-toggle2');
+  const knob2=document.getElementById('vib-knob2');
   if(tog)tog.style.background=vibrationEnabled?'#c9a84c':'#555';
   if(knob)knob.style.left=vibrationEnabled?'24px':'2px';
+  if(tog2)tog2.style.background=vibrationEnabled?'#c9a84c':'#555';
+  if(knob2)knob2.style.right=vibrationEnabled?'3px':'auto';if(knob2)knob2.style.left=vibrationEnabled?'auto':'3px';
 }
 
 function updateThemeSelectors(t){
@@ -1459,52 +1693,112 @@ function openDrawer(){
   document.getElementById('overlay').classList.add('open');
 }
 
-function closeAll(){document.getElementById('drawer').classList.remove('open');document.getElementById('overlay').classList.remove('open');document.getElementById('ratesPanel').classList.remove('open');document.getElementById('calcPanel').classList.remove('open');}
-function openCalcPanel(){document.getElementById('calcPanel').classList.add('open');}
-function closeCalcPanel(){document.getElementById('calcPanel').classList.remove('open');}
-
-var calcCurrentVal='0', calcExpr='', calcOperator='', calcPrevVal='', calcJustCalc=false;
-function calcInput(k){
-  var disp=document.getElementById('calcDisplay');
-  var exprDisp=document.getElementById('calcExprDisplay');
-  if(k==='C'){calcCurrentVal='0';calcExpr='';calcOperator='';calcPrevVal='';calcJustCalc=false;disp.textContent='0';exprDisp.innerHTML='&nbsp;';return;}
-  if(k==='±'){calcCurrentVal=(parseFloat(calcCurrentVal||0)*-1).toString();disp.textContent=calcCurrentVal;return;}
-  if(k==='%'){calcCurrentVal=(parseFloat(calcCurrentVal||0)/100).toString();disp.textContent=calcCurrentVal;return;}
-  if(k==='÷'||k==='×'||k==='-'||k==='+'){
-    if(calcOperator&&!calcJustCalc){calcDoCalc();}
-    calcPrevVal=calcCurrentVal;calcOperator=k;calcCurrentVal='';calcJustCalc=false;
-    exprDisp.textContent=calcPrevVal+' '+k;return;
-  }
-  if(k==='='){
-    if(!calcOperator)return;
-    exprDisp.textContent=calcPrevVal+' '+calcOperator+' '+calcCurrentVal+' =';
-    calcDoCalc();calcOperator='';calcJustCalc=true;return;
-  }
-  if(k==='.'){
-    if(calcCurrentVal.includes('.'))return;
-    calcCurrentVal=(calcCurrentVal||'0')+'.';disp.textContent=calcCurrentVal;return;
-  }
-  if(calcJustCalc){calcCurrentVal='';calcJustCalc=false;exprDisp.innerHTML='&nbsp;';}
-  if(calcCurrentVal==='0'&&k!=='.'){calcCurrentVal=k;}else{calcCurrentVal+=k;}
-  if(calcCurrentVal.length>12)calcCurrentVal=calcCurrentVal.slice(0,12);
-  disp.textContent=calcCurrentVal;
-}
-function calcDoCalc(){
-  var a=parseFloat(calcPrevVal)||0,b=parseFloat(calcCurrentVal)||0,r=0;
-  if(calcOperator==='÷'){r=b===0?'Error':a/b;}
-  else if(calcOperator==='×'){r=a*b;}
-  else if(calcOperator==='-'){r=a-b;}
-  else if(calcOperator==='+'){r=a+b;}
-  r=r==='Error'?'Error':(Math.round(r*1e10)/1e10).toString();
-  calcCurrentVal=r;
-  document.getElementById('calcDisplay').textContent=r;
-  calcPrevVal=r;
-}
-
-
+function closeAll(){document.getElementById('drawer').classList.remove('open');document.getElementById('overlay').classList.remove('open');document.getElementById('ratesPanel').classList.remove('open');document.getElementById('appearPanel').classList.remove('open');}
+function openPanel(){document.getElementById('ratesPanel').classList.add('open');}
 function closePanel(){document.getElementById('ratesPanel').classList.remove('open');}
 function openAppearPanel(){document.getElementById('appearPanel').classList.add('open');}
 function closeAppearPanel(){document.getElementById('appearPanel').classList.remove('open');}
+
+// ===== BOTTOM NAV SCREEN SWITCHING =====
+function switchScreen(name){
+  ['home','calc','rates','appear'].forEach(function(s){
+    document.getElementById('screen-'+s).classList.toggle('active', s===name);
+    document.getElementById('bn-'+s).classList.toggle('active', s===name);
+  });
+  // sync rates inputs when opening rates screen
+  if(name==='rates'){
+    var iqd=document.getElementById('usdIqd');
+    var tr=document.getElementById('usdTry');
+    if(iqd)document.getElementById('usdIqd2').value=iqd.value;
+    if(tr)document.getElementById('usdTry2').value=tr.value;
+    var tr2=document.getElementById('tickerRate');
+    var tc2=document.getElementById('tickerChange');
+    if(tr2)document.getElementById('tickerRate2').textContent=tr2.textContent;
+    if(tc2){document.getElementById('tickerChange2').textContent=tc2.textContent;document.getElementById('tickerChange2').className=tc2.className;}
+  }
+  // sync appear screen
+  if(name==='appear'){syncAppearScreen();}
+}
+
+function saveRatesFromScreen(){
+  var iqd=parseFloat(document.getElementById('usdIqd2').value)||1530;
+  var tr=parseFloat(document.getElementById('usdTry2').value)||43;
+  document.getElementById('usdIqd').value=iqd;
+  document.getElementById('usdTry').value=tr;
+  saveSettings();
+  var ok=document.getElementById('ratesSaveOk');
+  ok.textContent='✅ Saved!';ok.style.opacity='1';
+  setTimeout(function(){ok.style.opacity='0';},2000);
+}
+
+// ===== CALCULATOR SCREEN =====
+var scCalcCur='0',scCalcExpr='',scCalcOp='',scCalcPrev='',scCalcJust=false;
+function scCalcInput(k){
+  var disp=document.getElementById('sc-calcDisplay');
+  var expr=document.getElementById('sc-calcExpr');
+  if(k==='C'){scCalcCur='0';scCalcExpr='';scCalcOp='';scCalcPrev='';scCalcJust=false;disp.textContent='0';expr.innerHTML='&nbsp;';return;}
+  if(k==='±'){scCalcCur=(parseFloat(scCalcCur||0)*-1).toString();disp.textContent=scCalcCur;return;}
+  if(k==='%'){scCalcCur=(parseFloat(scCalcCur||0)/100).toString();disp.textContent=scCalcCur;return;}
+  if(k==='÷'||k==='×'||k==='-'||k==='+'){
+    if(scCalcOp&&!scCalcJust)scDoCalc();
+    scCalcPrev=scCalcCur;scCalcOp=k;scCalcCur='';scCalcJust=false;
+    expr.textContent=scCalcPrev+' '+k;return;
+  }
+  if(k==='='){
+    if(!scCalcOp)return;
+    expr.textContent=scCalcPrev+' '+scCalcOp+' '+scCalcCur+' =';
+    scDoCalc();scCalcOp='';scCalcJust=true;return;
+  }
+  if(k==='.'){if(scCalcCur.includes('.'))return;scCalcCur=(scCalcCur||'0')+'.';disp.textContent=scCalcCur;return;}
+  if(scCalcJust){scCalcCur='';scCalcJust=false;expr.innerHTML='&nbsp;';}
+  if(scCalcCur==='0'&&k!=='.'){scCalcCur=k;}else{scCalcCur+=k;}
+  if(scCalcCur.length>12)scCalcCur=scCalcCur.slice(0,12);
+  disp.textContent=scCalcCur;
+  playClick();
+}
+function scDoCalc(){
+  var a=parseFloat(scCalcPrev)||0,b=parseFloat(scCalcCur)||0,r;
+  if(scCalcOp==='÷'){r=b===0?'Err':a/b;}
+  else if(scCalcOp==='×'){r=a*b;}
+  else if(scCalcOp==='-'){r=a-b;}
+  else{r=a+b;}
+  r=r==='Err'?'Err':(Math.round(r*1e10)/1e10).toString();
+  scCalcCur=r;scCalcPrev=r;
+  document.getElementById('sc-calcDisplay').textContent=r;
+}
+
+// ===== APPEARANCE SCREEN SYNC =====
+function syncAppearScreen(){
+  // sync theme dots
+  var cur=document.body.className.match(/th-[\w]+/);
+  var curTh=cur?cur[0]:'th-gold';
+  document.querySelectorAll('#sc-theme-row .tdot').forEach(function(d){
+    d.classList.toggle('active',d.dataset.th===curTh);
+  });
+  // sync kb dots
+  document.querySelectorAll('#sc-kb-row .kbdot').forEach(function(d){
+    d.classList.toggle('active',parseInt(d.dataset.kb)===currentKb);
+  });
+  // sync lang
+  document.getElementById('sc-lang-ar').classList.toggle('on',currentLang==='ar');
+  document.getElementById('sc-lang-en').classList.toggle('on',currentLang==='en');
+}
+function setTheme2(el,th){
+  document.querySelectorAll('#sc-theme-row .tdot').forEach(function(d){d.classList.remove('active');});
+  el.classList.add('active');
+  // map to setTheme call
+  var map={'th-gold':'gold','th-white':'white','th-dark':'dark','th-slate':'slate','th-midnight':'midnight','th-forest':'forest'};
+  if(map[th])setTheme(map[th]);
+}
+function setKb2(el,n){
+  document.querySelectorAll('#sc-kb-row .kbdot').forEach(function(d){d.classList.remove('active');});
+  el.classList.add('active');
+  setKbStyle(n);
+}
+function syncLangBtns2(){
+  document.getElementById('sc-lang-ar').classList.toggle('on',currentLang==='ar');
+  document.getElementById('sc-lang-en').classList.toggle('on',currentLang==='en');
+}
 
 // ===== CHART =====
 function switchChart(type){
