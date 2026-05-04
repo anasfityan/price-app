@@ -18,22 +18,98 @@
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;800;900&family=Space+Mono:wght@700&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
 <style>
-/* ===== THEME VARIABLES — accent changes, base stays neutral ===== */
+/* ===== THEME VARIABLES — harmonized color system ===== */
 body{
-  /* Fixed dark neutral base */
-  --bg:#0a0a0a; --bg2:#141414; --bg3:#1e1e1e; --bg4:#272727; --bg5:#323232;
-  --txt:#f0f0f0; --mu:#707070; --mu2:#909090;
-  --grn:#4caf7d; --red:#e05c5c;
-  /* Accent — changes per theme */
-  --gld:#c9a84c; --gld2:#e8c96a;
-  --nav-acc:#c9a84c; --bn-gold:#c9a84c;
+  /* GOLD theme — warm dark, default */
+  --bg:#0c0a07; --bg2:#15120c; --bg3:#1f1b13; --bg4:#2a251a; --bg5:#363023;
+  --txt:#f2ede0; --mu:#8a8270; --mu2:#a8a090;
+  --gld:#d4b366; --gld2:#e6cc85; --gld-rgb:212,179,102;
+  --grn:#7cb88a; --grn-rgb:124,184,138;
+  --red:#d98a7a; --red-rgb:217,138,122;
+  --nav-acc:#d4b366; --bn-gold:#d4b366;
+  --shadow-color:0,0,0;
+  --num:#f5e6b8; --sym:#d4b366; --field:#1a1610; --field-bd:#3d3424;
+  --btn-2:#241f15; --btn-2-tx:#c9b896; --label:#a89968; --hl:#3a2f1a;
+  --pos:#7cb88a; --neg:#d98a7a;
   --font-main:'Tajawal',sans-serif;
 }
-/* Light mode override */
-body.th-white{
-  --bg:#f5f5f5; --bg2:#ebebeb; --bg3:#dedede; --bg4:#cccccc; --bg5:#b8b8b8;
-  --txt:#141414; --mu:#707070; --mu2:#505050;
-  --grn:#2e7d32; --red:#c62828;
+/* MIDNIGHT — cool dark */
+body.th-midnight{
+  --bg:#0a0d14; --bg2:#0f1320; --bg3:#171c2e; --bg4:#222840; --bg5:#2e3552;
+  --txt:#e8ecf5; --mu:#7a8299; --mu2:#9aa2b8;
+  --gld:#7ba8e0; --gld2:#a3c5ed; --gld-rgb:123,168,224;
+  --grn:#82b89a; --grn-rgb:130,184,154;
+  --red:#d9869a; --red-rgb:217,134,154;
+  --nav-acc:#7ba8e0; --bn-gold:#7ba8e0;
+  --shadow-color:5,8,15;
+  --num:#dce6ff; --sym:#7ba8e0; --field:#11162a; --field-bd:#2a3656;
+  --btn-2:#1a2138; --btn-2-tx:#a8b6d4; --label:#6f86b3; --hl:#1f2a4a;
+  --pos:#82b89a; --neg:#d9869a;
+}
+/* BRONZE — warm copper */
+body.th-bronze{
+  --bg:#0d0a08; --bg2:#16110d; --bg3:#211a14; --bg4:#2d2419; --bg5:#3a2f22;
+  --txt:#f0e6d8; --mu:#8a7d6a; --mu2:#a89a85;
+  --gld:#d49266; --gld2:#e8ad85; --gld-rgb:212,146,102;
+  --grn:#8ab884; --grn-rgb:138,184,132;
+  --red:#d97a72; --red-rgb:217,122,114;
+  --nav-acc:#d49266; --bn-gold:#d49266;
+  --shadow-color:0,0,0;
+  --num:#f5d8b8; --sym:#d49266; --field:#1c130e; --field-bd:#4a3624;
+  --btn-2:#2a1f15; --btn-2-tx:#c9a888; --label:#a88060; --hl:#3d2818;
+  --pos:#8ab884; --neg:#d97a72;
+}
+/* EMERALD — cool green dark */
+body.th-emerald{
+  --bg:#060e0b; --bg2:#0c1812; --bg3:#12231a; --bg4:#1a3026; --bg5:#243d32;
+  --txt:#dff5ec; --mu:#6a9a82; --mu2:#88b89e;
+  --gld:#5ec4a2; --gld2:#88dcc0; --gld-rgb:94,196,162;
+  --grn:#5ec4a2; --grn-rgb:94,196,162;
+  --red:#d98a7a; --red-rgb:217,138,122;
+  --nav-acc:#5ec4a2; --bn-gold:#5ec4a2;
+  --shadow-color:0,8,5;
+  --num:#b8f5e0; --sym:#5ec4a2; --field:#08120f; --field-bd:#1e4030;
+  --btn-2:#122018; --btn-2-tx:#88c4aa; --label:#6aaa88; --hl:#1a3024;
+  --pos:#5ec4a2; --neg:#d98a7a;
+}
+/* VIOLET — cool purple dark */
+body.th-violet{
+  --bg:#090710; --bg2:#100d1c; --bg3:#18152a; --bg4:#221d38; --bg5:#2e2748;
+  --txt:#ede8ff; --mu:#8880aa; --mu2:#a8a0c8;
+  --gld:#a88ee8; --gld2:#c4aeff; --gld-rgb:168,142,232;
+  --grn:#82b89a; --grn-rgb:130,184,154;
+  --red:#d9869a; --red-rgb:217,134,154;
+  --nav-acc:#a88ee8; --bn-gold:#a88ee8;
+  --shadow-color:5,3,12;
+  --num:#e8d8ff; --sym:#a88ee8; --field:#0e0b1e; --field-bd:#3a2f58;
+  --btn-2:#1e1830; --btn-2-tx:#b8a8e0; --label:#9080c0; --hl:#2a2244;
+  --pos:#82b89a; --neg:#d9869a;
+}
+/* CRIMSON — dark red */
+body.th-crimson{
+  --bg:#0e0808; --bg2:#181010; --bg3:#221616; --bg4:#2e1e1e; --bg5:#3a2828;
+  --txt:#ffecea; --mu:#9a8080; --mu2:#b89898;
+  --gld:#e07878; --gld2:#f09898; --gld-rgb:224,120,120;
+  --grn:#82b88a; --grn-rgb:130,184,138;
+  --red:#e07878; --red-rgb:224,120,120;
+  --nav-acc:#e07878; --bn-gold:#e07878;
+  --shadow-color:10,3,3;
+  --num:#ffe0e0; --sym:#e07878; --field:#120808; --field-bd:#4a2020;
+  --btn-2:#2a1010; --btn-2-tx:#d4a8a8; --label:#b08080; --hl:#3a1818;
+  --pos:#82b88a; --neg:#e07878;
+}
+/* PEARL — light warm */
+body.th-pearl{
+  --bg:#f7f4ee; --bg2:#efeae0; --bg3:#e6dfd0; --bg4:#d4ccba; --bg5:#bfb6a2;
+  --txt:#1f1a12; --mu:#6e6655; --mu2:#52493a;
+  --gld:#9c7a2e; --gld2:#b89243; --gld-rgb:156,122,46;
+  --grn:#3e7d4f; --grn-rgb:62,125,79;
+  --red:#a85040; --red-rgb:168,80,64;
+  --nav-acc:#9c7a2e; --bn-gold:#9c7a2e;
+  --shadow-color:120,100,70;
+  --num:#3a2a08; --sym:#9c7a2e; --field:#fbf8f2; --field-bd:#c9bfa6;
+  --btn-2:#e6dfd0; --btn-2-tx:#5a4a28; --label:#8a7440; --hl:#ede4cc;
+  --pos:#3e7d4f; --neg:#a85040;
 }
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
@@ -66,7 +142,7 @@ body{font-family:var(--font-main);background-color:var(--dark);color:#f0ece0;hei
 ..result-fixed{flex-shrink:0;padding:8px 12px;display:flex;gap:8px;align-items:stretch;border-bottom:1px solid rgba(201,168,76,.08);}
 .res-main-card{flex:1;background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.03));border:1px solid rgba(201,168,76,.2);border-radius:12px;padding:8px 12px;display:flex;flex-direction:column;justify-content:center;}
 .res-main-card .res-label{font-size:9px;letter-spacing:2px;color:#8a8070;text-transform:uppercase;margin-bottom:3px;font-family:'Outfit',sans-serif;}
-.res-main-card .res-amount{font-size:24px;font-weight:900;direction:ltr;background:linear-gradient(135deg,#c9a84c,#e8c96a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;font-family:'Space Mono',monospace;}
+.res-main-card .res-amount{font-size:24px;font-weight:900;direction:ltr;background:linear-gradient(135deg,var(--gld),var(--gld2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;font-family:'Space Mono',monospace;}
 .res-main-card .res-amount.zero{background:none!important;-webkit-text-fill-color:#2e2e2e!important;}
 .res-main-card .res-cur{font-size:10px;color:#8a8070;margin-top:2px;}
 .res-side{display:flex;flex-direction:column;gap:6px;justify-content:center;}
@@ -88,7 +164,7 @@ body{font-family:var(--font-main);background-color:var(--dark);color:#f0ece0;hei
 .display-sym{font-size:20px;color:#c9a84c;font-weight:900;opacity:.6;font-family:'Outfit',sans-serif;flex-shrink:0;letter-spacing:-1px;}
 .display-right{flex:1;}
 .display-lbl{font-size:9px;letter-spacing:2px;color:#8a8070;text-transform:uppercase;margin-bottom:4px;font-family:'Outfit',sans-serif;}
-.display-val{font-size:30px;font-weight:900;color:#f0ece0;font-family:'Space Mono',monospace;direction:ltr;min-height:36px;letter-spacing:1px;}
+.display-val{font-size:30px;font-weight:900;color:var(--txt);font-family:'Space Mono',monospace;direction:ltr;min-height:36px;letter-spacing:1px;}
 .display-val.empty{color:#2e2e2e;}
 
 /* KEYBOARD */
@@ -165,9 +241,18 @@ body{font-family:var(--font-main);background-color:var(--dark);color:#f0ece0;hei
 .tdot:active{transform:scale(.88);}
 
 /* KB grid */
-.kb-sel-row{display:flex;gap:7px;}
-.kbdot{width:44px;height:44px;border-radius:10px;cursor:pointer;border:1.5px solid #2e2e2e;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:18px;transition:background .15s,border-color .15s,transform .15s;}
-.kbdot.active{border-color:#c9a84c;background:rgba(201,168,76,.1);box-shadow:0 0 8px rgba(201,168,76,.15);}
+.kb-sel-row{display:flex;gap:8px;}
+.kbdot{
+  flex:1;height:52px;border-radius:12px;cursor:pointer;
+  border:1.5px solid var(--bg5,#2e2e2e);background:var(--bg3,#1a1a1a);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:3px;font-size:16px;transition:all .18s;
+  -webkit-tap-highlight-color:transparent;
+}
+.kbdot:active{transform:scale(.93);}
+.kbdot span.kbl{font-size:8px;font-family:'Outfit',sans-serif;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--mu,#6a6258);line-height:1;}
+.kbdot.active{border-color:var(--gld,#c9a84c);background:color-mix(in srgb,var(--gld,#c9a84c) 12%,transparent);box-shadow:0 0 12px rgba(var(--gld-rgb,201,168,76),.2);}
+.kbdot.active .kbl{color:var(--gld,#c9a84c);}
 
 /* Lang */
 .lang-row{display:flex;gap:8px;}
@@ -192,6 +277,23 @@ body{font-family:var(--font-main);background-color:var(--dark);color:#f0ece0;hei
 
 /* drawer footer credit */
 .drawer-credit{padding:12px 14px;text-align:center;font-size:10px;color:#2e2e2e;letter-spacing:1.5px;font-family:'Outfit',sans-serif;margin-top:auto;border-top:1px solid #242424;flex-shrink:0;}
+
+/* ===== PER-THEME PERSONALITY ===== */
+.display-val,#displayVal,.calc-val,#sc-calcDisplay,
+.res-amount,#res-amount,.ticker-val,
+.ck-num,.kb-luxury .k:not(.k-ok):not(.k-del),
+.kb-flat .k:not(.k-ok):not(.k-del){color:var(--num)!important;}
+.display-sym,.rate-input-suffix,.diw .dunit{color:var(--sym)!important;}
+.diw,.rate-input-row{background:var(--field)!important;border-color:var(--field-bd)!important;}
+.diw input,.rate-input-field{background:transparent!important;color:var(--num)!important;}
+.ck-fn,.chart-tab,.menu-btn,.panel-back{background:var(--btn-2)!important;color:var(--btn-2-tx)!important;border-color:var(--field-bd)!important;}
+.ck-fn:active,.chart-tab:active{background:var(--hl)!important;}
+.display-lbl,.res-label,#lbl-res,.calc-mem-lbl,.appear-section-title,.rate-input-lbl,.chart-title{color:var(--label)!important;}
+.res-profit b,#res-profit-val,.ticker-change.up{color:var(--pos)!important;}
+.ticker-change.dn{color:var(--neg)!important;}
+.kb-luxury .k.k-del,.kb-glass .k.k-del,.kb-neon .k.k-del,.kb-flat .k.k-del{color:var(--neg)!important;}
+.chart-tab.on,.lang-btn.on{background:var(--hl)!important;}
+.kbdot.active{background:var(--hl)!important;border-color:var(--gld)!important;}
 
 /* ===== BOTTOM NAV BAR — PILL STYLE ===== */
 @keyframes bnPulse{
@@ -629,7 +731,7 @@ body{background:var(--bg)!important;color:var(--txt)!important;}
 <div id="resultFixed" style="flex-shrink:0;padding:6px 10px;display:flex;gap:6px;align-items:stretch;border-bottom:1px solid rgba(201,168,76,.08);position:relative;z-index:1;">
   <div style="flex:1;background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.03));border:1px solid rgba(201,168,76,.2);border-radius:14px;padding:11px 14px;display:flex;flex-direction:column;justify-content:center;">
     <div style="font-size:9px;letter-spacing:2px;color:#8a8070;text-transform:uppercase;margin-bottom:3px;font-family:'Outfit',sans-serif;" id="lbl-res">SELLING PRICE</div>
-    <div style="font-size:24px;font-weight:900;direction:ltr;background:linear-gradient(135deg,#c9a84c,#e8c96a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;font-family:'Space Mono',monospace;" class="res-amount zero" id="res-amount">0</div>
+    <div style="font-size:24px;font-weight:900;direction:ltr;background:linear-gradient(135deg,var(--gld),var(--gld2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;font-family:'Space Mono',monospace;" class="res-amount zero" id="res-amount">0</div>
     <div style="font-size:10px;color:#8a8070;margin-top:2px;" id="res-cur">Iraqi Dinar</div>
   </div>
   <div style="display:flex;flex-direction:column;gap:6px;justify-content:center;">
@@ -820,13 +922,13 @@ body{background:var(--bg)!important;color:var(--txt)!important;}
     <div class="appear-section">
       <div class="appear-section-title">🎨 Theme</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;" id="sc-theme-row">
-        <div class="tswatch active" data-th="th-gold"    onclick="setThemeRow(this,'gold')"    style="background:linear-gradient(135deg,#141414 50%,#c9a84c 50%);"></div>
-        <div class="tswatch" data-th="th-dark"           onclick="setThemeRow(this,'dark')"    style="background:linear-gradient(135deg,#141414 50%,#d0d0ff 50%);"></div>
-        <div class="tswatch" data-th="th-bronze"         onclick="setThemeRow(this,'bronze')"  style="background:linear-gradient(135deg,#141414 50%,#c07838 50%);"></div>
-        <div class="tswatch" data-th="th-white"          onclick="setThemeRow(this,'white')"   style="background:linear-gradient(135deg,#ebebeb 50%,#7a5500 50%);"></div>
-        <div class="tswatch" data-th="th-slate"          onclick="setThemeRow(this,'slate')"   style="background:linear-gradient(135deg,#141414 50%,#6aabcf 50%);"></div>
-        <div class="tswatch" data-th="th-midnight"       onclick="setThemeRow(this,'midnight')" style="background:linear-gradient(135deg,#141414 50%,#6a9eea 50%);"></div>
-        <div class="tswatch" data-th="th-forest"         onclick="setThemeRow(this,'forest')"  style="background:linear-gradient(135deg,#141414 50%,#5cb87a 50%);"></div>
+        <div class="tswatch active" data-th="th-gold"    onclick="setThemeRow(this,'gold')"    style="background:linear-gradient(135deg,#15120c 50%,#d4b366 50%);" title="Gold"></div>
+        <div class="tswatch" data-th="th-midnight"       onclick="setThemeRow(this,'midnight')" style="background:linear-gradient(135deg,#0f1320 50%,#7ba8e0 50%);" title="Midnight"></div>
+        <div class="tswatch" data-th="th-bronze"         onclick="setThemeRow(this,'bronze')"   style="background:linear-gradient(135deg,#16110d 50%,#d49266 50%);" title="Bronze"></div>
+        <div class="tswatch" data-th="th-emerald"        onclick="setThemeRow(this,'emerald')"  style="background:linear-gradient(135deg,#0c1812 50%,#5ec4a2 50%);" title="Emerald"></div>
+        <div class="tswatch" data-th="th-violet"         onclick="setThemeRow(this,'violet')"   style="background:linear-gradient(135deg,#100d1c 50%,#a88ee8 50%);" title="Violet"></div>
+        <div class="tswatch" data-th="th-crimson"        onclick="setThemeRow(this,'crimson')"  style="background:linear-gradient(135deg,#181010 50%,#e07878 50%);" title="Crimson"></div>
+        <div class="tswatch" data-th="th-pearl"          onclick="setThemeRow(this,'pearl')"    style="background:linear-gradient(135deg,#efeae0 50%,#9c7a2e 50%);" title="Pearl"></div>
       </div>
     </div>
 
@@ -834,10 +936,18 @@ body{background:var(--bg)!important;color:var(--txt)!important;}
     <div class="appear-section">
       <div class="appear-section-title">⌨️ Keyboard Style</div>
       <div class="kb-sel-row" id="sc-kb-row">
-        <div class="kbdot active" data-kb="1" onclick="setKb2(this,1)" title="Luxury">▦</div>
-        <div class="kbdot" data-kb="2" onclick="setKb2(this,2)" title="Glass">◎</div>
-        <div class="kbdot" data-kb="3" onclick="setKb2(this,3)" title="Neon">◈</div>
-        <div class="kbdot" data-kb="4" onclick="setKb2(this,4)" title="Flat">▣</div>
+        <div class="kbdot active" data-kb="1" onclick="setKb2(this,1)">
+          <span>⬛</span><span class="kbl">Luxury</span>
+        </div>
+        <div class="kbdot" data-kb="2" onclick="setKb2(this,2)">
+          <span>💠</span><span class="kbl">Glass</span>
+        </div>
+        <div class="kbdot" data-kb="3" onclick="setKb2(this,3)">
+          <span>⚡</span><span class="kbl">Neon</span>
+        </div>
+        <div class="kbdot" data-kb="4" onclick="setKb2(this,4)">
+          <span>▪</span><span class="kbl">Flat</span>
+        </div>
       </div>
     </div>
 
@@ -1023,10 +1133,10 @@ body{background:var(--bg)!important;color:var(--txt)!important;}
     <div>
       <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c9a84c;font-weight:700;margin-bottom:12px;font-family:'Outfit',sans-serif;" id="lbl-ap-kb">Keyboard Style</div>
       <div class="kb-sel-row">
-        <div class="kbdot active" id="kb-dot-1" onclick="setKb(1)">💎</div>
-        <div class="kbdot" id="kb-dot-2" onclick="setKb(2)">🫧</div>
-        <div class="kbdot" id="kb-dot-3" onclick="setKb(3)">⚡</div>
-        <div class="kbdot" id="kb-dot-4" onclick="setKb(4)">▪️</div>
+        <div class="kbdot active" id="kb-dot-1" onclick="setKb(1)"><span>⬛</span><span class="kbl">Luxury</span></div>
+        <div class="kbdot" id="kb-dot-2" onclick="setKb(2)"><span>💠</span><span class="kbl">Glass</span></div>
+        <div class="kbdot" id="kb-dot-3" onclick="setKb(3)"><span>⚡</span><span class="kbl">Neon</span></div>
+        <div class="kbdot" id="kb-dot-4" onclick="setKb(4)"><span>▪</span><span class="kbl">Flat</span></div>
       </div>
     </div>
 
@@ -1168,7 +1278,7 @@ function setKb(n){
   currentKb=n;
   try{localStorage.setItem('kb',n);}catch(e){}
   document.getElementById('kbCard').innerHTML=kbHTML(n);
-  if(window._tc){const c=window._tc;document.querySelectorAll('.k').forEach(el=>{el.style.background=c.bg3;el.style.color=c.text;el.style.borderColor=c.bg5;});document.querySelectorAll('.k-ok').forEach(el=>{el.style.background=c.gold;el.style.color=c.bg;});document.querySelectorAll('.k-del').forEach(el=>el.style.color=c.red);}
+  // CSS vars handle keyboard styling — no inline styles needed
   for(let i=1;i<=5;i++){
     const dot=document.getElementById('kb-dot-'+i);
     if(!dot)continue;
@@ -1319,31 +1429,21 @@ async function saveSettings(){
 }
 
 // ===== THEME =====
-const THEMES=['gold','white','dark','bronze','slate','midnight','forest'];
-// ===== NEW THEME SYSTEM =====
-// Base neutrals are FIXED — only accent color changes per theme
-// 'light' mode flips bg/text but keeps same accent logic
-const BASE_DARK = {
-  bg:'#0a0a0a', bg2:'#141414', bg3:'#1e1e1e', bg4:'#272727', bg5:'#323232',
-  text:'#f0f0f0', muted:'#707070', muted2:'#909090', green:'#4caf7d', red:'#e05c5c'
-};
-const BASE_LIGHT = {
-  bg:'#f5f5f5', bg2:'#ebebeb', bg3:'#dedede', bg4:'#cccccc', bg5:'#b8b8b8',
-  text:'#141414', muted:'#707070', muted2:'#505050', green:'#2e7d32', red:'#c62828'
-};
+const THEMES=['gold','midnight','bronze','emerald','violet','crimson','pearl'];
 
-function makeTheme(base, accent, accentLight, nav){
-  return Object.assign({}, base, {gold:accent, gold_l:accentLight, nav:nav||accent});
+// ===== THEME COLORS — matches CSS vars exactly =====
+function makeT(bg,bg2,bg3,bg4,bg5,txt,mu,mu2,gld,gld2,grn,red,cls){
+  return {bg,bg2,bg3,bg4,bg5,text:txt,muted:mu,muted2:mu2,
+          gold:gld,gold_l:gld2,nav:gld,green:grn,red,cssClass:cls};
 }
-
 const THEME_COLORS={
-  'gold':    makeTheme(BASE_DARK,  '#c9a84c','#e8c96a','#c9a84c'),
-  'dark':    makeTheme(BASE_DARK,  '#e0e0ff','#ffffff','#d0d0ff'),
-  'bronze':  makeTheme(BASE_DARK,  '#c07838','#e09050','#d08040'),
-  'slate':   makeTheme(BASE_DARK,  '#6aabcf','#90c8e8','#80b8d8'),
-  'midnight':makeTheme(BASE_DARK,  '#6a9eea','#98c0ff','#80aaee'),
-  'forest':  makeTheme(BASE_DARK,  '#5cb87a','#80d898','#70cc88'),
-  'white':   makeTheme(BASE_LIGHT, '#7a5500','#9a7010','#8a6200'),
+  'gold':    makeT('#0c0a07','#15120c','#1f1b13','#2a251a','#363023','#f2ede0','#8a8270','#a8a090','#d4b366','#e6cc85','#7cb88a','#d98a7a',''),
+  'midnight':makeT('#0a0d14','#0f1320','#171c2e','#222840','#2e3552','#e8ecf5','#7a8299','#9aa2b8','#7ba8e0','#a3c5ed','#82b89a','#d9869a','th-midnight'),
+  'bronze':  makeT('#0d0a08','#16110d','#211a14','#2d2419','#3a2f22','#f0e6d8','#8a7d6a','#a89a85','#d49266','#e8ad85','#8ab884','#d97a72','th-bronze'),
+  'emerald': makeT('#060e0b','#0c1812','#12231a','#1a3026','#243d32','#dff5ec','#6a9a82','#88b89e','#5ec4a2','#88dcc0','#5ec4a2','#d98a7a','th-emerald'),
+  'violet':  makeT('#090710','#100d1c','#18152a','#221d38','#2e2748','#ede8ff','#8880aa','#a8a0c8','#a88ee8','#c4aeff','#82b89a','#d9869a','th-violet'),
+  'crimson': makeT('#0e0808','#181010','#221616','#2e1e1e','#3a2828','#ffecea','#9a8080','#b89898','#e07878','#f09898','#82b88a','#e07878','th-crimson'),
+  'pearl':   makeT('#f7f4ee','#efeae0','#e6dfd0','#d4ccba','#bfb6a2','#1f1a12','#6e6655','#52493a','#9c7a2e','#b89243','#3e7d4f','#a85040','th-pearl'),
 };
 
 
@@ -1361,6 +1461,8 @@ function applyThemeStyles(c){
   b.style.setProperty('--gld2', c.gold_l);
   b.style.setProperty('--grn',  c.green);
   b.style.setProperty('--red',  c.red);
+  // Per-theme extended vars are handled by CSS body.th-* classes
+  // No need to set them via JS — CSS specificity handles it
   var navColor = c.nav || c.gold;
   b.style.setProperty('--bn-gold', navColor);
   b.style.setProperty('--nav-acc', navColor);
@@ -1415,20 +1517,25 @@ function updateThemeSelectors(t){
 
 function toggleDarkLight(){
   var cur=localStorage.getItem('theme')||'gold';
-  setTheme(cur==='white'?'gold':'white');
+  setTheme(cur==='arctic'?'gold':'arctic');
 }
 
 function setTheme(t){
   var c=THEME_COLORS[t];
   if(!c)return;
-  // Toggle light mode class
-  document.body.classList.toggle('th-white', t==='white');
+  // Apply CSS class for theme
+  THEMES.forEach(function(th){
+    var tc=THEME_COLORS[th];
+    if(tc&&tc.cssClass) document.body.classList.remove(tc.cssClass);
+  });
+  if(c.cssClass) document.body.classList.add(c.cssClass);
   applyThemeStyles(c);
   // sync theme swatches
   document.querySelectorAll('#sc-theme-row .tswatch').forEach(function(el){
     el.classList.toggle('active', el.dataset.th==='th-'+t);
   });
-  try{localStorage.setItem('theme',t);}catch(e){}
+  var validThemes=['gold','midnight','bronze','emerald','violet','crimson','pearl'];
+  if(validThemes.includes(t)) try{localStorage.setItem('theme',t);}catch(e){}
   updateThemeSelectors(t);
   updateChart();
 }
@@ -1717,11 +1824,18 @@ async function fetchTicker(){
 window.addEventListener('load',()=>{
   loadSettings();
   try{const l=localStorage.getItem('lang')||'en';setLang(l);}catch(e){setLang('en');}
-  // 1. تحديد رقم الكيبورد قبل أي شيء
+  // 1. كيبورد
   try{currentKb=parseInt(localStorage.getItem('kb')||'1');}catch(e){currentKb=1;}
-  // 2. تطبيق الثيم
-  try{const t=localStorage.getItem('theme');if(t&&THEMES.includes(t))setTheme(t);else setTheme('gold');}catch(e){setTheme('gold');}
-  // 3. بناء الكيبورد بعد الثيم
+  // 2. ثيم — تنظيف أي قيمة قديمة غير موجودة
+  try{
+    const validThemes=['gold','midnight','emerald','violet','crimson','arctic'];
+    var saved=localStorage.getItem('theme');
+    var validNew=['gold','midnight','bronze','emerald','violet','crimson','pearl'];
+    var t=(saved&&validNew.includes(saved))?saved:'gold';
+    if(!validNew.includes(saved)) localStorage.setItem('theme','gold');
+    setTheme(t);
+  }catch(e){setTheme('gold');}
+  // 3. بناء الكيبورد
   setKb(currentKb);
   try{const ch=sessionStorage.getItem('calc_h');if(ch){const p=JSON.parse(ch);if(p.t&&(Date.now()-p.t)<5*60*1000)calcHistory=p.d||[];}}catch(e){}
   try{const lv=sessionStorage.getItem('last_lira');if(lv){const p=JSON.parse(lv);if(p.t&&(Date.now()-p.t)<5*60*1000&&p.v){liraVal=p.v;const dv=document.getElementById('displayVal');dv.textContent=parseInt(liraVal).toLocaleString('en-US');dv.classList.remove('empty');calc();}}}catch(e){}
