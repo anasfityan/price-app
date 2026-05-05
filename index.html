@@ -323,7 +323,7 @@ body{font-family:var(--font-main);background-color:var(--bg);color:var(--txt);he
 /* ===== CALCULATOR SCREEN ===== */
 .calc-screen{
   flex:1;display:flex;flex-direction:column;
-  padding:8px 10px 8px;
+  padding:8px 10px 90px;
   gap:5px;overflow:hidden;
 }
 
@@ -392,7 +392,6 @@ color:var(--txt)
   flex-direction:column;
   box-shadow:0 4px 20px rgba(0,0,0,.4);
   overflow:hidden;
-  margin-bottom:92px;
 }
 
 /* Main grid — 5 fixed rows */
@@ -462,6 +461,18 @@ color:var(--txt)
   font-weight:700;
 }
 .ck-op:active{border-bottom-width:1px;transform:translateY(2px);}
+
+/* Backspace */
+.ck-del{
+  background:#2a1a1a;
+  border:1px solid #3a2020;
+  border-bottom:3px solid #150a0a;
+  color:#e05c5c;
+  font-size:18px;
+  font-family:'Outfit',sans-serif;
+  font-weight:900;
+}
+.ck-del:active{border-bottom-width:1px;transform:translateY(2px);}
 
 /* Equals — solid green */
 .ck-eq{
@@ -575,7 +586,9 @@ body{background:var(--bg)!important;color:var(--txt)!important;}
 .calc-kb-card{background:var(--bg2)!important;border-color:var(--bg4)!important;}
 .ck-num{background:linear-gradient(160deg,var(--bg3),var(--bg2))!important;color:var(--txt)!important;border-color:var(--bg4)!important;}
 .ck-fn{background:var(--bg4)!important;color:var(--mu2)!important;border-color:var(--bg5)!important;}
-.ck-op,.ck-eq{background:linear-gradient(135deg,var(--gld),var(--gld2))!important;color:var(--bg)!important;border:none!important;}
+.ck-op{background:linear-gradient(135deg,var(--gld),var(--gld2))!important;color:var(--bg)!important;border:none!important;}
+.ck-eq{background:#27ae60!important;border-color:#1a7a40!important;color:#fff!important;}
+.ck-del{background:var(--bg3)!important;border-color:var(--bg5)!important;color:#e05c5c!important;}
 .ck-sci{background:var(--bg3)!important;color:var(--mu)!important;border-color:var(--bg4)!important;}
 
 /* RATES SCREEN */
@@ -805,8 +818,9 @@ body{background:var(--bg)!important;color:var(--txt)!important;}
       <button class="ck ck-num" onclick="scCalcInput('2')">2</button>
       <button class="ck ck-num" onclick="scCalcInput('3')">3</button>
       <button class="ck ck-op" onclick="scCalcInput('+')">+</button>
-      <button class="ck ck-num ck-zero" onclick="scCalcInput('0')">0</button>
+      <button class="ck ck-num" onclick="scCalcInput('0')">0</button>
       <button class="ck ck-num" onclick="scCalcInput('.')">.</button>
+      <button class="ck ck-del" onclick="scCalcInput('DEL')">⌫</button>
       <button class="ck ck-eq" onclick="scCalcInput('=')">=</button>
     </div>
     </div>
@@ -1648,6 +1662,12 @@ function scCalcInput(k){
   if(k==='C'){
     scCalcCur='0';scCalcOp='';scCalcPrev='';scCalcJust=false;scCalcLastExpr='';
     disp.textContent='0';expr.innerHTML='&nbsp;';hist.innerHTML='&nbsp;';res.textContent='—';
+    return;
+  }
+  if(k==='DEL'){
+    if(scCalcJust){scCalcCur='0';scCalcJust=false;}
+    else{scCalcCur=scCalcCur.length>1?scCalcCur.slice(0,-1):'0';}
+    disp.textContent=scCalcCur;
     return;
   }
   if(k==='±'){scCalcCur=(parseFloat(scCalcCur||0)*-1).toString();disp.textContent=scCalcCur;return;}
