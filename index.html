@@ -18,9 +18,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;800;900&family=Space+Mono:wght@700&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
 <style>
-/* ===== THEME VARIABLES — harmonized color system ===== */
+/* ===== THEME VARIABLES ===== */
 body{
-  /* GOLD theme — pure black, gold accents only */
+  /* DARK mode */
   --bg:#0a0a0a; --bg2:#141414; --bg3:#1e1e1e; --bg4:#282828; --bg5:#333333;
   --txt:#f0f0f0; --mu:#666666; --mu2:#999999;
   --gld:#c9a84c; --gld2:#e8c96a; --gld-rgb:201,168,76;
@@ -33,60 +33,8 @@ body{
   --pos:#4caf7d; --neg:#e05c5c;
   --font-main:'Tajawal',sans-serif;
 }
-/* MIDNIGHT — cool dark */
-body.th-midnight{
-  --bg:#0a0d14; --bg2:#0f1320; --bg3:#171c2e; --bg4:#222840; --bg5:#2e3552;
-  --txt:#e8ecf5; --mu:#7a8299; --mu2:#9aa2b8;
-  --gld:#7ba8e0; --gld2:#a3c5ed; --gld-rgb:123,168,224;
-  --grn:#82b89a; --grn-rgb:130,184,154;
-  --red:#d9869a; --red-rgb:217,134,154;
-  --nav-acc:#7ba8e0; --bn-gold:#7ba8e0;
-  --shadow-color:5,8,15;
-  --num:#dce6ff; --sym:#7ba8e0; --field:#11162a; --field-bd:#2a3656;
-  --btn-2:#1a2138; --btn-2-tx:#a8b6d4; --label:#6f86b3; --hl:#1f2a4a;
-  --pos:#82b89a; --neg:#d9869a;
-}
-/* EMERALD — cool green dark */
-body.th-emerald{
-  --bg:#060e0b; --bg2:#0c1812; --bg3:#12231a; --bg4:#1a3026; --bg5:#243d32;
-  --txt:#dff5ec; --mu:#6a9a82; --mu2:#88b89e;
-  --gld:#5ec4a2; --gld2:#88dcc0; --gld-rgb:94,196,162;
-  --grn:#5ec4a2; --grn-rgb:94,196,162;
-  --red:#d98a7a; --red-rgb:217,138,122;
-  --nav-acc:#5ec4a2; --bn-gold:#5ec4a2;
-  --shadow-color:0,8,5;
-  --num:#b8f5e0; --sym:#5ec4a2; --field:#08120f; --field-bd:#1e4030;
-  --btn-2:#122018; --btn-2-tx:#88c4aa; --label:#6aaa88; --hl:#1a3024;
-  --pos:#5ec4a2; --neg:#d98a7a;
-}
-/* VIOLET — cool purple dark */
-body.th-violet{
-  --bg:#090710; --bg2:#100d1c; --bg3:#18152a; --bg4:#221d38; --bg5:#2e2748;
-  --txt:#ede8ff; --mu:#8880aa; --mu2:#a8a0c8;
-  --gld:#a88ee8; --gld2:#c4aeff; --gld-rgb:168,142,232;
-  --grn:#82b89a; --grn-rgb:130,184,154;
-  --red:#d9869a; --red-rgb:217,134,154;
-  --nav-acc:#a88ee8; --bn-gold:#a88ee8;
-  --shadow-color:5,3,12;
-  --num:#e8d8ff; --sym:#a88ee8; --field:#0e0b1e; --field-bd:#3a2f58;
-  --btn-2:#1e1830; --btn-2-tx:#b8a8e0; --label:#9080c0; --hl:#2a2244;
-  --pos:#82b89a; --neg:#d9869a;
-}
-/* CRIMSON — dark red */
-body.th-crimson{
-  --bg:#0e0808; --bg2:#181010; --bg3:#221616; --bg4:#2e1e1e; --bg5:#3a2828;
-  --txt:#ffecea; --mu:#9a8080; --mu2:#b89898;
-  --gld:#e07878; --gld2:#f09898; --gld-rgb:224,120,120;
-  --grn:#82b88a; --grn-rgb:130,184,138;
-  --red:#e07878; --red-rgb:224,120,120;
-  --nav-acc:#e07878; --bn-gold:#e07878;
-  --shadow-color:10,3,3;
-  --num:#ffe0e0; --sym:#e07878; --field:#120808; --field-bd:#4a2020;
-  --btn-2:#2a1010; --btn-2-tx:#d4a8a8; --label:#b08080; --hl:#3a1818;
-  --pos:#82b88a; --neg:#e07878;
-}
-/* PEARL — light warm */
-body.th-pearl{
+/* LIGHT mode */
+body.th-light{
   --bg:#f7f4ee; --bg2:#efeae0; --bg3:#e6dfd0; --bg4:#d4ccba; --bg5:#bfb6a2;
   --txt:#1f1a12; --mu:#6e6655; --mu2:#52493a;
   --gld:#9c7a2e; --gld2:#b89243; --gld-rgb:156,122,46;
@@ -98,14 +46,14 @@ body.th-pearl{
   --btn-2:#e6dfd0; --btn-2-tx:#5a4a28; --label:#8a7440; --hl:#ede4cc;
   --pos:#3e7d4f; --neg:#a85040;
 }
-/* Pearl light mode — nav needs darker border to be visible */
-body.th-pearl .bottom-nav{
+/* Light mode — nav border */
+body.th-light .bottom-nav{
   background:rgba(230,225,215,.8);
   border-color:rgba(0,0,0,.15);
   box-shadow:0 8px 32px rgba(120,100,70,.2), inset 0 1px 0 rgba(255,255,255,.7);
 }
-body.th-pearl .bn-tab .bn-svg{stroke:rgba(0,0,0,.35);}
-body.th-pearl .bn-tab .bn-label{color:rgba(0,0,0,.3);}
+body.th-light .bn-tab .bn-svg{stroke:rgba(0,0,0,.35);}
+body.th-light .bn-tab .bn-label{color:rgba(0,0,0,.3);}
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;overflow:hidden;}
@@ -957,12 +905,8 @@ body{background:var(--bg)!important;color:var(--txt)!important;}
     <div class="appear-section">
       <div class="appear-section-title">🎨 Theme</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;" id="sc-theme-row">
-        <div class="tswatch active" data-th="th-gold"    onclick="setThemeRow(this,'gold')"    style="background:linear-gradient(135deg,#15120c 50%,#d4b366 50%);" title="Gold"></div>
-        <div class="tswatch" data-th="th-midnight"       onclick="setThemeRow(this,'midnight')" style="background:linear-gradient(135deg,#0f1320 50%,#7ba8e0 50%);" title="Midnight"></div>
-        <div class="tswatch" data-th="th-emerald"        onclick="setThemeRow(this,'emerald')"  style="background:linear-gradient(135deg,#0c1812 50%,#5ec4a2 50%);" title="Emerald"></div>
-        <div class="tswatch" data-th="th-violet"         onclick="setThemeRow(this,'violet')"   style="background:linear-gradient(135deg,#100d1c 50%,#a88ee8 50%);" title="Violet"></div>
-        <div class="tswatch" data-th="th-crimson"        onclick="setThemeRow(this,'crimson')"  style="background:linear-gradient(135deg,#181010 50%,#e07878 50%);" title="Crimson"></div>
-        <div class="tswatch" data-th="th-pearl"          onclick="setThemeRow(this,'pearl')"    style="background:linear-gradient(135deg,#efeae0 50%,#9c7a2e 50%);" title="Pearl"></div>
+        <div class="tswatch active" data-th="th-dark"  onclick="setThemeRow(this,'dark')"  style="background:linear-gradient(135deg,#0a0a0a 50%,#c9a84c 50%);" title="Dark"></div>
+        <div class="tswatch" data-th="th-light"        onclick="setThemeRow(this,'light')" style="background:linear-gradient(135deg,#efeae0 50%,#9c7a2e 50%);" title="Light"></div>
       </div>
     </div>
 
@@ -1144,21 +1088,13 @@ body{background:var(--bg)!important;color:var(--txt)!important;}
     <div>
       <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gld);font-weight:700;margin-bottom:12px;font-family:'Outfit',sans-serif;">Theme</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-        <div onclick="setTheme('gold')" id="ts-gold" style="padding:14px 12px;border-radius:14px;background:linear-gradient(135deg,#111,#1c1c1c);border:2px solid #c9a84c;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s,border-color .15s,transform .15s;">
+        <div onclick="setTheme('dark')" id="ts-dark" style="padding:14px 12px;border-radius:14px;background:linear-gradient(135deg,#111,#1c1c1c);border:2px solid #c9a84c;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s,border-color .15s,transform .15s;">
           <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#0a0a0a,#c9a84c);flex-shrink:0;"></div>
-          <span style="font-size:12px;color:#c9a84c;font-family:'Outfit',sans-serif;font-weight:700;">Gold</span>
+          <span style="font-size:12px;color:#c9a84c;font-family:'Outfit',sans-serif;font-weight:700;">Dark</span>
         </div>
-        <div onclick="setTheme('white')" id="ts-white" style="padding:14px 12px;border-radius:14px;background:linear-gradient(135deg,#f5f0e8,#e8e0d0);border:1.5px solid #d4c9b0;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s,border-color .15s,transform .15s;">
-          <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#fff,#b8860b);flex-shrink:0;"></div>
+        <div onclick="setTheme('light')" id="ts-light" style="padding:14px 12px;border-radius:14px;background:linear-gradient(135deg,#f5f0e8,#e8e0d0);border:1.5px solid #d4c9b0;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s,border-color .15s,transform .15s;">
+          <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#efeae0,#9c7a2e);flex-shrink:0;"></div>
           <span style="font-size:12px;color:#7a5c00;font-family:'Outfit',sans-serif;font-weight:700;">Light</span>
-        </div>
-        <div onclick="setTheme('slate')" id="ts-slate" style="padding:14px 12px;border-radius:14px;background:linear-gradient(135deg,#0e1117,#1a2333);border:1.5px solid #2c354e;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s,border-color .15s,transform .15s;">
-          <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#0e1117,#7c9cbf);flex-shrink:0;"></div>
-          <span style="font-size:12px;color:#7c9cbf;font-family:'Outfit',sans-serif;font-weight:700;">Slate</span>
-        </div>
-        <div onclick="setTheme('forest')" id="ts-forest" style="padding:14px 12px;border-radius:14px;background:linear-gradient(135deg,#0a110a,#142014);border:1.5px solid #223422;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s,border-color .15s,transform .15s;">
-          <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#0e160e,#6aaa6a);flex-shrink:0;"></div>
-          <span style="font-size:12px;color:#6aaa6a;font-family:'Outfit',sans-serif;font-weight:700;">Forest</span>
         </div>
       </div>
     </div>
@@ -1463,7 +1399,7 @@ async function saveSettings(){
 }
 
 // ===== THEME =====
-const THEMES=['gold','midnight','emerald','violet','crimson','pearl'];
+const THEMES=['dark','light'];
 
 // ===== THEME COLORS — matches CSS vars exactly =====
 function makeT(bg,bg2,bg3,bg4,bg5,txt,mu,mu2,gld,gld2,grn,red,cls){
@@ -1471,12 +1407,8 @@ function makeT(bg,bg2,bg3,bg4,bg5,txt,mu,mu2,gld,gld2,grn,red,cls){
           gold:gld,gold_l:gld2,nav:gld,green:grn,red,cssClass:cls};
 }
 const THEME_COLORS={
-  'gold':    makeT('#0c0a07','#15120c','#1f1b13','#2a251a','#363023','#f2ede0','#8a8270','#a8a090','#d4b366','#e6cc85','#7cb88a','#d98a7a',''),
-  'midnight':makeT('#0a0d14','#0f1320','#171c2e','#222840','#2e3552','#e8ecf5','#7a8299','#9aa2b8','#7ba8e0','#a3c5ed','#82b89a','#d9869a','th-midnight'),
-  'emerald': makeT('#060e0b','#0c1812','#12231a','#1a3026','#243d32','#dff5ec','#6a9a82','#88b89e','#5ec4a2','#88dcc0','#5ec4a2','#d98a7a','th-emerald'),
-  'violet':  makeT('#090710','#100d1c','#18152a','#221d38','#2e2748','#ede8ff','#8880aa','#a8a0c8','#a88ee8','#c4aeff','#82b89a','#d9869a','th-violet'),
-  'crimson': makeT('#0e0808','#181010','#221616','#2e1e1e','#3a2828','#ffecea','#9a8080','#b89898','#e07878','#f09898','#82b88a','#e07878','th-crimson'),
-  'pearl':   makeT('#f7f4ee','#efeae0','#e6dfd0','#d4ccba','#bfb6a2','#1f1a12','#6e6655','#52493a','#9c7a2e','#b89243','#3e7d4f','#a85040','th-pearl'),
+  'dark':  makeT('#0a0a0a','#141414','#1e1e1e','#282828','#333333','#f0f0f0','#666666','#999999','#c9a84c','#e8c96a','#4caf7d','#e05c5c',''),
+  'light': makeT('#f7f4ee','#efeae0','#e6dfd0','#d4ccba','#bfb6a2','#1f1a12','#6e6655','#52493a','#9c7a2e','#b89243','#3e7d4f','#a85040','th-light'),
 };
 
 
@@ -1533,25 +1465,24 @@ function toggleVibration(){
 }
 
 function updateThemeSelectors(t){
-  ['gold','white','slate','forest'].forEach(function(th){
+  ['dark','light'].forEach(function(th){
     const el=document.getElementById('ts-'+th);
     if(!el)return;
     el.style.opacity=(th===t)?'1':'0.5';
     el.style.transform=(th===t)?'scale(1.02)':'scale(1)';
   });
   const btn=document.getElementById('theme-toggle-btn');
-  if(btn)btn.textContent=(t==='white')?'🌙':'☀️';
+  if(btn)btn.textContent=(t==='light')?'🌙':'☀️';
 }
 
 function toggleDarkLight(){
-  var cur=localStorage.getItem('theme')||'gold';
-  var lightThemes=['pearl','white','arctic'];
-  setTheme(lightThemes.includes(cur)?'gold':'pearl');
+  var cur=localStorage.getItem('theme')||'dark';
+  setTheme(cur==='light'?'dark':'light');
 }
 
 function setTheme(t){
   var c=THEME_COLORS[t];
-  if(!c)return;
+  if(!c){c=THEME_COLORS['dark'];t='dark';}
   // Apply CSS class for theme
   THEMES.forEach(function(th){
     var tc=THEME_COLORS[th];
@@ -1563,8 +1494,7 @@ function setTheme(t){
   document.querySelectorAll('#sc-theme-row .tswatch').forEach(function(el){
     el.classList.toggle('active', el.dataset.th==='th-'+t);
   });
-  var validThemes=['gold','midnight','bronze','emerald','violet','crimson','pearl'];
-  if(validThemes.includes(t)) try{localStorage.setItem('theme',t);}catch(e){}
+  try{localStorage.setItem('theme',t);}catch(e){}
   updateThemeSelectors(t);
   updateChart();
 }
@@ -1762,7 +1692,7 @@ function scDoCalc(){
 
 // ===== APPEARANCE SCREEN SYNC =====
 function syncAppearScreen(){
-  var curT=localStorage.getItem('theme')||'gold';
+  var curT=localStorage.getItem('theme')||'dark';
   var curTh='th-'+curT;
   document.querySelectorAll('#sc-theme-row .tswatch').forEach(function(d){
     d.classList.toggle('active', d.dataset.th===curTh);
@@ -1774,14 +1704,9 @@ function syncAppearScreen(){
   document.getElementById('sc-lang-en').classList.toggle('on',currentLang==='en');
 }
 function setThemeRow(el,t){
-  document.querySelectorAll('#sc-theme-row .theme-row-item').forEach(function(d){d.classList.remove('active');});
+  document.querySelectorAll('#sc-theme-row .tswatch').forEach(function(d){d.classList.remove('active');});
   el.classList.add('active');
   setTheme(t);
-}
-function setTheme2(el,th){
-  // legacy — map to new system
-  var map={'th-gold':'gold','th-white':'white','th-dark':'dark','th-slate':'slate','th-midnight':'midnight','th-forest':'forest'};
-  if(map[th]) setTheme(map[th]);
 }
 function setKb2(el,n){
   document.querySelectorAll('#sc-kb-row .kbdot').forEach(function(d){d.classList.remove('active');});
@@ -1861,15 +1786,12 @@ window.addEventListener('load',()=>{
   try{const l=localStorage.getItem('lang')||'en';setLang(l);}catch(e){setLang('en');}
   // 1. كيبورد
   try{currentKb=parseInt(localStorage.getItem('kb')||'1');}catch(e){currentKb=1;}
-  // 2. ثيم — تنظيف أي قيمة قديمة غير موجودة
+  // 2. ثيم
   try{
-    const validThemes=['gold','midnight','emerald','violet','crimson','arctic'];
     var saved=localStorage.getItem('theme');
-    var validNew=['gold','midnight','bronze','emerald','violet','crimson','pearl'];
-    var t=(saved&&validNew.includes(saved))?saved:'gold';
-    if(!validNew.includes(saved)) localStorage.setItem('theme','gold');
+    var t=(saved==='dark'||saved==='light')?saved:'dark';
     setTheme(t);
-  }catch(e){setTheme('gold');}
+  }catch(e){setTheme('dark');}
   // 3. بناء الكيبورد
   setKb(currentKb);
   try{const ch=sessionStorage.getItem('calc_h');if(ch){const p=JSON.parse(ch);if(p.t&&(Date.now()-p.t)<5*60*1000)calcHistory=p.d||[];}}catch(e){}
