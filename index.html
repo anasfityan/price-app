@@ -809,7 +809,7 @@ body{background:var(--bg)!important;color:var(--txt)!important;}
 
 /* Theme swatches — compact row */
 .tswatch{
-  width:42px;height:42px;border-radius:12px;
+  width:32px;height:32px;border-radius:9px;
   cursor:pointer;flex-shrink:0;
   border:2px solid transparent;
   transition:transform .15s,border-color .15s,box-shadow .15s;
@@ -1093,6 +1093,20 @@ body{background:var(--bg)!important;color:var(--txt)!important;}
       </div>
     </div>
 
+    <!-- SOUND -->
+    <div class="appear-section">
+      <div class="appear-section-title">🔊 Button Sound</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div style="font-size:13px;font-weight:700;color:var(--txt);font-family:'Outfit',sans-serif;">Click Sound</div>
+          <div style="font-size:10px;color:var(--mu);font-family:'Outfit',sans-serif;margin-top:2px;">Sound on button press</div>
+        </div>
+        <div onclick="toggleSound()" id="snd-toggle2" style="width:48px;height:26px;border-radius:13px;background:var(--gld);cursor:pointer;position:relative;transition:background .25s;flex-shrink:0;">
+          <div id="snd-knob2" style="position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:right .25s;box-shadow:0 1px 4px rgba(0,0,0,.4);"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- THEME -->
     <div class="appear-section">
       <div class="appear-section-title">🎨 Theme</div>
@@ -1282,6 +1296,22 @@ body{background:var(--bg)!important;color:var(--txt)!important;}
       </div>
     </div>
 
+    <!-- SOUND -->
+    <div style="background:rgba(255,255,255,.04);border-radius:14px;padding:14px 16px;border:1px solid rgba(255,255,255,.07);">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:20px;">🔊</span>
+          <div>
+            <div style="font-size:13px;font-weight:700;color:var(--txt);font-family:'Outfit',sans-serif;">Button Sound</div>
+            <div style="font-size:10px;color:var(--mu);font-family:'Outfit',sans-serif;margin-top:2px;">Click sound on/off</div>
+          </div>
+        </div>
+        <div onclick="toggleSound()" id="snd-toggle" style="width:48px;height:26px;border-radius:13px;background:var(--gld);cursor:pointer;position:relative;transition:background .25s;flex-shrink:0;">
+          <div id="snd-knob" style="width:22px;height:22px;border-radius:50%;background:#fff;position:absolute;top:2px;left:24px;transition:left .25s;box-shadow:0 1px 4px rgba(0,0,0,.4);"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- THEMES -->
     <div>
       <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gld);font-weight:700;margin-bottom:12px;font-family:'Outfit',sans-serif;">Theme</div>
@@ -1348,6 +1378,8 @@ body{background:var(--bg)!important;color:var(--txt)!important;}
 // ===== SOUND SYSTEM =====
 const AudioCtx = window.AudioContext || window.webkitAudioContext;
 let _actx = null;
+let soundEnabled=true;
+try{soundEnabled=localStorage.getItem('sound')!=='off';}catch(e){}
 
 function getACtx(){
   if(!_actx) _actx = new AudioCtx();
@@ -1357,6 +1389,7 @@ function getACtx(){
 
 // صوت نقر عام - نقرة خفيفة
 function playClick(){
+  if(!soundEnabled) return;
   try{
     const ctx = getACtx();
     const osc = ctx.createOscillator();
@@ -1366,7 +1399,7 @@ function playClick(){
     osc.type = 'sine';
     osc.frequency.setValueAtTime(800, ctx.currentTime);
     osc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.08);
-    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain.gain.setValueAtTime(0.06, ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
     osc.start(ctx.currentTime);
     osc.stop(ctx.currentTime + 0.1);
@@ -1375,6 +1408,7 @@ function playClick(){
 
 // صوت فتح القائمة - صوت أعمق مميز
 function playDrawerOpen(){
+  if(!soundEnabled) return;
   try{
     const ctx = getACtx();
     const osc = ctx.createOscillator();
@@ -1384,7 +1418,7 @@ function playDrawerOpen(){
     osc.type = 'sine';
     osc.frequency.setValueAtTime(200, ctx.currentTime);
     osc.frequency.exponentialRampToValueAtTime(350, ctx.currentTime + 0.15);
-    gain.gain.setValueAtTime(0.18, ctx.currentTime);
+    gain.gain.setValueAtTime(0.07, ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
     osc.start(ctx.currentTime);
     osc.stop(ctx.currentTime + 0.25);
@@ -1647,10 +1681,23 @@ function toggleVibration(){
   const knob=document.getElementById('vib-knob');
   const tog2=document.getElementById('vib-toggle2');
   const knob2=document.getElementById('vib-knob2');
-  if(tog)tog.style.background=vibrationEnabled?'#d4b366':'#555';
+  if(tog)tog.style.background=vibrationEnabled?'var(--gld)':'#555';
   if(knob)knob.style.left=vibrationEnabled?'24px':'2px';
-  if(tog2)tog2.style.background=vibrationEnabled?'#d4b366':'#555';
+  if(tog2)tog2.style.background=vibrationEnabled?'var(--gld)':'#555';
   if(knob2)knob2.style.right=vibrationEnabled?'3px':'auto';if(knob2)knob2.style.left=vibrationEnabled?'auto':'3px';
+}
+
+function toggleSound(){
+  soundEnabled=!soundEnabled;
+  try{localStorage.setItem('sound',soundEnabled?'on':'off');}catch(e){}
+  const tog=document.getElementById('snd-toggle');
+  const knob=document.getElementById('snd-knob');
+  const tog2=document.getElementById('snd-toggle2');
+  const knob2=document.getElementById('snd-knob2');
+  if(tog)tog.style.background=soundEnabled?'var(--gld)':'#555';
+  if(knob)knob.style.left=soundEnabled?'24px':'2px';
+  if(tog2)tog2.style.background=soundEnabled?'var(--gld)':'#555';
+  if(knob2)knob2.style.right=soundEnabled?'3px':'auto';if(knob2)knob2.style.left=soundEnabled?'auto':'3px';
 }
 
 function updateThemeSelectors(t){
@@ -1835,6 +1882,7 @@ function scCalcSci(op){
   playClick();
 }
 function scCalcInput(k){
+  try{if(vibrationEnabled&&navigator.vibrate)navigator.vibrate(8);}catch(e){}
   var disp=document.getElementById('sc-calcDisplay');
   var expr=document.getElementById('sc-calcExpr');
   var hist=document.getElementById('sc-calcHistory');
@@ -1988,6 +2036,24 @@ window.addEventListener('load',()=>{
   updateChart();
   fetchTicker();
   setInterval(fetchTicker,300000);
+
+  // تهيئة حالة مفاتيح الاهتزاز والصوت
+  (function(){
+    const vOn=vibrationEnabled;
+    const sOn=soundEnabled;
+    const vt=document.getElementById('vib-toggle'),vk=document.getElementById('vib-knob');
+    const vt2=document.getElementById('vib-toggle2'),vk2=document.getElementById('vib-knob2');
+    const st=document.getElementById('snd-toggle'),sk=document.getElementById('snd-knob');
+    const st2=document.getElementById('snd-toggle2'),sk2=document.getElementById('snd-knob2');
+    if(vt)vt.style.background=vOn?'var(--gld)':'#555';
+    if(vk)vk.style.left=vOn?'24px':'2px';
+    if(vt2)vt2.style.background=vOn?'var(--gld)':'#555';
+    if(vk2){vk2.style.right=vOn?'3px':'auto';vk2.style.left=vOn?'auto':'3px';}
+    if(st)st.style.background=sOn?'var(--gld)':'#555';
+    if(sk)sk.style.left=sOn?'24px':'2px';
+    if(st2)st2.style.background=sOn?'var(--gld)':'#555';
+    if(sk2){sk2.style.right=sOn?'3px':'auto';sk2.style.left=sOn?'auto':'3px';}
+  })();
 
   // صوت النقر العام - يتجاهل الكيبورد
   document.addEventListener('click', function(e){
