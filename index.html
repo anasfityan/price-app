@@ -666,8 +666,8 @@ body{font-family:var(--font-main);background-color:var(--bg);color:var(--txt);he
 
 
 /* ===== APPEARANCE SCREEN ===== */
-.appear-screen-scroll{flex:1;overflow-y:auto;padding:10px 12px 70px;display:flex;flex-direction:column;gap:14px;}
-.appear-section{background:var(--bg2);border:1px solid rgba(255,255,255,.05);border-radius:16px;padding:14px 16px;}
+.appear-screen-scroll{flex:1;overflow-y:auto;padding:8px 10px 70px;display:flex;flex-direction:column;gap:8px;}
+.appear-section{background:var(--bg2);border:1px solid rgba(255,255,255,.05);border-radius:14px;padding:10px 12px;}
 .appear-section-title{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gld);font-weight:700;margin-bottom:12px;font-family:'Outfit',sans-serif;}
 
 /* ===== RATES SCREEN ===== */
@@ -1079,74 +1079,70 @@ body{background:var(--bg)!important;color:var(--txt)!important;}
 <div class="screen" id="screen-appear">
   <div class="appear-screen-scroll" id="appearScreenScroll">
 
-    <!-- VIBRATION -->
-    <div class="appear-section">
-      <div class="appear-section-title">📳 Keyboard Vibration</div>
-      <div style="display:flex;align-items:center;justify-content:space-between;">
-        <div>
-          <div style="font-size:13px;font-weight:700;color:var(--txt);font-family:'Outfit',sans-serif;">Tap Feedback</div>
-          <div style="font-size:10px;color:var(--mu);font-family:'Outfit',sans-serif;margin-top:2px;">Vibrate on button press</div>
+    <!-- CONTROLS: Vibration + Sound -->
+    <div class="appear-section" style="padding:0;overflow:hidden;">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:15px;">📳</span>
+          <span style="font-size:12px;font-weight:700;color:var(--txt);font-family:'Outfit',sans-serif;">Vibration</span>
         </div>
-        <div onclick="toggleVibration()" id="vib-toggle2" style="width:48px;height:26px;border-radius:13px;background:var(--gld);cursor:pointer;position:relative;transition:background .25s;flex-shrink:0;">
-          <div id="vib-knob2" style="position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:right .25s;box-shadow:0 1px 4px rgba(0,0,0,.4);"></div>
+        <div onclick="toggleVibration()" id="vib-toggle2" style="width:44px;height:24px;border-radius:12px;background:var(--gld);cursor:pointer;position:relative;transition:background .25s;flex-shrink:0;">
+          <div id="vib-knob2" style="position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:right .25s,left .25s;box-shadow:0 1px 3px rgba(0,0,0,.4);"></div>
         </div>
       </div>
-    </div>
-
-    <!-- SOUND -->
-    <div class="appear-section">
-      <div class="appear-section-title">🔊 Button Sound</div>
-      <div style="display:flex;align-items:center;justify-content:space-between;">
-        <div>
-          <div style="font-size:13px;font-weight:700;color:var(--txt);font-family:'Outfit',sans-serif;">Click Sound</div>
-          <div style="font-size:10px;color:var(--mu);font-family:'Outfit',sans-serif;margin-top:2px;">Sound on button press</div>
+      <div style="height:1px;background:rgba(255,255,255,.06);margin:0 12px;"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:15px;">🔊</span>
+          <span style="font-size:12px;font-weight:700;color:var(--txt);font-family:'Outfit',sans-serif;">Sound</span>
         </div>
-        <div onclick="toggleSound()" id="snd-toggle2" style="width:48px;height:26px;border-radius:13px;background:var(--gld);cursor:pointer;position:relative;transition:background .25s;flex-shrink:0;">
-          <div id="snd-knob2" style="position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:right .25s;box-shadow:0 1px 4px rgba(0,0,0,.4);"></div>
+        <div onclick="toggleSound()" id="snd-toggle2" style="width:44px;height:24px;border-radius:12px;background:var(--gld);cursor:pointer;position:relative;transition:background .25s;flex-shrink:0;">
+          <div id="snd-knob2" style="position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:right .25s,left .25s;box-shadow:0 1px 3px rgba(0,0,0,.4);"></div>
         </div>
       </div>
     </div>
 
     <!-- THEME -->
-    <div class="appear-section">
-      <div class="appear-section-title">🎨 Theme</div>
-      <div style="font-size:9px;letter-spacing:1.5px;color:var(--mu);text-transform:uppercase;font-family:'Outfit',sans-serif;margin:6px 0 6px;opacity:.7;">Dark</div>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;" id="sc-theme-row-dark">
-        <div class="tswatch active" data-th="th-gold"  onclick="setThemeRow(this,'gold')"     title="Gold"     style="background:linear-gradient(135deg,#15120c 50%,#d4b366 50%);"></div>
-        <div class="tswatch" data-th="th-midnight"     onclick="setThemeRow(this,'midnight')" title="Midnight" style="background:linear-gradient(135deg,#0f1320 50%,#7ba8e0 50%);"></div>
-        <div class="tswatch" data-th="th-bronze"       onclick="setThemeRow(this,'bronze')"   title="Bronze"   style="background:linear-gradient(135deg,#16110d 50%,#d49266 50%);"></div>
-        <div class="tswatch" data-th="th-emerald"      onclick="setThemeRow(this,'emerald')"  title="Emerald"  style="background:linear-gradient(135deg,#0a1812 50%,#3ddc97 50%);"></div>
-        <div class="tswatch" data-th="th-royal"        onclick="setThemeRow(this,'royal')"    title="Royal"    style="background:linear-gradient(135deg,#150f24 50%,#b388ff 50%);"></div>
-        <div class="tswatch" data-th="th-carbon"       onclick="setThemeRow(this,'carbon')"   title="Carbon"   style="background:linear-gradient(135deg,#0c0c0c 50%,#ff5e62 50%);"></div>
-        <div class="tswatch" data-th="th-ocean"        onclick="setThemeRow(this,'ocean')"    title="Ocean"    style="background:linear-gradient(135deg,#0a1c28 50%,#26d0ce 50%);"></div>
-        <div class="tswatch" data-th="th-aurora"       onclick="setThemeRow(this,'aurora')"   title="Aurora"   style="background:linear-gradient(135deg,#121728 0%,#121728 40%,#ff80c8 70%,#a5e3ff 100%);"></div>
+    <div class="appear-section" style="padding:10px 14px;">
+      <div class="appear-section-title" style="margin-bottom:8px;">🎨 Theme</div>
+      <div style="font-size:8px;letter-spacing:1.5px;color:var(--mu);text-transform:uppercase;opacity:.6;margin-bottom:5px;">Dark</div>
+      <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:5px;" id="sc-theme-row-dark">
+        <div class="tswatch active" data-th="th-gold"     onclick="setThemeRow(this,'gold')"     title="Gold"     style="background:linear-gradient(135deg,#15120c 50%,#d4b366 50%);"></div>
+        <div class="tswatch"        data-th="th-midnight" onclick="setThemeRow(this,'midnight')" title="Midnight" style="background:linear-gradient(135deg,#0f1320 50%,#7ba8e0 50%);"></div>
+        <div class="tswatch"        data-th="th-bronze"   onclick="setThemeRow(this,'bronze')"   title="Bronze"   style="background:linear-gradient(135deg,#16110d 50%,#d49266 50%);"></div>
+        <div class="tswatch"        data-th="th-emerald"  onclick="setThemeRow(this,'emerald')"  title="Emerald"  style="background:linear-gradient(135deg,#0a1812 50%,#3ddc97 50%);"></div>
+        <div class="tswatch"        data-th="th-royal"    onclick="setThemeRow(this,'royal')"    title="Royal"    style="background:linear-gradient(135deg,#150f24 50%,#b388ff 50%);"></div>
+        <div class="tswatch"        data-th="th-carbon"   onclick="setThemeRow(this,'carbon')"   title="Carbon"   style="background:linear-gradient(135deg,#0c0c0c 50%,#ff5e62 50%);"></div>
+        <div class="tswatch"        data-th="th-ocean"    onclick="setThemeRow(this,'ocean')"    title="Ocean"    style="background:linear-gradient(135deg,#0a1c28 50%,#26d0ce 50%);"></div>
+        <div class="tswatch"        data-th="th-aurora"   onclick="setThemeRow(this,'aurora')"   title="Aurora"   style="background:linear-gradient(135deg,#121728 0%,#121728 40%,#ff80c8 70%,#a5e3ff 100%);"></div>
       </div>
-      <div style="font-size:9px;letter-spacing:1.5px;color:var(--mu);text-transform:uppercase;font-family:'Outfit',sans-serif;margin:14px 0 6px;opacity:.7;">Light</div>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;" id="sc-theme-row-light">
-        <div class="tswatch" data-th="th-pearl"        onclick="setThemeRow(this,'pearl')"    title="Pearl"    style="background:linear-gradient(135deg,#efeae0 50%,#9c7a2e 50%);"></div>
-        <div class="tswatch" data-th="th-mint"         onclick="setThemeRow(this,'mint')"     title="Mint"     style="background:linear-gradient(135deg,#e8f3ec 50%,#0d8a5f 50%);"></div>
-        <div class="tswatch" data-th="th-rose"         onclick="setThemeRow(this,'rose')"     title="Rose"     style="background:linear-gradient(135deg,#f4e8e7 50%,#b8485c 50%);"></div>
-        <div class="tswatch" data-th="th-sand"         onclick="setThemeRow(this,'sand')"     title="Sand"     style="background:linear-gradient(135deg,#efe6d2 50%,#0a7e8c 50%);"></div>
-      </div>
-    </div>
-
-    <!-- KEYBOARD STYLE -->
-    <div class="appear-section">
-      <div class="appear-section-title">⌨️ Keyboard Style</div>
-      <div class="kb-sel-row" id="sc-kb-row">
-        <div class="kbdot active" data-kb="1" onclick="setKb2(this,1)" title="Luxury">▦</div>
-        <div class="kbdot" data-kb="2" onclick="setKb2(this,2)" title="Glass">◎</div>
-        <div class="kbdot" data-kb="3" onclick="setKb2(this,3)" title="Neon">◈</div>
-        <div class="kbdot" data-kb="4" onclick="setKb2(this,4)" title="Flat">▣</div>
+      <div style="font-size:8px;letter-spacing:1.5px;color:var(--mu);text-transform:uppercase;opacity:.6;margin:8px 0 5px;">Light</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;" id="sc-theme-row-light">
+        <div class="tswatch" data-th="th-pearl" onclick="setThemeRow(this,'pearl')" title="Pearl" style="background:linear-gradient(135deg,#efeae0 50%,#9c7a2e 50%);"></div>
+        <div class="tswatch" data-th="th-mint"  onclick="setThemeRow(this,'mint')"  title="Mint"  style="background:linear-gradient(135deg,#e8f3ec 50%,#0d8a5f 50%);"></div>
+        <div class="tswatch" data-th="th-rose"  onclick="setThemeRow(this,'rose')"  title="Rose"  style="background:linear-gradient(135deg,#f4e8e7 50%,#b8485c 50%);"></div>
+        <div class="tswatch" data-th="th-sand"  onclick="setThemeRow(this,'sand')"  title="Sand"  style="background:linear-gradient(135deg,#efe6d2 50%,#0a7e8c 50%);"></div>
       </div>
     </div>
 
-    <!-- LANGUAGE -->
-    <div class="appear-section">
-      <div class="appear-section-title">🌐 Language</div>
-      <div class="lang-row">
-        <button class="lang-btn" id="sc-lang-ar" onclick="setLang('ar');syncLangBtns2()">🇮🇶 العربية</button>
-        <button class="lang-btn on" id="sc-lang-en" onclick="setLang('en');syncLangBtns2()">🇬🇧 English</button>
+    <!-- KEYBOARD + LANGUAGE -->
+    <div class="appear-section" style="padding:0;overflow:hidden;">
+      <div style="padding:10px 14px;">
+        <div class="appear-section-title" style="margin-bottom:8px;">⌨️ Keyboard</div>
+        <div class="kb-sel-row" id="sc-kb-row">
+          <div class="kbdot active" data-kb="1" onclick="setKb2(this,1)" title="Luxury">▦</div>
+          <div class="kbdot" data-kb="2" onclick="setKb2(this,2)" title="Glass">◎</div>
+          <div class="kbdot" data-kb="3" onclick="setKb2(this,3)" title="Neon">◈</div>
+          <div class="kbdot" data-kb="4" onclick="setKb2(this,4)" title="Flat">▣</div>
+        </div>
+      </div>
+      <div style="height:1px;background:rgba(255,255,255,.06);margin:0 12px;"></div>
+      <div style="padding:10px 14px;">
+        <div class="appear-section-title" style="margin-bottom:8px;">🌐 Language</div>
+        <div class="lang-row">
+          <button class="lang-btn" id="sc-lang-ar" onclick="setLang('ar');syncLangBtns2()">🇮🇶 العربية</button>
+          <button class="lang-btn on" id="sc-lang-en" onclick="setLang('en');syncLangBtns2()">🇬🇧 English</button>
+        </div>
       </div>
     </div>
 
@@ -1278,71 +1274,72 @@ body{background:var(--bg)!important;color:var(--txt)!important;}
     <div class="panel-back" onclick="closeAppearPanel()">‹ <span id="lbl-back2">Back</span></div>
     <div class="panel-title" id="lbl-appear-panel-title">Appearance</div>
   </div>
-  <div style="padding:16px;flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:20px;">
+  <div style="padding:12px 14px;flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;">
 
-    <!-- VIBRATION -->
-    <div style="background:rgba(255,255,255,.04);border-radius:14px;padding:14px 16px;border:1px solid rgba(255,255,255,.07);">
-      <div style="display:flex;align-items:center;justify-content:space-between;">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span style="font-size:20px;">📳</span>
-          <div>
-            <div style="font-size:13px;font-weight:700;color:var(--txt);font-family:'Outfit',sans-serif;">Keyboard Vibration</div>
-            <div style="font-size:10px;color:var(--mu);font-family:'Outfit',sans-serif;margin-top:2px;">Tap feedback on/off</div>
-          </div>
+    <!-- CONTROLS: Vibration + Sound -->
+    <div style="background:rgba(255,255,255,.04);border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.07);">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:15px;">📳</span>
+          <span style="font-size:12px;font-weight:700;color:var(--txt);font-family:'Outfit',sans-serif;">Vibration</span>
         </div>
-        <div onclick="toggleVibration()" id="vib-toggle" style="width:48px;height:26px;border-radius:13px;background:var(--gld);cursor:pointer;position:relative;transition:background .25s;flex-shrink:0;">
-          <div id="vib-knob" style="width:22px;height:22px;border-radius:50%;background:#fff;position:absolute;top:2px;left:24px;transition:left .25s;box-shadow:0 1px 4px rgba(0,0,0,.4);"></div>
+        <div onclick="toggleVibration()" id="vib-toggle" style="width:44px;height:24px;border-radius:12px;background:var(--gld);cursor:pointer;position:relative;transition:background .25s;flex-shrink:0;">
+          <div id="vib-knob" style="width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:3px;left:23px;transition:left .25s;box-shadow:0 1px 3px rgba(0,0,0,.4);"></div>
         </div>
       </div>
-    </div>
-
-    <!-- SOUND -->
-    <div style="background:rgba(255,255,255,.04);border-radius:14px;padding:14px 16px;border:1px solid rgba(255,255,255,.07);">
-      <div style="display:flex;align-items:center;justify-content:space-between;">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span style="font-size:20px;">🔊</span>
-          <div>
-            <div style="font-size:13px;font-weight:700;color:var(--txt);font-family:'Outfit',sans-serif;">Button Sound</div>
-            <div style="font-size:10px;color:var(--mu);font-family:'Outfit',sans-serif;margin-top:2px;">Click sound on/off</div>
-          </div>
+      <div style="height:1px;background:rgba(255,255,255,.06);margin:0 12px;"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:15px;">🔊</span>
+          <span style="font-size:12px;font-weight:700;color:var(--txt);font-family:'Outfit',sans-serif;">Sound</span>
         </div>
-        <div onclick="toggleSound()" id="snd-toggle" style="width:48px;height:26px;border-radius:13px;background:var(--gld);cursor:pointer;position:relative;transition:background .25s;flex-shrink:0;">
-          <div id="snd-knob" style="width:22px;height:22px;border-radius:50%;background:#fff;position:absolute;top:2px;left:24px;transition:left .25s;box-shadow:0 1px 4px rgba(0,0,0,.4);"></div>
+        <div onclick="toggleSound()" id="snd-toggle" style="width:44px;height:24px;border-radius:12px;background:var(--gld);cursor:pointer;position:relative;transition:background .25s;flex-shrink:0;">
+          <div id="snd-knob" style="width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:3px;left:23px;transition:left .25s;box-shadow:0 1px 3px rgba(0,0,0,.4);"></div>
         </div>
       </div>
     </div>
 
     <!-- THEMES -->
-    <div>
-      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gld);font-weight:700;margin-bottom:12px;font-family:'Outfit',sans-serif;">Theme</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-        <div onclick="setTheme('gold')" id="ts-gold" class="theme-card" style="padding:14px 12px;border-radius:14px;background:linear-gradient(135deg,#0c0a07,#15120c);border:1.5px solid var(--bg4);cursor:pointer;display:flex;align-items:center;gap:10px;transition:opacity .2s, transform .2s;">
-          <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#0c0a07,#d4b366);flex-shrink:0;"></div>
-          <span style="font-size:12px;color:#d4b366;font-family:'Outfit',sans-serif;font-weight:700;">Gold</span>
-        </div>
-        <div onclick="setTheme('midnight')" id="ts-midnight" class="theme-card" style="padding:14px 12px;border-radius:14px;background:linear-gradient(135deg,#0a0d14,#0f1320);border:1.5px solid var(--bg4);cursor:pointer;display:flex;align-items:center;gap:10px;transition:opacity .2s, transform .2s;">
-          <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#0a0d14,#7ba8e0);flex-shrink:0;"></div>
-          <span style="font-size:12px;color:#7ba8e0;font-family:'Outfit',sans-serif;font-weight:700;">Midnight</span>
-        </div>
-        <div onclick="setTheme('bronze')" id="ts-bronze" class="theme-card" style="padding:14px 12px;border-radius:14px;background:linear-gradient(135deg,#0d0a08,#16110d);border:1.5px solid var(--bg4);cursor:pointer;display:flex;align-items:center;gap:10px;transition:opacity .2s, transform .2s;">
-          <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#0d0a08,#d49266);flex-shrink:0;"></div>
-          <span style="font-size:12px;color:#d49266;font-family:'Outfit',sans-serif;font-weight:700;">Bronze</span>
-        </div>
-        <div onclick="setTheme('pearl')" id="ts-pearl" class="theme-card" style="padding:14px 12px;border-radius:14px;background:linear-gradient(135deg,#f7f4ee,#efeae0);border:1.5px solid #d4ccba;cursor:pointer;display:flex;align-items:center;gap:10px;transition:opacity .2s, transform .2s;">
-          <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#f7f4ee,#9c7a2e);flex-shrink:0;"></div>
-          <span style="font-size:12px;color:#9c7a2e;font-family:'Outfit',sans-serif;font-weight:700;">Pearl</span>
-        </div>
+    <div style="background:rgba(255,255,255,.04);border-radius:14px;padding:10px 12px;border:1px solid rgba(255,255,255,.07);">
+      <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gld);font-weight:700;margin-bottom:8px;font-family:'Outfit',sans-serif;">🎨 Theme</div>
+      <div style="font-size:8px;letter-spacing:1.5px;color:var(--mu);text-transform:uppercase;opacity:.6;margin-bottom:5px;">Dark</div>
+      <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:5px;">
+        <div onclick="setTheme('gold')"     id="ts-gold"     class="tswatch" style="background:linear-gradient(135deg,#15120c 50%,#d4b366 50%);"></div>
+        <div onclick="setTheme('midnight')" id="ts-midnight" class="tswatch" style="background:linear-gradient(135deg,#0f1320 50%,#7ba8e0 50%);"></div>
+        <div onclick="setTheme('bronze')"   id="ts-bronze"   class="tswatch" style="background:linear-gradient(135deg,#16110d 50%,#d49266 50%);"></div>
+        <div onclick="setTheme('emerald')"  id="ts-emerald"  class="tswatch" style="background:linear-gradient(135deg,#0a1812 50%,#3ddc97 50%);"></div>
+        <div onclick="setTheme('royal')"    id="ts-royal"    class="tswatch" style="background:linear-gradient(135deg,#150f24 50%,#b388ff 50%);"></div>
+        <div onclick="setTheme('carbon')"   id="ts-carbon"   class="tswatch" style="background:linear-gradient(135deg,#0c0c0c 50%,#ff5e62 50%);"></div>
+        <div onclick="setTheme('ocean')"    id="ts-ocean"    class="tswatch" style="background:linear-gradient(135deg,#0a1c28 50%,#26d0ce 50%);"></div>
+        <div onclick="setTheme('aurora')"   id="ts-aurora"   class="tswatch" style="background:linear-gradient(135deg,#121728 0%,#121728 40%,#ff80c8 70%,#a5e3ff 100%);"></div>
+      </div>
+      <div style="font-size:8px;letter-spacing:1.5px;color:var(--mu);text-transform:uppercase;opacity:.6;margin:8px 0 5px;">Light</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;">
+        <div onclick="setTheme('pearl')" id="ts-pearl" class="tswatch" style="background:linear-gradient(135deg,#efeae0 50%,#9c7a2e 50%);"></div>
+        <div onclick="setTheme('mint')"  id="ts-mint"  class="tswatch" style="background:linear-gradient(135deg,#e8f3ec 50%,#0d8a5f 50%);"></div>
+        <div onclick="setTheme('rose')"  id="ts-rose"  class="tswatch" style="background:linear-gradient(135deg,#f4e8e7 50%,#b8485c 50%);"></div>
+        <div onclick="setTheme('sand')"  id="ts-sand"  class="tswatch" style="background:linear-gradient(135deg,#efe6d2 50%,#0a7e8c 50%);"></div>
       </div>
     </div>
 
-    <!-- KEYBOARD -->
-    <div>
-      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gld);font-weight:700;margin-bottom:12px;font-family:'Outfit',sans-serif;" id="lbl-ap-kb">Keyboard Style</div>
-      <div class="kb-sel-row">
-        <div class="kbdot active" id="kb-dot-1" onclick="setKb(1)">💎</div>
-        <div class="kbdot" id="kb-dot-2" onclick="setKb(2)">🫧</div>
-        <div class="kbdot" id="kb-dot-3" onclick="setKb(3)">⚡</div>
-        <div class="kbdot" id="kb-dot-4" onclick="setKb(4)">▪️</div>
+    <!-- KEYBOARD + LANGUAGE -->
+    <div style="background:rgba(255,255,255,.04);border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.07);">
+      <div style="padding:10px 14px;">
+        <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gld);font-weight:700;margin-bottom:8px;font-family:'Outfit',sans-serif;" id="lbl-ap-kb">⌨️ Keyboard</div>
+        <div class="kb-sel-row">
+          <div class="kbdot active" id="kb-dot-1" onclick="setKb(1)">💎</div>
+          <div class="kbdot" id="kb-dot-2" onclick="setKb(2)">🫧</div>
+          <div class="kbdot" id="kb-dot-3" onclick="setKb(3)">⚡</div>
+          <div class="kbdot" id="kb-dot-4" onclick="setKb(4)">▪️</div>
+        </div>
+      </div>
+      <div style="height:1px;background:rgba(255,255,255,.06);margin:0 12px;"></div>
+      <div style="padding:10px 14px;">
+        <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gld);font-weight:700;margin-bottom:8px;font-family:'Outfit',sans-serif;">🌐 Language</div>
+        <div class="lang-row">
+          <button class="lang-btn" id="lang-ar" onclick="setLang('ar')" style="padding:8px;font-size:12px;">🇮🇶 العربية</button>
+          <button class="lang-btn on" id="lang-en" onclick="setLang('en')" style="padding:8px;font-size:12px;">🇬🇧 English</button>
+        </div>
       </div>
     </div>
 
@@ -1682,7 +1679,7 @@ function toggleVibration(){
   const tog2=document.getElementById('vib-toggle2');
   const knob2=document.getElementById('vib-knob2');
   if(tog)tog.style.background=vibrationEnabled?'var(--gld)':'#555';
-  if(knob)knob.style.left=vibrationEnabled?'24px':'2px';
+  if(knob)knob.style.left=vibrationEnabled?'23px':'3px';
   if(tog2)tog2.style.background=vibrationEnabled?'var(--gld)':'#555';
   if(knob2)knob2.style.right=vibrationEnabled?'3px':'auto';if(knob2)knob2.style.left=vibrationEnabled?'auto':'3px';
 }
@@ -1695,7 +1692,7 @@ function toggleSound(){
   const tog2=document.getElementById('snd-toggle2');
   const knob2=document.getElementById('snd-knob2');
   if(tog)tog.style.background=soundEnabled?'var(--gld)':'#555';
-  if(knob)knob.style.left=soundEnabled?'24px':'2px';
+  if(knob)knob.style.left=soundEnabled?'23px':'3px';
   if(tog2)tog2.style.background=soundEnabled?'var(--gld)':'#555';
   if(knob2)knob2.style.right=soundEnabled?'3px':'auto';if(knob2)knob2.style.left=soundEnabled?'auto':'3px';
 }
@@ -1704,11 +1701,11 @@ function updateThemeSelectors(t){
   THEMES.forEach(function(th){
     const el=document.getElementById('ts-'+th);
     if(!el)return;
-    el.style.opacity=(th===t)?'1':'0.55';
-    el.style.transform=(th===t)?'scale(1.02)':'scale(1)';
+    el.classList.toggle('active',th===t);
+    el.style.opacity=(th===t)?'1':'0.6';
   });
   const btn=document.getElementById('theme-toggle-btn');
-  if(btn)btn.textContent=(t==='pearl')?'🌙':'☀️';
+  if(btn)btn.textContent=(t==='pearl'||t==='mint'||t==='rose'||t==='sand')?'🌙':'☀️';
 }
 
 function toggleDarkLight(){
@@ -2046,11 +2043,11 @@ window.addEventListener('load',()=>{
     const st=document.getElementById('snd-toggle'),sk=document.getElementById('snd-knob');
     const st2=document.getElementById('snd-toggle2'),sk2=document.getElementById('snd-knob2');
     if(vt)vt.style.background=vOn?'var(--gld)':'#555';
-    if(vk)vk.style.left=vOn?'24px':'2px';
+    if(vk)vk.style.left=vOn?'23px':'3px';
     if(vt2)vt2.style.background=vOn?'var(--gld)':'#555';
     if(vk2){vk2.style.right=vOn?'3px':'auto';vk2.style.left=vOn?'auto':'3px';}
     if(st)st.style.background=sOn?'var(--gld)':'#555';
-    if(sk)sk.style.left=sOn?'24px':'2px';
+    if(sk)sk.style.left=sOn?'23px':'3px';
     if(st2)st2.style.background=sOn?'var(--gld)':'#555';
     if(sk2){sk2.style.right=sOn?'3px':'auto';sk2.style.left=sOn?'auto':'3px';}
   })();
