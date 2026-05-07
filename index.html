@@ -436,14 +436,18 @@ body{font-family:var(--font-main);background-color:var(--bg);color:var(--txt);he
 
 /* ===== BOTTOM NAV BAR — PILL STYLE ===== */
 @keyframes bnPulse{
-  0%{transform:scale(1);opacity:.35;}
-  70%{transform:scale(1.3);opacity:.05;}
-  100%{transform:scale(1.3);opacity:0;}
+  0%{transform:scale(1);opacity:.6;}
+  70%{transform:scale(1.35);opacity:.08;}
+  100%{transform:scale(1.35);opacity:0;}
 }
 @keyframes bnPulse2{
-  0%{transform:scale(1);opacity:.2;}
-  70%{transform:scale(1.55);opacity:.02;}
-  100%{transform:scale(1.55);opacity:0;}
+  0%{transform:scale(1);opacity:.35;}
+  70%{transform:scale(1.6);opacity:.03;}
+  100%{transform:scale(1.6);opacity:0;}
+}
+@keyframes bnGlow{
+  0%,100%{box-shadow:0 0 10px rgba(var(--gld-rgb),.18);}
+  50%{box-shadow:0 0 22px rgba(var(--gld-rgb),.5),0 0 8px rgba(var(--gld-rgb),.25);}
 }
 .bottom-nav-wrap{
   position:fixed;bottom:0;left:0;right:0;
@@ -482,19 +486,36 @@ body{font-family:var(--font-main);background-color:var(--bg);color:var(--txt);he
 /* ALL active tabs — dark with subtle gold glow */
 .bn-tab.active .bn-ico-wrap{
   background:rgba(0,0,0,.45);
-  box-shadow:0 0 12px rgba(var(--gld-rgb),.2);
+  animation:bnGlow 2.5s ease-in-out infinite;
 }
-.bn-tab:active .bn-ico-wrap{transform:scale(.88);}
+.bn-tab:active .bn-ico-wrap{transform:scale(.88);animation:none;}
 /* pulse rings — on ALL active tabs */
 .bn-ring1,.bn-ring2{
   position:absolute;
   inset:0;
   border-radius:17px;
-  border:1px solid rgba(var(--gld-rgb),.5);
+  border:1.5px solid rgba(var(--gld-rgb),.65);
   opacity:0;pointer-events:none;
 }
-.bn-tab.active .bn-ring1{animation:bnPulse 3s ease-out infinite;}
-.bn-tab.active .bn-ring2{animation:bnPulse2 3s ease-out .8s infinite;}
+.bn-tab.active .bn-ring1{animation:bnPulse 2.8s ease-out infinite;}
+.bn-tab.active .bn-ring2{animation:bnPulse2 2.8s ease-out .7s infinite;}
+/* gold underline beneath active tab */
+.bn-tab::after{
+  content:'';
+  position:absolute;
+  bottom:2px;
+  left:50%;
+  width:0;
+  height:2.5px;
+  border-radius:2px;
+  background:linear-gradient(90deg,transparent,var(--gld),transparent);
+  transform:translateX(-50%);
+  transition:width .35s cubic-bezier(.5,0,.2,1.2);
+  box-shadow:0 0 8px color-mix(in srgb,var(--gld) 60%,transparent);
+}
+.bn-tab.active::after{
+  width:22px;
+}
 /* icon SVG */
 .bn-svg{display:block;transition:stroke .25s,fill .25s;}
 .bn-tab .bn-svg{stroke:rgba(255,255,255,.3);fill:none;}
