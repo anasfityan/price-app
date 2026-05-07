@@ -1,4 +1,4 @@
-const CACHE = 'trendy-v7';
+const CACHE = 'trendy-v8';
 
 self.addEventListener('install', e => {
   e.waitUntil(
