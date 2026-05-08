@@ -332,14 +332,6 @@ body{font-family:var(--font-main);background-color:var(--bg);color:var(--txt);he
 .display-val{font-size:30px;font-weight:900;color:var(--txt);font-family:'Space Mono',monospace;direction:ltr;min-height:36px;letter-spacing:1px;}
 .display-val.empty{color:var(--bg5);}
 
-/* CONVERSION MINI SCREEN */
-.conv-card{background:var(--bg2);border:1px solid rgba(var(--gld-rgb),.15);border-radius:14px;padding:8px 12px;display:flex;align-items:center;justify-content:space-around;gap:6px;transition:opacity .2s;}
-.conv-card.empty-conv{opacity:.4;}
-.conv-item{display:flex;flex-direction:column;align-items:center;flex:1;}
-.conv-item-val{font-size:16px;font-weight:800;font-family:'Space Mono',monospace;direction:ltr;background:linear-gradient(135deg,var(--gld),var(--gld2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.1;}
-.conv-item-lbl{font-size:8px;letter-spacing:1.5px;color:var(--mu);text-transform:uppercase;margin-top:2px;font-family:'Outfit',sans-serif;}
-.conv-divider{width:1px;height:28px;background:rgba(var(--gld-rgb),.2);flex-shrink:0;}
-
 /* KEYBOARD */
 .kb-card{background:var(--bg2);border:1px solid rgba(255,255,255,.05);border-radius:14px;padding:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.3);}
 .kb-luxury{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
@@ -552,10 +544,20 @@ body{font-family:var(--font-main);background-color:var(--bg);color:var(--txt);he
   gap:5px;overflow:hidden;
 }
 
+/* CALCULATOR CURRENCY CONVERTER */
+.cc-card{background:var(--bg2);border:1px solid rgba(var(--gld-rgb),.15);border-radius:14px;padding:7px 10px;display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.cc-toggle{background:linear-gradient(135deg,rgba(var(--gld-rgb),.18),rgba(var(--gld-rgb),.06));border:1px solid rgba(var(--gld-rgb),.35);border-radius:9px;padding:5px 10px;font-size:11px;font-weight:800;color:var(--gld);cursor:pointer;font-family:'Outfit',sans-serif;letter-spacing:.5px;white-space:nowrap;flex-shrink:0;-webkit-tap-highlight-color:transparent;}
+.cc-toggle:active{opacity:.75;}
+.cc-results{display:flex;align-items:center;gap:5px;flex:1;overflow:hidden;}
+.cc-item{display:flex;flex-direction:column;align-items:center;flex:1;min-width:0;}
+.cc-val{font-size:11px;font-weight:800;font-family:'Space Mono',monospace;direction:ltr;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;display:block;text-align:center;}
+.cc-lbl{font-size:7px;letter-spacing:1px;color:var(--mu);text-transform:uppercase;font-family:'Outfit',sans-serif;margin-top:1px;}
+.cc-sep{width:1px;height:22px;background:rgba(var(--gld-rgb),.18);flex-shrink:0;}
+
 /* Display — compact */
 .calc-display-card{
   flex-shrink:0;
-  height:110px;
+  height:90px;
   background:linear-gradient(160deg,color-mix(in srgb,var(--gld) 7%,transparent),transparent);
   border:1px solid color-mix(in srgb,var(--gld) 14%,transparent);
   border-radius:14px;
@@ -909,7 +911,7 @@ body{background:var(--bg)!important;color:var(--txt)!important;}
 
 /* ===== LIGHT THEME CARD VISIBILITY ===== */
 body.th-pearl .display-card,body.th-mint .display-card,body.th-rose .display-card,body.th-sand .display-card,
-body.th-pearl .conv-card,body.th-mint .conv-card,body.th-rose .conv-card,body.th-sand .conv-card{
+body.th-pearl .cc-card,body.th-mint .cc-card,body.th-rose .cc-card,body.th-sand .cc-card{
   border-color:var(--bg5)!important;
   box-shadow:0 2px 12px rgba(var(--shadow-color),.12)!important;
 }
@@ -1005,19 +1007,6 @@ body.th-pearl .chart-card,body.th-mint .chart-card,body.th-rose .chart-card,body
 
 <!-- SCROLL -->
 <div class="scroll-area">
-  <!-- CONVERSION MINI SCREEN -->
-  <div class="conv-card empty-conv" id="convCard">
-    <div class="conv-item">
-      <div class="conv-item-val" id="conv-usd">$0.00</div>
-      <div class="conv-item-lbl" id="conv-usd-lbl">US Dollar</div>
-    </div>
-    <div class="conv-divider"></div>
-    <div class="conv-item">
-      <div class="conv-item-val" id="conv-iqd">0 IQD</div>
-      <div class="conv-item-lbl" id="conv-iqd-lbl">Iraqi Dinar</div>
-    </div>
-  </div>
-
   <div class="display-card">
     <div class="display-right">
       <div class="display-lbl" id="lbl-input">TL Turkish Lira</div>
@@ -1050,6 +1039,18 @@ body.th-pearl .chart-card,body.th-mint .chart-card,body.th-rose .chart-card,body
 <!-- ===================== SCREEN: CALCULATOR ===================== -->
 <div class="screen" id="screen-calc">
   <div class="calc-screen">
+
+    <!-- CURRENCY CONVERTER -->
+    <div class="cc-card">
+      <button class="cc-toggle" id="ccToggle" onclick="cycleCurrency()">TRY ⇄</button>
+      <div class="cc-results">
+        <div class="cc-item"><span class="cc-val" id="cc-r1">$0.00</span><span class="cc-lbl" id="cc-l1">USD</span></div>
+        <div class="cc-sep"></div>
+        <div class="cc-item"><span class="cc-val" id="cc-r2">€0.00</span><span class="cc-lbl" id="cc-l2">EUR</span></div>
+        <div class="cc-sep"></div>
+        <div class="cc-item"><span class="cc-val" id="cc-r3">0 IQD</span><span class="cc-lbl" id="cc-l3">IQD</span></div>
+      </div>
+    </div>
 
     <div class="calc-display-card">
       <div class="calc-expr-history" id="sc-calcHistory">&nbsp;</div>
@@ -1546,7 +1547,6 @@ const T={
     iqdLbl:'USD to Iraqi Dinar',tryLbl:'USD to Turkish Lira',
     save:'💾 Save Settings',saved:'✅ Saved!',
     resLbl:'Selling Price',resCur:'Iraqi Dinar',profit:'Profit',usdPrice:'USD Cost',
-    convUsdLbl:'US Dollar',convIqdLbl:'Iraqi Dinar',
     footer:'Designed by Anes Fittan',credit:'Designed by Anes Fittan'
   },
   ar:{
@@ -1563,7 +1563,6 @@ const T={
     iqdLbl:'سعر الدولار بالدينار العراقي',tryLbl:'سعر الدولار بالليرة التركية',
     save:'💾 حفظ الإعدادات',saved:'✅ تم الحفظ!',
     resLbl:'سعر البيع',resCur:'دينار عراقي',profit:'ربح',usdPrice:'بالدولار',
-    convUsdLbl:'دولار أمريكي',convIqdLbl:'دينار عراقي',
     footer:'تصميم Anes Fittan',credit:'تصميم Anes Fittan'
   }
 };
@@ -1633,9 +1632,6 @@ function calc(){
     document.getElementById('res-profit-val').textContent='0';
     document.getElementById('res-profit-val').classList.add('zero');
     document.getElementById('lbl-profit-box').textContent=t.profit+' 0%';
-    document.getElementById('conv-usd').textContent='$0.00';
-    document.getElementById('conv-iqd').textContent='0 IQD';
-    document.getElementById('convCard').classList.add('empty-conv');
     return;
   }
   const usdIqd=parseFloat(document.getElementById('usdIqd').value)||BASE_IQD;
@@ -1648,12 +1644,6 @@ function calc(){
   const pct=((profit/rawCost)*100).toFixed(0);
   const usdPrice = lira / usdTry;
   const usdPrice2 = final / usdIqd;
-  const rawIqd = lira * (usdIqd / usdTry);
-  // Update conversion mini screen
-  const convCard = document.getElementById('convCard');
-  document.getElementById('conv-usd').textContent = '$' + usdPrice.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
-  document.getElementById('conv-iqd').textContent = Math.round(rawIqd).toLocaleString('en-US') + ' IQD';
-  convCard.classList.remove('empty-conv');
   // Update result elements without changing layout
   const amtEl=document.getElementById('res-amount');
   amtEl.textContent=final.toLocaleString('en-US');
@@ -1883,8 +1873,6 @@ function setLang(l){
   setText('lbl-res',t.resLbl);
   setText('res-cur',t.resCur);
   setText('lbl-usd-box',t.usdPrice);
-  setText('conv-usd-lbl',t.convUsdLbl);
-  setText('conv-iqd-lbl',t.convIqdLbl);
   setText('drawer-credit',t.credit);
   document.getElementById('lang-ar').classList.toggle('on',l==='ar');
   document.getElementById('lang-en').classList.toggle('on',l==='en');
@@ -1968,6 +1956,46 @@ function saveRatesFromScreen(){
 
 // ===== CALCULATOR SCREEN =====
 var scCalcCur='0',scCalcOp='',scCalcPrev='',scCalcJust=false,scCalcLastExpr='';
+
+// ===== CURRENCY CONVERTER (CALC SCREEN) =====
+const BASE_EUR=0.92;
+var liveEurPerUsd=BASE_EUR;
+var ccCurrency='TRY';
+function formatCurr(cur,val){
+  if(isNaN(val)||!isFinite(val))return '—';
+  if(cur==='USD')return '$'+val.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  if(cur==='EUR')return '€'+val.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  if(cur==='TRY')return val.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+' TL';
+  if(cur==='IQD')return Math.round(val).toLocaleString('en-US')+' IQD';
+  return val.toString();
+}
+function updateCurrConv(){
+  var val=parseFloat(scCalcCur)||0;
+  var usdTry=parseFloat(document.getElementById('usdTry').value)||BASE_TRY;
+  var usdIqd=parseFloat(document.getElementById('usdIqd').value)||BASE_IQD;
+  var ep=liveEurPerUsd||BASE_EUR;
+  var usdVal;
+  if(ccCurrency==='TRY')usdVal=val/usdTry;
+  else if(ccCurrency==='USD')usdVal=val;
+  else if(ccCurrency==='EUR')usdVal=val/ep;
+  else usdVal=val/usdIqd;
+  var others=['TRY','USD','EUR','IQD'].filter(function(c){return c!==ccCurrency;});
+  others.forEach(function(cur,i){
+    var cv;
+    if(cur==='TRY')cv=usdVal*usdTry;
+    else if(cur==='USD')cv=usdVal;
+    else if(cur==='EUR')cv=usdVal*ep;
+    else cv=usdVal*usdIqd;
+    document.getElementById('cc-r'+(i+1)).textContent=formatCurr(cur,cv);
+    document.getElementById('cc-l'+(i+1)).textContent=cur;
+  });
+}
+function cycleCurrency(){
+  var curs=['TRY','USD','EUR','IQD'];
+  ccCurrency=curs[(curs.indexOf(ccCurrency)+1)%curs.length];
+  document.getElementById('ccToggle').textContent=ccCurrency+' ⇄';
+  updateCurrConv();
+}
 var sciOpen=false;
 function toggleSciRow(){
   sciOpen=!sciOpen;
@@ -2107,6 +2135,7 @@ async function fetchTicker(){
     const tryRate=d.rates.TRY;
     const iqdRate=d.rates.IQD;
     const eurRate=d.rates.EUR;
+    if(eurRate)liveEurPerUsd=eurRate;
     document.getElementById('tickerRate').textContent=tryRate.toFixed(2)+' TL';
     document.getElementById('tickerChange').textContent=t.live;
     document.getElementById('tickerChange').className='ticker-change up';
@@ -2149,6 +2178,7 @@ window.addEventListener('load',()=>{
   updateChart();
   fetchTicker();
   setInterval(fetchTicker,300000);
+  new MutationObserver(updateCurrConv).observe(document.getElementById('sc-calcDisplay'),{childList:true});
 
   // تهيئة حالة مفاتيح الاهتزاز والصوت
   (function(){
