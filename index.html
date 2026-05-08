@@ -662,14 +662,33 @@ body{font-family:var(--font-main);background-color:var(--bg);color:var(--txt);he
   box-shadow:0 2px 8px color-mix(in srgb,var(--gld) 30%,transparent);
 }
 
-/* Equals — same as op */
+/* Equals — green */
 .ck-eq{
-  background:linear-gradient(135deg,var(--gld),var(--gld2));
-  color:var(--bg);
+  background:linear-gradient(135deg,var(--grn),color-mix(in srgb,var(--grn) 70%,#000));
+  color:#fff;
   font-size:20px;
   font-family:'Space Mono',monospace;
   font-weight:600;
-  box-shadow:0 3px 12px color-mix(in srgb,var(--gld) 35%,transparent);
+  box-shadow:0 3px 12px color-mix(in srgb,var(--grn) 35%,transparent);
+}
+
+/* Delete all — red */
+.ck-del{
+  background:linear-gradient(135deg,var(--red),color-mix(in srgb,var(--red) 70%,#000));
+  color:#fff;
+  font-size:11px;
+  font-family:'Outfit',sans-serif;font-weight:800;
+  letter-spacing:.3px;
+  box-shadow:0 2px 8px color-mix(in srgb,var(--red) 25%,transparent);
+}
+
+/* Backspace — fn style */
+.ck-bs{
+  background:var(--bg4);
+  border:1px solid var(--bg5);
+  color:var(--red);
+  font-size:16px;
+  font-family:'Space Mono',monospace;font-weight:700;
 }
 
 /* Scientific */
@@ -808,7 +827,10 @@ body{background:var(--bg)!important;color:var(--txt)!important;}
 .calc-kb-card{background:var(--bg2)!important;border-color:var(--bg4)!important;}
 .ck-num{background:linear-gradient(160deg,var(--bg3),var(--bg2))!important;color:var(--txt)!important;border-color:var(--bg4)!important;}
 .ck-fn{background:var(--bg4)!important;color:var(--mu2)!important;border-color:var(--bg5)!important;}
-.ck-op,.ck-eq{background:linear-gradient(135deg,var(--gld),var(--gld2))!important;color:var(--bg)!important;border:none!important;}
+.ck-op{background:linear-gradient(135deg,var(--gld),var(--gld2))!important;color:var(--bg)!important;border:none!important;}
+.ck-eq{background:linear-gradient(135deg,var(--grn),color-mix(in srgb,var(--grn) 70%,#000))!important;color:#fff!important;border:none!important;box-shadow:0 3px 12px color-mix(in srgb,var(--grn) 35%,transparent)!important;}
+.ck-del{background:linear-gradient(135deg,var(--red),color-mix(in srgb,var(--red) 70%,#000))!important;color:#fff!important;border:none!important;box-shadow:0 2px 8px color-mix(in srgb,var(--red) 25%,transparent)!important;}
+.ck-bs{background:var(--bg4)!important;color:var(--red)!important;border-color:var(--bg5)!important;}
 .ck-sci{background:var(--bg3)!important;color:var(--mu)!important;border-color:var(--bg4)!important;}
 
 /* RATES SCREEN */
@@ -1034,7 +1056,7 @@ body.th-pearl .chart-card,body.th-mint .chart-card,body.th-rose .chart-card,body
 
     <div class="calc-kb-card">
     <div class="calc-kb">
-      <button class="ck ck-fn" onclick="scCalcInput('C')">AC</button>
+      <button class="ck ck-del" onclick="scCalcInput('C')">AC</button>
       <button class="ck ck-fn" onclick="scCalcInput('±')">+/-</button>
       <button class="ck ck-fn" onclick="scCalcInput('%')">%</button>
       <button class="ck ck-op" onclick="scCalcInput('÷')">÷</button>
@@ -1050,7 +1072,8 @@ body.th-pearl .chart-card,body.th-mint .chart-card,body.th-rose .chart-card,body
       <button class="ck ck-num" onclick="scCalcInput('2')">2</button>
       <button class="ck ck-num" onclick="scCalcInput('3')">3</button>
       <button class="ck ck-op" onclick="scCalcInput('+')">+</button>
-      <button class="ck ck-num ck-zero" onclick="scCalcInput('0')">0</button>
+      <button class="ck ck-num" onclick="scCalcInput('0')">0</button>
+      <button class="ck ck-bs" onclick="scCalcInput('⌫')">⌫</button>
       <button class="ck ck-num" onclick="scCalcInput('.')">.</button>
       <button class="ck ck-eq" onclick="scCalcInput('=')">=</button>
     </div>
@@ -1938,6 +1961,13 @@ function scCalcInput(k){
   if(k==='C'){
     scCalcCur='0';scCalcOp='';scCalcPrev='';scCalcJust=false;scCalcLastExpr='';
     disp.textContent='0';expr.innerHTML='&nbsp;';hist.innerHTML='&nbsp;';res.textContent='—';
+    return;
+  }
+  if(k==='⌫'){
+    if(scCalcJust){scCalcCur='0';scCalcJust=false;expr.innerHTML='&nbsp;';}
+    else if(scCalcCur.length>1){scCalcCur=scCalcCur.slice(0,-1);}
+    else{scCalcCur='0';}
+    disp.textContent=scCalcCur;
     return;
   }
   if(k==='±'){scCalcCur=(parseFloat(scCalcCur||0)*-1).toString();disp.textContent=scCalcCur;return;}
