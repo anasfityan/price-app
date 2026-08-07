@@ -9,24 +9,25 @@
   function iconSun(){return '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';}
   function iconCheck(){return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6.5 12.5 3.2 3.2 7.8-8"/></svg>';}
 
-  function card(theme,label,kind,icon,subtitle){
-    return '<div class="tswatch theme-choice '+kind+'-preview" data-th="th-'+theme+'" onclick="setThemeRow(this,\''+theme+'\')" role="button" tabindex="0" aria-label="'+label+'">'+
-      '<div class="theme-choice-head"><div class="theme-choice-label"><span class="theme-choice-icon">'+icon+'</span><span><strong style="display:block">'+label+'</strong><small style="display:block;font-size:8px;font-weight:600;color:var(--mu);margin-top:2px">'+subtitle+'</small></span></div><span class="theme-check">'+iconCheck()+'</span></div>'+
-      '<div class="theme-preview"><span class="theme-preview-dot"></span><span class="theme-preview-line"></span><span class="theme-preview-button"></span></div></div>';
+  function card(theme,label,kind,icon){
+    return '<button type="button" class="tswatch theme-choice '+kind+'-preview" data-th="th-'+theme+'" onclick="setThemeRow(this,\''+theme+'\')" aria-label="'+label+'">'+
+      '<span class="theme-choice-icon">'+icon+'</span>'+
+      '<span class="theme-choice-label">'+label+'</span>'+
+      '<span class="theme-check">'+iconCheck()+'</span>'+
+    '</button>';
   }
 
   function rebuildThemeSelector(){
     const darkRow=document.getElementById('sc-theme-row-dark');
     const lightRow=document.getElementById('sc-theme-row-light');
     if(!darkRow) return;
-    darkRow.innerHTML=card('gold','داكن','dark',iconMoon(),'كحلي داكن · ذهبي · ألوان حالة')+card('pearl','فاتح','light',iconSun(),'فاتح · ذهبي · ألوان حالة');
+    darkRow.innerHTML=card('gold','داكن','dark',iconMoon())+card('pearl','فاتح','light',iconSun());
     if(lightRow) lightRow.style.display='none';
     const darkLabel=darkRow.previousElementSibling;
     if(darkLabel){darkLabel.textContent='اختر المظهر';darkLabel.style.textTransform='none';darkLabel.style.letterSpacing='0';darkLabel.style.fontSize='10px';darkLabel.style.opacity='.8';}
     if(lightRow&&lightRow.previousElementSibling&&lightRow.previousElementSibling!==darkRow) lightRow.previousElementSibling.style.display='none';
     const section=darkRow.closest('.appear-section');
     if(section){const title=section.querySelector('.appear-section-title');if(title) title.textContent='المظهر والألوان';}
-    darkRow.querySelectorAll('.theme-choice').forEach(function(el){el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click();}});});
     syncActive();
   }
 
