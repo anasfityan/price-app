@@ -13,10 +13,10 @@
   };
 
   const KB_STYLE_ICONS = [
-    '<svg class="kb-style-svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="12" rx="3"/><path d="M7 10h2M11 10h2M15 10h2M7 14h2M11 14h6"/><path d="m18.2 4 .45 1.1L20 5.55l-1.35.45-.45 1.1-.45-1.1-1.35-.45 1.35-.45.45-1.1Z"/></svg>',
-    '<svg class="kb-style-svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="6" width="17" height="12" rx="4"/><circle cx="8" cy="10" r="1.2"/><circle cx="12" cy="10" r="1.2"/><circle cx="16" cy="10" r="1.2"/><path d="M7 14.5h10"/></svg>',
-    '<svg class="kb-style-svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="6" width="17" height="12" rx="3"/><path d="M7 10h3M14 10h3M7 14h3M14 14h3"/><path d="m13 3-3 5h3l-2 4"/></svg>',
-    '<svg class="kb-style-svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="12" rx="2"/><path d="M7 9.5h2M11 9.5h2M15 9.5h2M7 13.5h2M11 13.5h6"/></svg>'
+    '<svg class="kb-style-svg" viewBox="0 0 32 26" aria-hidden="true"><rect x="2" y="3" width="28" height="20" rx="5"/><rect x="6" y="7" width="5" height="4" rx="1"/><rect x="13.5" y="7" width="5" height="4" rx="1"/><rect x="21" y="7" width="5" height="4" rx="1"/><rect x="6" y="14" width="5" height="4" rx="1"/><rect x="13.5" y="14" width="12.5" height="4" rx="1"/></svg>',
+    '<svg class="kb-style-svg" viewBox="0 0 32 26" aria-hidden="true"><rect x="2" y="3" width="28" height="20" rx="7"/><circle cx="8.5" cy="9" r="2.2"/><circle cx="16" cy="9" r="2.2"/><circle cx="23.5" cy="9" r="2.2"/><rect x="7" y="14" width="18" height="4" rx="2"/></svg>',
+    '<svg class="kb-style-svg" viewBox="0 0 32 26" aria-hidden="true"><rect x="2" y="3" width="28" height="20" rx="4"/><rect x="6" y="7" width="7" height="4" rx="1"/><rect x="19" y="7" width="7" height="4" rx="1"/><rect x="6" y="14" width="7" height="4" rx="1"/><rect x="19" y="14" width="7" height="4" rx="1"/><path d="m17 5-4 7h4l-3 7"/></svg>',
+    '<svg class="kb-style-svg" viewBox="0 0 32 26" aria-hidden="true"><rect x="2" y="3" width="28" height="20" rx="3"/><path d="M6 8h5M14 8h5M22 8h4M6 13h5M14 13h5M22 13h4M8 18h16"/></svg>'
   ];
 
   function pickIcon(text){
@@ -75,7 +75,6 @@
   function upgradeKeyboardStyleSelectors(){
     const dots=Array.from(document.querySelectorAll('.kbdot'));
     dots.forEach(function(el,index){
-      if(el.dataset.kbStyleIcon==='1') return;
       const i=keyboardStyleIndex(el,index);
       el.innerHTML=KB_STYLE_ICONS[i];
       el.setAttribute('aria-label','نمط لوحة المفاتيح '+(i+1));
@@ -91,13 +90,7 @@
     if(secondary&&secondary.parentElement) secondary.parentElement.classList.add('fx-card-secondary');
   }
 
-  function init(){
-    upgradeSectionTitles();
-    addAccessibleNames();
-    upgradeKeyboardSymbols(document);
-    upgradeKeyboardStyleSelectors();
-    tagLiveRateCards();
-  }
+  function init(){upgradeSectionTitles();addAccessibleNames();upgradeKeyboardSymbols(document);upgradeKeyboardStyleSelectors();tagLiveRateCards();}
 
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init,{once:true}); else init();
   window.addEventListener('load',init,{once:true});
