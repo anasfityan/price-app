@@ -4,7 +4,8 @@
 html{-webkit-text-size-adjust:100%!important;text-size-adjust:100%!important;}
 body{overflow-x:hidden!important;}
 
-/* GACELA PRICE brand treatment. Brand group stays on the left; PRICE aligns to GACELA's right edge. */
+/* Force topbar geometry: brand on the physical left, theme control on the physical right. */
+.topbar{display:flex!important;align-items:center!important;direction:ltr!important;}
 .topbar-info{
   display:flex!important;
   flex-direction:column!important;
@@ -14,9 +15,12 @@ body{overflow-x:hidden!important;}
   width:max-content!important;
   direction:ltr!important;
   text-align:right!important;
-  margin-right:auto!important;
-  margin-left:0!important;
+  order:1!important;
+  margin:0!important;
 }
+#theme-toggle-btn{direction:ltr!important;}
+#theme-toggle-btn.parent-fix{margin-left:auto!important;}
+.topbar>div:has(#theme-toggle-btn){order:2!important;margin-left:auto!important;margin-right:0!important;}
 .gacela-brand-name{
   font-family:'Outfit','Noto Kufi Arabic',sans-serif!important;
   font-size:16px!important;
