@@ -1,31 +1,31 @@
-/* Final audit safeguards and PWA polish. */
+/* Final production safeguards and browser chrome sync. */
 (function(){
   'use strict';
 
   const THEME_COLORS = {
-    gold: '#0b0c0f',
-    midnight: '#0a0f17',
-    pearl: '#f2f1ed'
+    gold: '#070b10',
+    pearl: '#eef3f6'
   };
 
   function currentTheme(){
     try {
       const stored = localStorage.getItem('theme');
-      return THEME_COLORS[stored] ? stored : 'gold';
+      return stored === 'pearl' ? 'pearl' : 'gold';
     } catch(e) {
       return 'gold';
     }
   }
 
   function updateBrowserChrome(){
+    const color = THEME_COLORS[currentTheme()];
     const meta = document.querySelector('meta[name="theme-color"]');
-    if(meta) meta.setAttribute('content', THEME_COLORS[currentTheme()]);
+    if(meta) meta.setAttribute('content', color);
   }
 
   function wrapThemeChromeSync(){
     if(typeof window.setTheme !== 'function' || window.setTheme.__chromeSyncWrapped) return;
     const original = window.setTheme;
-    const wrapped = function(theme){
+    const wrapped = function(){
       const result = original.apply(this, arguments);
       requestAnimationFrame(updateBrowserChrome);
       return result;
