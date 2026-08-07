@@ -57,7 +57,6 @@ body.th-pearl .bottom-nav{
   opacity:0!important;
   transform:translateX(-50%) scaleX(.45)!important;
   box-shadow:0 0 0 rgba(var(--gld-rgb),0)!important;
-  transition:opacity .18s ease,transform .18s ease!important;
 }
 .bottom-nav .bn-tab.active{
   color:var(--gld)!important;
@@ -66,8 +65,7 @@ body.th-pearl .bottom-nav{
 }
 .bottom-nav .bn-tab.active::before{
   opacity:1!important;
-  transform:translateX(-50%) scaleX(1)!important;
-  animation:gacelaNavPulse 1.9s ease-in-out infinite!important;
+  animation:gacelaNavPulse 1.55s ease-in-out infinite!important;
 }
 .bottom-nav .bn-ico-wrap{
   position:relative!important;
@@ -93,8 +91,7 @@ body.th-pearl .bottom-nav{
 }
 .bottom-nav .bn-tab.active .bn-svg{
   stroke-width:2!important;
-  transform:translateY(-1px) scale(1.06)!important;
-  filter:drop-shadow(0 0 5px rgba(var(--gld-rgb),.26))!important;
+  animation:gacelaIconBreath 1.55s ease-in-out infinite!important;
 }
 .bottom-nav .bn-label{
   max-width:100%!important;
@@ -112,11 +109,15 @@ body.th-pearl .bottom-nav{
 .bottom-nav .bn-tab.active .bn-label{opacity:1!important;}
 .bottom-nav .bn-tab:active{transform:translateY(0) scale(.96)!important;}
 @keyframes gacelaNavPulse{
-  0%,100%{box-shadow:0 0 5px rgba(var(--gld-rgb),.28),0 0 0 0 rgba(var(--gld-rgb),.14);opacity:.78;}
-  50%{box-shadow:0 0 11px rgba(var(--gld-rgb),.58),0 0 0 4px rgba(var(--gld-rgb),0);opacity:1;}
+  0%,100%{transform:translateX(-50%) scaleX(.72);box-shadow:0 0 4px rgba(var(--gld-rgb),.25),0 0 0 0 rgba(var(--gld-rgb),.12);opacity:.68;}
+  50%{transform:translateX(-50%) scaleX(1.14);box-shadow:0 0 13px rgba(var(--gld-rgb),.72),0 0 0 5px rgba(var(--gld-rgb),0);opacity:1;}
+}
+@keyframes gacelaIconBreath{
+  0%,100%{transform:translateY(-1px) scale(1.03);filter:drop-shadow(0 0 3px rgba(var(--gld-rgb),.20));}
+  50%{transform:translateY(-2px) scale(1.09);filter:drop-shadow(0 0 7px rgba(var(--gld-rgb),.48));}
 }
 @media (prefers-reduced-motion:reduce){
-  .bottom-nav .bn-tab.active::before{animation:none!important;}
+  .bottom-nav .bn-tab.active::before,.bottom-nav .bn-tab.active .bn-svg{animation:none!important;}
 }
 @media (max-width:360px){
   .bottom-nav{border-radius:18px!important;padding-left:4px!important;padding-right:4px!important;}
