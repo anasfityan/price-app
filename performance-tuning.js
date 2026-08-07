@@ -1,4 +1,4 @@
-/* Lightweight performance tuning. No layout or pricing behavior changes. */
+/* Lightweight runtime performance tuning. No layout or pricing behavior changes. */
 (function(){
   'use strict';
 
@@ -26,29 +26,16 @@
   function suspendVisualWorkWhenHidden(){
     document.addEventListener('visibilitychange', function(){
       document.documentElement.classList.toggle('app-hidden', document.hidden);
-      if(!document.hidden && typeof window.updateChart === 'function') {
-        window.updateChart();
-      }
+      if(!document.hidden && typeof window.updateChart === 'function') window.updateChart();
     }, {passive:true});
-  }
-
-  function containHeavyCards(){
-    document.querySelectorAll('.chart-card,.kb-card,.calc-kb-card,.appear-section,.rate-input-card').forEach(function(el){
-      el.style.contain = 'layout paint style';
-    });
   }
 
   function init(){
     wrapChartUpdates();
     suspendVisualWorkWhenHidden();
-    containHeavyCards();
   }
 
-  if(document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init, {once:true});
-  } else {
-    init();
-  }
-
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, {once:true});
+  else init();
   window.addEventListener('load', wrapChartUpdates, {once:true});
 })();
