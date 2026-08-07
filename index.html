@@ -5,28 +5,63 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#070b10">
 <title>GACELA PRICE</title>
+<link rel="preload" href="./app-core.html?v=36" as="fetch">
+<link rel="preload" href="./ui-refinement.css?v=36" as="style">
+<link rel="preload" href="./ui-polish.css?v=36" as="style">
+<link rel="preload" href="./ui-compact.css?v=36" as="style">
 <style>
-html,body{margin:0;min-height:100%;background:#070b10}
-#boot{min-height:100dvh;display:grid;place-items:center;font-family:system-ui,sans-serif;color:#ffbd0b;font-weight:800}
+html,body{margin:0;min-height:100%;background:#070b10;color:#f4f7f9}
+#boot{position:fixed;inset:0;background:#070b10;pointer-events:none}
 </style>
 </head>
 <body>
-<div id="boot">جاري تحميل GACELA PRICE…</div>
+<div id="boot" aria-hidden="true"></div>
 <script>
 (async function(){
-  const VERSION='35';
+  const VERSION='36';
+  const DARK={bg:'#070b10',bg2:'#0f1820',bg3:'#09131a',bg4:'#263744',bg5:'#344956',txt:'#f4f7f9',mu:'#9aa7b2',gld:'#ffbd0b',gldRgb:'255,189,11',info:'#4aa3ff',infoRgb:'74,163,255',grn:'#2fd078',red:'#ef6464'};
+  const LIGHT={bg:'#eef3f6',bg2:'#ffffff',bg3:'#f6f9fb',bg4:'#d7e0e6',bg5:'#c5d0d8',txt:'#17212a',mu:'#72808c',gld:'#b77d00',gldRgb:'183,125,0',info:'#287ec8',infoRgb:'40,126,200',grn:'#16824d',red:'#c94949'};
+
+  function storedTheme(){
+    try{return localStorage.getItem('theme')==='pearl'?'pearl':'gold';}catch(e){return 'gold';}
+  }
+  function criticalCss(theme){
+    const c=theme==='pearl'?LIGHT:DARK;
+    return '<style id="gacela-critical-theme">'+
+      'html,body{background:'+c.bg+'!important;color:'+c.txt+'!important;-webkit-text-size-adjust:100%;text-size-adjust:100%;}'+
+      'body{--bg:'+c.bg+';--bg2:'+c.bg2+';--bg3:'+c.bg3+';--bg4:'+c.bg4+';--bg5:'+c.bg5+';--txt:'+c.txt+';--mu:'+c.mu+';--gld:'+c.gld+';--gld-rgb:'+c.gldRgb+';--info:'+c.info+';--info-rgb:'+c.infoRgb+';--grn:'+c.grn+';--red:'+c.red+';}'+
+      '.topbar,.bottom-nav,.rate-ticker{background:'+c.bg2+';}'+
+      '.display-card,.kb-card,.chart-card,.cc-card,.rate-input-card,.appear-section{background:'+c.bg2+';border-color:'+c.bg4+';}'+
+      '</style>';
+  }
+
   try{
-    const response=await fetch('./app-core.html?v='+VERSION,{cache:'no-store'});
+    const theme=storedTheme();
+    document.documentElement.style.background=theme==='pearl'?LIGHT.bg:DARK.bg;
+    document.body.style.background=theme==='pearl'?LIGHT.bg:DARK.bg;
+    const themeMeta=document.querySelector('meta[name="theme-color"]');
+    if(themeMeta) themeMeta.content=theme==='pearl'?LIGHT.bg:DARK.bg;
+
+    const response=await fetch('./app-core.html?v='+VERSION,{cache:'force-cache'});
     if(!response.ok) throw new Error('app-core '+response.status);
     let html=await response.text();
 
     html=html
       .replace(/const\s+_c\s*=\s*atob\([^;]+\);?/g,"const _c = ''; // disabled")
       .replace(/<meta\s+name=["']viewport["'][^>]*>/i,'<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">')
+      .replace(/<meta\s+name=["']theme-color["'][^>]*>/i,'<meta name="theme-color" content="'+(theme==='pearl'?LIGHT.bg:DARK.bg)+'">')
+      .replace(/<title>[^<]*<\/title>/i,'<title>GACELA PRICE</title>')
       .replace(/,\s*user-scalable\s*=\s*no/gi,'')
       .replace(/user-scalable\s*=\s*no\s*,?/gi,'');
 
+    html=html.replace(/<body([^>]*)>/i,function(match,attrs){
+      if(theme!=='pearl') return '<body'+attrs+'>';
+      if(/class\s*=/.test(attrs)) return '<body'+attrs.replace(/class\s*=\s*(["'])/i,'class=$1th-pearl ')+'>';
+      return '<body class="th-pearl"'+attrs+'>';
+    });
+
     html=html.replace('</head>',
+      criticalCss(theme)+
       '<link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@600;700;800&display=swap" rel="stylesheet">'+
       '<link rel="stylesheet" href="./ui-refinement.css?v='+VERSION+'">'+
       '<link rel="stylesheet" href="./performance-tuning.css?v='+VERSION+'">'+
@@ -48,7 +83,15 @@ html,body{margin:0;min-height:100%;background:#070b10}
     document.close();
   }catch(error){
     console.error(error);
-    document.getElementById('boot').textContent='تعذر تحميل التطبيق. حدّث الصفحة.';
+    const boot=document.getElementById('boot');
+    if(boot){
+      boot.style.display='grid';
+      boot.style.placeItems='center';
+      boot.style.color='#ffbd0b';
+      boot.style.fontFamily='system-ui,sans-serif';
+      boot.style.fontWeight='800';
+      boot.textContent='تعذر تحميل التطبيق. حدّث الصفحة.';
+    }
   }
 })();
 </script>
