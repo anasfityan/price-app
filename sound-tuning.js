@@ -1,4 +1,4 @@
-/* GACELA PRICE interaction sound tuning: calculator = haptics only, bottom nav = soft dedicated tone. */
+/* GACELA PRICE interaction sound tuning: calculator = haptics only, bottom nav = soft dedicated tone + light haptic. */
 (function(){
   'use strict';
 
@@ -48,26 +48,32 @@
   }
 
   function playNavTone(){
-    /* Short, soft confirmation rather than the old bright UI chirp. */
-    softTone(315, 380, 0.055, 0.014, 'sine');
+    softTone(330, 355, 0.038, 0.011, 'sine');
+  }
+
+  function navHaptic(){
+    try{
+      if(typeof vibrationEnabled !== 'undefined' && !vibrationEnabled) return;
+      if(navigator.vibrate) navigator.vibrate(7);
+    }catch(e){}
   }
 
   window.playClick = function(){
     if(calculatorInteractionActive()) return;
-    /* Bottom navigation has its own dedicated sound; prevent a second click tone. */
     if(Date.now() < navPointerUntil) return;
-    softTone(360, 300, 0.045, 0.018, 'sine');
+    softTone(350, 315, 0.04, 0.014, 'sine');
   };
 
   window.playDrawerOpen = function(){
     if(calculatorInteractionActive()) return;
-    softTone(260, 320, 0.07, 0.016, 'sine');
+    softTone(270, 315, 0.055, 0.013, 'sine');
   };
 
   document.addEventListener('click', function(event){
     const tab = event.target && event.target.closest && event.target.closest('.bottom-nav .bn-tab');
     if(!tab) return;
     navPointerUntil = Date.now() + 180;
+    navHaptic();
     playNavTone();
   }, true);
 })();
