@@ -1,5 +1,5 @@
-const CACHE = 'trendy-v14';
-const APP_SHELL = ['./index.html','./ui-refinement.css','./ui-refinement.js','./security-lockdown.js','./runtime-cleanup.js','./manifest.json'];
+const CACHE = 'trendy-v15';
+const APP_SHELL = ['./index.html','./ui-refinement.css','./ui-refinement.js','./security-lockdown.js','./runtime-cleanup.js','./performance-tuning.js','./manifest.json'];
 const API_CACHE = 'trendy-api-v2';
 
 self.addEventListener('install', e => {
@@ -44,6 +44,9 @@ async function injectUiRefinements(response){
   }
   if(!html.includes('runtime-cleanup.js')) {
     html = html.replace('</body>', '<script src="./runtime-cleanup.js"></script>\n</body>');
+  }
+  if(!html.includes('performance-tuning.js')) {
+    html = html.replace('</body>', '<script src="./performance-tuning.js"></script>\n</body>');
   }
 
   const headers = new Headers(response.headers);
