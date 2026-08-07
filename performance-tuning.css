@@ -1,0 +1,33 @@
+/* Performance-only CSS. Keeps the current visual design. */
+
+html.app-hidden *,
+html.app-hidden *::before,
+html.app-hidden *::after{
+  animation-play-state:paused!important;
+}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    scroll-behavior:auto!important;
+    animation-duration:.001ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.001ms!important;
+  }
+}
+
+.chart-card,
+.kb-card,
+.calc-kb-card,
+.appear-section,
+.rate-input-card{
+  contain:layout paint style;
+}
+
+/* Keep off-screen application screens from doing paint work. */
+.screen:not(.active){
+  visibility:hidden;
+  pointer-events:none;
+}
+.screen.active{
+  visibility:visible;
+}
