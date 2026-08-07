@@ -1,4 +1,4 @@
-/* Final UI polish helpers — visual only. */
+/* GACELA PRICE UI polish helpers. */
 (function(){
   'use strict';
 
@@ -35,15 +35,22 @@
       if(title.dataset.uiPolished==='1') return;
       const text=cleanTitleText(title.textContent);
       title.textContent='';
-      const icon=document.createElement('span');icon.className='ui-section-icon';icon.innerHTML=pickIcon(text);
-      const label=document.createElement('span');label.textContent=text;
-      title.append(icon,label);title.dataset.uiPolished='1';
+      const icon=document.createElement('span');
+      icon.className='ui-section-icon';
+      icon.innerHTML=pickIcon(text);
+      const label=document.createElement('span');
+      label.textContent=text;
+      title.append(icon,label);
+      title.dataset.uiPolished='1';
     });
   }
 
   function addAccessibleNames(){
     document.querySelectorAll('.theme-choice').forEach(function(el){
-      if(!el.getAttribute('title')){const label=el.querySelector('.theme-choice-label');if(label) el.title=label.textContent.trim();}
+      if(!el.getAttribute('title')){
+        const label=el.querySelector('.theme-choice-label');
+        if(label) el.title=label.textContent.trim();
+      }
     });
   }
 
@@ -73,8 +80,7 @@
   }
 
   function upgradeKeyboardStyleSelectors(){
-    const dots=Array.from(document.querySelectorAll('.kbdot'));
-    dots.forEach(function(el,index){
+    Array.from(document.querySelectorAll('.kbdot')).forEach(function(el,index){
       const i=keyboardStyleIndex(el,index);
       el.innerHTML=KB_STYLE_ICONS[i];
       el.setAttribute('aria-label','نمط لوحة المفاتيح '+(i+1));
@@ -90,27 +96,6 @@
     if(secondary&&secondary.parentElement) secondary.parentElement.classList.add('fx-card-secondary');
   }
 
-  function pinTopbarSides(){
-    const topbar=document.querySelector('.topbar');
-    const info=document.querySelector('.topbar-info');
-    const themeBtn=document.getElementById('theme-toggle-btn');
-    const themeWrap=themeBtn&&themeBtn.parentElement;
-    if(!topbar||!info||!themeWrap) return;
-    topbar.style.position='relative';
-    topbar.style.display='flex';
-    topbar.style.alignItems='center';
-    topbar.style.justifyContent='center';
-    topbar.style.direction='ltr';
-    info.style.position='absolute';
-    info.style.left='12px';
-    info.style.right='auto';
-    info.style.margin='0';
-    themeWrap.style.position='absolute';
-    themeWrap.style.right='12px';
-    themeWrap.style.left='auto';
-    themeWrap.style.margin='0';
-  }
-
   function applyGacelaBrand(){
     document.title='GACELA PRICE';
     const name=document.getElementById('store-name');
@@ -122,7 +107,6 @@
         el.innerHTML='<span class="gacela-drawer-name">GACELA</span> <span class="gacela-drawer-studio">PRICE</span>';
       }
     });
-    pinTopbarSides();
   }
 
   function activeScreenName(){
@@ -131,8 +115,7 @@
   }
 
   function syncTickerForScreen(name){
-    const hide=name==='rates'||name==='appear';
-    document.body.classList.toggle('hide-global-rate-ticker',hide);
+    document.body.classList.toggle('hide-global-rate-ticker',name==='rates'||name==='appear');
   }
 
   function wrapScreenSwitch(){
@@ -181,25 +164,23 @@
     syncTickerForScreen(activeScreenName());
   }
 
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init,{once:true}); else init();
-  window.addEventListener('load',function(){init();pinTopbarSides();},{once:true});
-  window.addEventListener('resize',pinTopbarSides,{passive:true});
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init,{once:true});
+  else init();
+  window.addEventListener('load',init,{once:true});
 
   const observer=new MutationObserver(function(mutations){
     let needsKeyboardStyles=false;
     let needsRateCards=false;
     mutations.forEach(function(m){
       m.addedNodes.forEach(function(node){
-        if(node.nodeType===1){
-          upgradeKeyboardSymbols(node);
-          if(node.matches?.('.kbdot')||node.querySelector?.('.kbdot')) needsKeyboardStyles=true;
-          if(node.id==='tickerRate2'||node.id==='eurUsdRate'||node.querySelector?.('#tickerRate2,#eurUsdRate')) needsRateCards=true;
-        }
+        if(node.nodeType!==1) return;
+        upgradeKeyboardSymbols(node);
+        if(node.matches?.('.kbdot')||node.querySelector?.('.kbdot')) needsKeyboardStyles=true;
+        if(node.id==='tickerRate2'||node.id==='eurUsdRate'||node.querySelector?.('#tickerRate2,#eurUsdRate')) needsRateCards=true;
       });
     });
     if(needsKeyboardStyles) upgradeKeyboardStyleSelectors();
     if(needsRateCards) tagLiveRateCards();
-    pinTopbarSides();
   });
   observer.observe(document.documentElement,{childList:true,subtree:true});
 })();
