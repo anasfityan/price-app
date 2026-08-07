@@ -1,4 +1,4 @@
-const CACHE = 'trendy-v11';
+const CACHE = 'trendy-v12';
 const APP_SHELL = ['./index.html','./ui-refinement.css','./ui-refinement.js','./security-lockdown.js','./manifest.json'];
 const API_CACHE = 'trendy-api-v1';
 
@@ -20,12 +20,17 @@ self.addEventListener('activate', e => {
   );
 });
 
+function stripLegacySecrets(html){
+  /* Defense in depth: the historical client-side GitHub token must never execute. */
+  return html.replace(/const\s+_c\s*=\s*atob\([^;]+\);?/g, "const _c = ''; // disabled: browser-side GitHub credentials are not allowed");
+}
+
 async function injectUiRefinements(response){
   if(!response || !response.ok) return response;
   const type = response.headers.get('content-type') || '';
   if(!type.includes('text/html')) return response;
 
-  let html = await response.text();
+  let html = stripLegacySecrets(await response.text());
   if(!html.includes('ui-refinement.css')) {
     html = html.replace('</head>', '<link rel="stylesheet" href="./ui-refinement.css">\n</head>');
   }
@@ -61,13 +66,11 @@ async function networkFirstWithCache(request){
 self.addEventListener('fetch', e => {
   const url = e.request.url;
 
-  /* Public rate feeds: network first, last good response when offline. */
   if (url.includes('raw.githubusercontent.com/anasfityan/price-app/') || url.includes('open.er-api.com')) {
     e.respondWith(networkFirstWithCache(e.request));
     return;
   }
 
-  /* GitHub API writes/reads are never cached by the app shell. */
   if (url.includes('api.github.com')) {
     e.respondWith(fetch(e.request).catch(() => new Response('{}', {headers:{'Content-Type':'application/json'}})));
     return;
