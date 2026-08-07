@@ -1,0 +1,204 @@
+/* UI refinement layer — keeps the existing layout, simplifies color and navigation. */
+
+/* === THREE CALM THEMES ONLY === */
+body,
+body.th-gold{
+  --bg:#0b0c0f;
+  --bg2:#121419;
+  --bg3:#1a1d23;
+  --bg4:#252932;
+  --bg5:#343946;
+  --txt:#f2f0e9;
+  --mu:#9298a3;
+  --mu2:#b9bec7;
+  --gld:#c9a85f;
+  --gld2:#dfc27b;
+  --gld-rgb:201,168,95;
+  --grn:#72aa88;
+  --grn-rgb:114,170,136;
+  --red:#c97972;
+  --red-rgb:201,121,114;
+  --num:#f3ead2;
+  --sym:#c9a85f;
+  --field:#15171c;
+  --field-bd:#30343d;
+  --btn-2:#20232a;
+  --btn-2-tx:#c8cbd1;
+  --label:#aaa38f;
+  --hl:#2a271f;
+  --pos:#72aa88;
+  --neg:#c97972;
+  --nav-acc:#d6b76b;
+  --nav-muted:#a7adb7;
+  --nav-surface:rgba(18,20,25,.96);
+  --shadow-color:0,0,0;
+}
+
+body.th-midnight{
+  --bg:#0a0f17;
+  --bg2:#111824;
+  --bg3:#182231;
+  --bg4:#243145;
+  --bg5:#34445c;
+  --txt:#edf2f7;
+  --mu:#8e9bad;
+  --mu2:#bac4d1;
+  --gld:#7f9fc4;
+  --gld2:#a7bfd9;
+  --gld-rgb:127,159,196;
+  --grn:#78a992;
+  --grn-rgb:120,169,146;
+  --red:#c77b84;
+  --red-rgb:199,123,132;
+  --num:#e6edf5;
+  --sym:#8eabd0;
+  --field:#131c29;
+  --field-bd:#2b3a50;
+  --btn-2:#1c2736;
+  --btn-2-tx:#c3ccd8;
+  --label:#98a8bc;
+  --hl:#223149;
+  --pos:#78a992;
+  --neg:#c77b84;
+  --nav-acc:#9db8d8;
+  --nav-muted:#9da9b8;
+  --nav-surface:rgba(14,21,31,.96);
+  --shadow-color:3,8,15;
+}
+
+body.th-pearl{
+  --bg:#f2f1ed;
+  --bg2:#faf9f6;
+  --bg3:#ebe9e3;
+  --bg4:#dcd8cf;
+  --bg5:#c8c2b6;
+  --txt:#24282d;
+  --mu:#717780;
+  --mu2:#525961;
+  --gld:#8d7442;
+  --gld2:#aa8d52;
+  --gld-rgb:141,116,66;
+  --grn:#557b63;
+  --grn-rgb:85,123,99;
+  --red:#9e625c;
+  --red-rgb:158,98,92;
+  --num:#322d25;
+  --sym:#8d7442;
+  --field:#ffffff;
+  --field-bd:#d1ccc2;
+  --btn-2:#e7e4dd;
+  --btn-2-tx:#4f555c;
+  --label:#716856;
+  --hl:#e5dfd2;
+  --pos:#557b63;
+  --neg:#9e625c;
+  --nav-acc:#80683a;
+  --nav-muted:#626971;
+  --nav-surface:rgba(250,249,246,.97);
+  --shadow-color:70,65,55;
+}
+
+/* === BOTTOM NAV: SAME PILL IDEA, MUCH CLEARER === */
+.bottom-nav-wrap{
+  padding:0 12px max(10px, env(safe-area-inset-bottom));
+}
+
+.bottom-nav{
+  background:var(--nav-surface)!important;
+  border:1px solid color-mix(in srgb,var(--txt) 10%,transparent)!important;
+  border-radius:26px!important;
+  padding:7px 7px 8px!important;
+  gap:3px!important;
+  box-shadow:0 8px 28px rgba(0,0,0,.28),0 1px 0 color-mix(in srgb,var(--txt) 5%,transparent) inset!important;
+  backdrop-filter:blur(18px) saturate(1.15)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(1.15)!important;
+}
+
+.bn-tab{
+  min-height:50px;
+  gap:4px!important;
+  border-radius:19px!important;
+  padding:4px 2px!important;
+}
+
+.bn-ico-wrap{
+  width:48px!important;
+  height:30px!important;
+  border-radius:15px!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+
+/* Remove visual noise from the old pulse rings. */
+.bn-ring1,.bn-ring2{
+  display:none!important;
+  animation:none!important;
+}
+
+.bn-tab .bn-svg{
+  stroke:var(--nav-muted)!important;
+  opacity:.78;
+  stroke-width:2.15;
+  transition:stroke .2s,opacity .2s,transform .2s!important;
+}
+
+.bn-label{
+  color:var(--nav-muted)!important;
+  opacity:.78;
+  font-size:9.5px!important;
+  font-weight:700!important;
+  letter-spacing:.25px!important;
+  text-transform:none!important;
+  transition:color .2s,opacity .2s!important;
+}
+
+.bn-tab.active{
+  background:color-mix(in srgb,var(--nav-acc) 8%,transparent)!important;
+}
+
+.bn-tab.active .bn-ico-wrap{
+  background:color-mix(in srgb,var(--nav-acc) 17%,var(--bg2))!important;
+  border:1px solid color-mix(in srgb,var(--nav-acc) 30%,transparent)!important;
+  animation:none!important;
+  box-shadow:none!important;
+}
+
+.bn-tab.active .bn-svg{
+  stroke:var(--nav-acc)!important;
+  opacity:1!important;
+  transform:translateY(-1px);
+}
+
+.bn-tab.active .bn-label{
+  color:var(--nav-acc)!important;
+  opacity:1!important;
+  font-weight:800!important;
+}
+
+.bn-tab::after{
+  bottom:1px!important;
+  height:2px!important;
+  background:var(--nav-acc)!important;
+  box-shadow:none!important;
+}
+
+.bn-tab.active::after{
+  width:18px!important;
+}
+
+.bn-tab:active .bn-ico-wrap{
+  transform:scale(.94)!important;
+}
+
+/* Make the light theme navigation equally legible. */
+body.th-pearl .bottom-nav{
+  box-shadow:0 8px 24px rgba(55,50,42,.14),0 1px 0 rgba(255,255,255,.8) inset!important;
+}
+
+/* Theme selector: non-supported themes are hidden by JS; keep the remaining chips larger and calmer. */
+.tswatch[data-ui-theme='allowed'],
+.tswatch.ui-theme-allowed{
+  width:38px!important;
+  height:38px!important;
+  border-radius:11px!important;
+}
