@@ -1,5 +1,5 @@
-const CACHE = 'trendy-v13';
-const APP_SHELL = ['./index.html','./ui-refinement.css','./ui-refinement.js','./security-lockdown.js','./manifest.json'];
+const CACHE = 'trendy-v14';
+const APP_SHELL = ['./index.html','./ui-refinement.css','./ui-refinement.js','./security-lockdown.js','./runtime-cleanup.js','./manifest.json'];
 const API_CACHE = 'trendy-api-v2';
 
 self.addEventListener('install', e => {
@@ -20,8 +20,11 @@ self.addEventListener('activate', e => {
   );
 });
 
-function stripLegacySecrets(html){
-  return html.replace(/const\s+_c\s*=\s*atob\([^;]+\);?/g, "const _c = ''; // disabled: browser-side GitHub credentials are not allowed");
+function sanitizeLegacyHtml(html){
+  return html
+    .replace(/const\s+_c\s*=\s*atob\([^;]+\);?/g, "const _c = ''; // disabled: browser-side GitHub credentials are not allowed")
+    .replace(/,\s*user-scalable\s*=\s*no/gi, '')
+    .replace(/user-scalable\s*=\s*no\s*,?/gi, '');
 }
 
 async function injectUiRefinements(response){
@@ -29,7 +32,7 @@ async function injectUiRefinements(response){
   const type = response.headers.get('content-type') || '';
   if(!type.includes('text/html')) return response;
 
-  let html = stripLegacySecrets(await response.text());
+  let html = sanitizeLegacyHtml(await response.text());
   if(!html.includes('ui-refinement.css')) {
     html = html.replace('</head>', '<link rel="stylesheet" href="./ui-refinement.css">\n</head>');
   }
@@ -38,6 +41,9 @@ async function injectUiRefinements(response){
   }
   if(!html.includes('security-lockdown.js')) {
     html = html.replace('</body>', '<script src="./security-lockdown.js"></script>\n</body>');
+  }
+  if(!html.includes('runtime-cleanup.js')) {
+    html = html.replace('</body>', '<script src="./runtime-cleanup.js"></script>\n</body>');
   }
 
   const headers = new Headers(response.headers);
