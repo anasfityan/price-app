@@ -8,9 +8,9 @@
   function cleanText(value){return String(value||'').replace(/\u00a0/g,' ').trim();}
   function roundValue(value){
     if(!Number.isFinite(value)) return null;
-    const rounded=Math.round(value*1e10)/1e10;
-    return Number.isInteger(rounded)?String(rounded):String(rounded);
+    return String(Math.round(value*1e10)/1e10);
   }
+
   function currentLiveResult(){
     try{
       if(typeof scCalcOp==='undefined'||typeof scCalcPrev==='undefined'||typeof scCalcCur==='undefined') return null;
@@ -26,6 +26,7 @@
       return roundValue(result);
     }catch(e){return null;}
   }
+
   function updateLiveResult(){
     const result=byId('sc-calcResult');
     const label=document.querySelector('#screen-calc .calc-mem-lbl');
@@ -50,9 +51,11 @@
       return Array.isArray(parsed)?parsed.slice(0,MAX):[];
     }catch(e){return [];}
   }
+
   function writeRecent(items){
     try{localStorage.setItem(KEY,JSON.stringify(items.slice(0,MAX)));}catch(e){}
   }
+
   function saveCurrent(labelOverride){
     const display=cleanText(byId('sc-calcDisplay')&&byId('sc-calcDisplay').textContent);
     if(!display||display==='Err') return;
@@ -64,6 +67,7 @@
     writeRecent(items);
     renderRecent();
   }
+
   function reuseResult(value){
     try{
       if(typeof scCalcCur!=='undefined') scCalcCur=String(value);
@@ -78,6 +82,7 @@
     if(expr) expr.textContent='';
     if(result){result.textContent=String(value);result.classList.remove('calc-live-pending');}
   }
+
   function renderRecent(){
     const list=document.querySelector('.calc-recent-list');
     if(!list) return;
@@ -105,6 +110,7 @@
       list.appendChild(button);
     });
   }
+
   function buildRecentPanel(){
     if(document.querySelector('.calc-recent-panel')) return;
     const keyboard=document.querySelector('#screen-calc .calc-kb-card');
@@ -116,6 +122,7 @@
     panel.querySelector('.calc-recent-clear').addEventListener('click',function(){writeRecent([]);renderRecent();});
     renderRecent();
   }
+
   function bindCalculator(){
     const screen=byId('screen-calc');
     if(!screen||screen.dataset.liveCalcBound==='1') return;
@@ -136,8 +143,13 @@
     if(expr) observer.observe(expr,{childList:true,characterData:true,subtree:true});
     updateLiveResult();
   }
-  function init(){buildRecentPanel();bindCalculator();}
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init,{once:true}); else init();
+
+  function init(){
+    buildRecentPanel();
+    bindCalculator();
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init,{once:true});
+  else init();
   window.addEventListener('load',init,{once:true});
-  new MutationObserver(init).observe(document.documentElement,{childList:true,subtree:true});
 })();
