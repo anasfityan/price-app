@@ -1,5 +1,6 @@
-const CACHE = 'trendy-v10';
-const APP_SHELL = ['./index.html','./ui-refinement.css','./ui-refinement.js'];
+const CACHE = 'trendy-v11';
+const APP_SHELL = ['./index.html','./ui-refinement.css','./ui-refinement.js','./security-lockdown.js','./manifest.json'];
+const API_CACHE = 'trendy-api-v1';
 
 self.addEventListener('install', e => {
   e.waitUntil(
@@ -14,7 +15,7 @@ self.addEventListener('install', e => {
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+      Promise.all(keys.filter(k => k !== CACHE && k !== API_CACHE).map(k => caches.delete(k)))
     ).then(() => self.clients.claim())
   );
 });
@@ -31,6 +32,9 @@ async function injectUiRefinements(response){
   if(!html.includes('ui-refinement.js')) {
     html = html.replace('</body>', '<script src="./ui-refinement.js"></script>\n</body>');
   }
+  if(!html.includes('security-lockdown.js')) {
+    html = html.replace('</body>', '<script src="./security-lockdown.js"></script>\n</body>');
+  }
 
   const headers = new Headers(response.headers);
   headers.delete('content-length');
@@ -41,10 +45,30 @@ async function injectUiRefinements(response){
   });
 }
 
+async function networkFirstWithCache(request){
+  const cache = await caches.open(API_CACHE);
+  try {
+    const res = await fetch(request, {cache:'no-store'});
+    if(res && res.ok) await cache.put(request, res.clone());
+    return res;
+  } catch(err) {
+    const cached = await cache.match(request);
+    if(cached) return cached;
+    return new Response('{}', {headers:{'Content-Type':'application/json'}});
+  }
+}
+
 self.addEventListener('fetch', e => {
   const url = e.request.url;
 
-  if (url.includes('api.github.com') || url.includes('raw.githubusercontent.com') || url.includes('open.er-api.com')) {
+  /* Public rate feeds: network first, last good response when offline. */
+  if (url.includes('raw.githubusercontent.com/anasfityan/price-app/') || url.includes('open.er-api.com')) {
+    e.respondWith(networkFirstWithCache(e.request));
+    return;
+  }
+
+  /* GitHub API writes/reads are never cached by the app shell. */
+  if (url.includes('api.github.com')) {
     e.respondWith(fetch(e.request).catch(() => new Response('{}', {headers:{'Content-Type':'application/json'}})));
     return;
   }
