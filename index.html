@@ -14,7 +14,7 @@ html,body{margin:0;min-height:100%;background:#070b10}
 <div id="boot">جاري تحميل Trendy Store…</div>
 <script>
 (async function(){
-  const VERSION='26';
+  const VERSION='27';
   try{
     const response=await fetch('./app-core.html?v='+VERSION,{cache:'no-store'});
     if(!response.ok) throw new Error('app-core '+response.status);
@@ -30,6 +30,7 @@ html,body{margin:0;min-height:100%;background:#070b10}
       '<link rel="stylesheet" href="./ui-refinement.css?v='+VERSION+'">'+
       '<link rel="stylesheet" href="./performance-tuning.css?v='+VERSION+'">'+
       '<link rel="stylesheet" href="./ui-polish.css?v='+VERSION+'">'+
+      '<link rel="stylesheet" href="./ui-compact.css?v='+VERSION+'">'+
       '</head>');
 
     html=html.replace('</body>',
