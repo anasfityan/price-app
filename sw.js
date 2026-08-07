@@ -1,6 +1,6 @@
-const CACHE = 'trendy-v12';
+const CACHE = 'trendy-v13';
 const APP_SHELL = ['./index.html','./ui-refinement.css','./ui-refinement.js','./security-lockdown.js','./manifest.json'];
-const API_CACHE = 'trendy-api-v1';
+const API_CACHE = 'trendy-api-v2';
 
 self.addEventListener('install', e => {
   e.waitUntil(
@@ -21,7 +21,6 @@ self.addEventListener('activate', e => {
 });
 
 function stripLegacySecrets(html){
-  /* Defense in depth: the historical client-side GitHub token must never execute. */
   return html.replace(/const\s+_c\s*=\s*atob\([^;]+\);?/g, "const _c = ''; // disabled: browser-side GitHub credentials are not allowed");
 }
 
@@ -50,14 +49,21 @@ async function injectUiRefinements(response){
   });
 }
 
+function stableApiCacheKey(request){
+  const u = new URL(request.url);
+  if(u.hostname === 'raw.githubusercontent.com') u.search = '';
+  return new Request(u.toString(), {method:'GET'});
+}
+
 async function networkFirstWithCache(request){
   const cache = await caches.open(API_CACHE);
+  const key = stableApiCacheKey(request);
   try {
     const res = await fetch(request, {cache:'no-store'});
-    if(res && res.ok) await cache.put(request, res.clone());
+    if(res && res.ok) await cache.put(key, res.clone());
     return res;
   } catch(err) {
-    const cached = await cache.match(request);
+    const cached = await cache.match(key);
     if(cached) return cached;
     return new Response('{}', {headers:{'Content-Type':'application/json'}});
   }
