@@ -1,23 +1,36 @@
-const CACHE = 'trendy-v17';
+const CACHE = 'trendy-v18';
 const APP_SHELL = ['./index.html','./ui-refinement.css','./ui-refinement.js','./security-lockdown.js','./runtime-cleanup.js','./performance-tuning.js','./performance-tuning.css','./final-audit.js','./manifest.json'];
-const API_CACHE = 'trendy-api-v3';
+const API_CACHE = 'trendy-api-v4';
+const APP_VERSION = '18';
 
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(CACHE)
       .then(c => Promise.all(APP_SHELL.map(path =>
-        fetch(path).then(r => r.ok ? c.put(path, r.clone()) : null).catch(() => null)
+        fetch(path, {cache:'reload'}).then(r => r.ok ? c.put(path, r.clone()) : null).catch(() => null)
       )))
       .then(() => self.skipWaiting())
   );
 });
 
 self.addEventListener('activate', e => {
-  e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE && k !== API_CACHE).map(k => caches.delete(k)))
-    ).then(() => self.clients.claim())
-  );
+  e.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(keys.filter(k => k !== CACHE && k !== API_CACHE).map(k => caches.delete(k)));
+    await self.clients.claim();
+
+    const clients = await self.clients.matchAll({type:'window', includeUncontrolled:true});
+    await Promise.all(clients.map(client => {
+      try {
+        const u = new URL(client.url);
+        if (u.searchParams.get('appv') === APP_VERSION) return Promise.resolve();
+        u.searchParams.set('appv', APP_VERSION);
+        return client.navigate(u.toString()).catch(() => null);
+      } catch(e) {
+        return Promise.resolve();
+      }
+    }));
+  })());
 });
 
 function sanitizeLegacyHtml(html){
@@ -74,7 +87,7 @@ async function cacheFirstStatic(request){
   const cached = await cache.match(request);
   if(cached) return cached;
   try {
-    const res = await fetch(request);
+    const res = await fetch(request, {cache:'no-cache'});
     if(res && res.ok) await cache.put(request, res.clone());
     return res;
   } catch(err) {
@@ -98,7 +111,7 @@ self.addEventListener('fetch', e => {
       }));
       return;
     }
-    e.respondWith(fetch(e.request).catch(() => new Response('{}', {status:503,headers:{'Content-Type':'application/json'}})));
+    e.respondWith(fetch(e.request, {cache:'no-store'}).catch(() => new Response('{}', {status:503,headers:{'Content-Type':'application/json'}})));
     return;
   }
 
@@ -110,14 +123,14 @@ self.addEventListener('fetch', e => {
   if (e.request.mode === 'navigate') {
     e.respondWith((async () => {
       try {
-        const res = await fetch(e.request);
+        const res = await fetch(e.request, {cache:'no-store'});
         if (res.ok) {
           const clone = res.clone();
-          caches.open(CACHE).then(c => c.put(e.request, clone));
+          caches.open(CACHE).then(c => c.put('./index.html', clone)).catch(() => null);
         }
         return injectUiRefinements(res);
       } catch(err) {
-        const cached = await caches.match(e.request) || await caches.match('./index.html');
+        const cached = await caches.match('./index.html');
         return injectUiRefinements(cached);
       }
     })());
@@ -127,7 +140,7 @@ self.addEventListener('fetch', e => {
   e.respondWith(
     caches.match(e.request).then(cached => {
       if (cached) return cached;
-      return fetch(e.request).then(res => {
+      return fetch(e.request, {cache:'no-cache'}).then(res => {
         if (res && res.ok) {
           const clone = res.clone();
           caches.open(CACHE).then(c => c.put(e.request, clone));
