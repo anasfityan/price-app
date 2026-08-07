@@ -1,11 +1,12 @@
-/* Compact appearance selector + cleaner keyboard symbols. Visual only. */
+/* Compact appearance selector + refined keyboard-style icons. Visual only. */
 
-/* Theme selector: compact like a normal settings row. */
+/* Theme selector: compact like a normal settings row, with clear separation. */
 #sc-theme-row-dark{
   display:grid!important;
   grid-template-columns:1fr 1fr!important;
-  gap:7px!important;
-  margin-top:6px!important;
+  gap:12px!important;
+  column-gap:12px!important;
+  margin-top:7px!important;
 }
 .theme-choice{
   min-height:48px!important;
@@ -30,9 +31,7 @@ body.th-pearl .theme-choice{
   background:#211b0d!important;
   box-shadow:0 0 0 1px rgba(var(--gld-rgb),.10) inset!important;
 }
-body.th-pearl .theme-choice.active{
-  background:#fff5d7!important;
-}
+body.th-pearl .theme-choice.active{background:#fff5d7!important;}
 .theme-choice-icon{
   width:28px!important;
   height:28px!important;
@@ -63,15 +62,45 @@ body.th-pearl .theme-choice-icon{background:#fff!important;border-color:#d6e0e6!
   border:1px solid var(--bg5)!important;
   color:transparent!important;
 }
-.theme-choice.active .theme-check{
-  background:var(--gld)!important;
-  border-color:var(--gld)!important;
-  color:#171108!important;
-}
+.theme-choice.active .theme-check{background:var(--gld)!important;border-color:var(--gld)!important;color:#171108!important;}
 .theme-check svg{width:10px!important;height:10px!important;stroke:currentColor!important;fill:none!important;stroke-width:2.7!important;}
 .theme-preview,.theme-choice-head{display:contents!important;}
 
-/* Keyboard glyphs: consistent vector weight and optical sizing. */
+/* Keyboard-style selector icons: consistent vector system instead of emoji. */
+.kbdot{
+  display:grid!important;
+  place-items:center!important;
+  min-width:42px!important;
+  min-height:38px!important;
+  border-radius:10px!important;
+  color:var(--mu2)!important;
+  background:#0b151d!important;
+  border:1px solid var(--bg5)!important;
+  font-size:0!important;
+  line-height:0!important;
+}
+body.th-pearl .kbdot{background:#f3f7f9!important;border-color:#ccd7de!important;color:#697984!important;}
+.kbdot.active{
+  color:var(--gld)!important;
+  background:#211b0d!important;
+  border-color:var(--gld)!important;
+  box-shadow:0 0 0 1px rgba(var(--gld-rgb),.12) inset!important;
+}
+body.th-pearl .kbdot.active{background:#fff5d7!important;}
+.kb-style-svg{
+  width:23px;
+  height:23px;
+  display:block;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.7;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  pointer-events:none;
+}
+.kbdot.active .kb-style-svg{stroke-width:1.9;}
+
+/* Actual keyboard glyphs: consistent vector weight and optical sizing. */
 .key-svg{
   width:21px;
   height:21px;
@@ -88,17 +117,45 @@ body.th-pearl .theme-choice-icon{background:#fff!important;border-color:#d6e0e6!
 .k.k-del .key-svg{width:20px;height:20px;}
 .k.k-ok .key-svg{width:22px;height:22px;stroke-width:2.1;}
 
-/* Keep mathematical symbols visually consistent. */
-.ck-op,.ck-eq,.display-sym{
-  font-family:'Space Mono',monospace!important;
-  font-weight:700!important;
-  line-height:1!important;
+/* Live FX cards: visually distinct, like finance summary cards. */
+.fx-card-primary,
+.fx-card-secondary{
+  position:relative!important;
+  overflow:hidden!important;
+  border-width:1px!important;
+  border-style:solid!important;
 }
+.fx-card-primary{
+  border-color:rgba(var(--gld-rgb),.72)!important;
+  box-shadow:0 0 0 1px rgba(var(--gld-rgb),.08) inset!important;
+}
+.fx-card-primary::after,
+.fx-card-secondary::after{
+  content:'';
+  position:absolute;
+  inset:0 0 auto 0;
+  height:2px;
+  pointer-events:none;
+}
+.fx-card-primary::after{background:var(--gld);}
+.fx-card-secondary{
+  border-color:rgba(var(--info-rgb),.62)!important;
+  box-shadow:0 0 0 1px rgba(var(--info-rgb),.07) inset!important;
+}
+.fx-card-secondary::after{background:var(--info);}
+body.th-pearl .fx-card-primary{border-color:rgba(var(--gld-rgb),.58)!important;}
+body.th-pearl .fx-card-secondary{border-color:rgba(var(--info-rgb),.48)!important;}
+
+/* Keep mathematical symbols visually consistent. */
+.ck-op,.ck-eq,.display-sym{font-family:'Space Mono',monospace!important;font-weight:700!important;line-height:1!important;}
 .ck-op{font-size:18px!important;}
 .ck-eq{font-size:19px!important;}
 
 @media(max-width:360px){
+  #sc-theme-row-dark{gap:9px!important;column-gap:9px!important;}
   .theme-choice{height:45px!important;min-height:45px!important;padding:6px 8px!important;grid-template-columns:26px 1fr 17px!important;gap:6px!important;}
   .theme-choice-icon{width:26px!important;height:26px!important;}
   .theme-choice-label{font-size:10px!important;}
+  .kbdot{min-width:38px!important;min-height:36px!important;}
+  .kb-style-svg{width:21px;height:21px;}
 }
