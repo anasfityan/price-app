@@ -1,4 +1,4 @@
-/* Runtime cleanup layer: remove legacy UI leftovers and keep calculation history intentional. */
+/* Production runtime cleanup: remove legacy leftovers without changing calculator behavior. */
 (function(){
   'use strict';
 
@@ -46,9 +46,7 @@
           calcHistory.splice(0, calcHistory.length);
           Array.prototype.push.apply(calcHistory, before);
           persistCalcHistory();
-          if(typeof currentChart !== 'undefined' && currentChart === 'calc' && typeof window.updateChart === 'function') {
-            window.updateChart();
-          }
+          if(typeof currentChart !== 'undefined' && currentChart === 'calc' && typeof window.updateChart === 'function') window.updateChart();
         } catch(e) {}
       }
       return result;
@@ -80,10 +78,31 @@
     document.querySelectorAll('.bn-tab').forEach(function(tab){
       if(!tab.hasAttribute('type')) tab.setAttribute('type','button');
     });
-
     document.querySelectorAll('input[type="password"]').forEach(function(input){
       input.setAttribute('autocomplete','off');
     });
+  }
+
+  async function removeLegacyServiceWorkerState(){
+    try {
+      if('serviceWorker' in navigator){
+        const regs = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(regs.map(function(reg){ return reg.unregister(); }));
+      }
+    } catch(e) {}
+
+    try {
+      if('caches' in window){
+        const keys = await caches.keys();
+        await Promise.all(keys.filter(function(key){ return /^trendy-/i.test(key); }).map(function(key){ return caches.delete(key); }));
+      }
+    } catch(e) {}
+  }
+
+  function scheduleLegacyStorageCleanup(){
+    const run = function(){ removeLegacyServiceWorkerState(); };
+    if('requestIdleCallback' in window) requestIdleCallback(run, {timeout:1500});
+    else setTimeout(run, 500);
   }
 
   function init(){
@@ -92,13 +111,11 @@
     wrapPriceCalcHistory();
     wrapPriceKeyboard();
     tidyStaticAccessibility();
+    scheduleLegacyStorageCleanup();
   }
 
-  if(document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init, {once:true});
-  } else {
-    init();
-  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, {once:true});
+  else init();
 
   window.addEventListener('load', function(){
     wrapPriceCalcHistory();
