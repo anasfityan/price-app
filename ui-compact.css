@@ -57,48 +57,51 @@ body.th-pearl .fx-card-secondary{border-color:rgba(var(--info-rgb),.48)!importan
 .ck-op,.ck-eq,.display-sym{font-family:'Space Mono',monospace!important;font-weight:700!important;line-height:1!important;}
 .ck-op{font-size:18px!important;}.ck-eq{font-size:19px!important;}
 
-/* Main keyboard: natural document flow; never force or clip its height. */
+/* Main keyboard: natural flow; never force or clip its height. */
 .kb-card{height:auto!important;min-height:0!important;overflow:visible!important;box-sizing:border-box!important;}
 .kb-card .kb-luxury,.kb-card .kb-glass,.kb-card .kb-neon,.kb-card .kb-flat,.kb-card .kb-round{position:relative!important;inset:auto!important;width:100%!important;max-width:100%!important;height:auto!important;min-height:0!important;margin:0!important;box-sizing:border-box!important;transform:none!important;overflow:visible!important;}
 .kb-card .k{box-sizing:border-box!important;max-width:100%!important;}
 .scroll-area{overflow-y:auto!important;overflow-x:hidden!important;}
 
-/* One responsive system for phone screens. */
+/* One responsive system for phone screens. Slightly smaller than v31, without squeezing. */
 @media (max-width:600px){
-  :root{--phone-x:clamp(7px,2.25vw,11px);--phone-gap:clamp(7px,1.8vw,10px);}
-  .scroll-area,.rates-screen-scroll,.appear-screen-scroll{padding-left:var(--phone-x)!important;padding-right:var(--phone-x)!important;}
-  .scroll-area{gap:var(--phone-gap)!important;padding-bottom:76px!important;}
+  :root{--phone-x:clamp(10px,3vw,14px);--phone-gap:clamp(7px,1.8vw,9px);}
+  .scroll-area,.rates-screen-scroll,.appear-screen-scroll{padding-left:var(--phone-x)!important;padding-right:var(--phone-x)!important;box-sizing:border-box!important;}
+  .scroll-area{gap:var(--phone-gap)!important;padding-bottom:96px!important;}
+  #resultFixed{box-sizing:border-box!important;padding-left:var(--phone-x)!important;padding-right:var(--phone-x)!important;}
   .display-card,.kb-card,.chart-card,.rate-input-card,.appear-section,.cc-card{max-width:100%!important;box-sizing:border-box!important;}
-  .display-val,#displayVal{font-size:clamp(23px,6.4vw,29px)!important;line-height:1.1!important;}
-  #res-amount{font-size:clamp(20px,5.7vw,25px)!important;}
-  .rate-input-field{font-size:clamp(14px,4vw,17px)!important;}
-  .appear-section-title,.chart-title{font-size:clamp(11px,3.1vw,13px)!important;}
-  .kbdot{min-width:clamp(38px,11vw,44px)!important;min-height:clamp(35px,9.6vw,39px)!important;}
+  .display-val,#displayVal{font-size:clamp(22px,5.9vw,27px)!important;line-height:1.08!important;}
+  #res-amount{font-size:clamp(19px,5.2vw,23px)!important;}
+  .rate-input-field{font-size:clamp(13px,3.7vw,16px)!important;}
+  .appear-section-title,.chart-title{font-size:clamp(10.5px,2.9vw,12.5px)!important;}
+  .kbdot{min-width:clamp(37px,10.4vw,42px)!important;min-height:clamp(34px,9vw,38px)!important;}
+  .kb-style-svg{width:22px!important;height:22px!important;}
 }
 
-/* Short phones: reduce vertical rhythm only; never squeeze widths or typography globally. */
+/* Short phones: tighten vertical rhythm modestly, while retaining bottom breathing room. */
 @media (max-width:600px) and (max-height:720px){
-  .scroll-area{gap:6px!important;padding-top:4px!important;}
+  .scroll-area{gap:6px!important;padding-top:5px!important;padding-bottom:92px!important;}
   .display-card{padding-top:7px!important;padding-bottom:7px!important;}
-  .kb-card{padding-top:6px!important;padding-bottom:6px!important;}
-  .kb-card .k{min-height:clamp(39px,6.2vh,44px)!important;}
+  .kb-card{padding-top:6px!important;padding-bottom:7px!important;}
+  .kb-card .k{min-height:clamp(38px,5.8vh,42px)!important;}
   #resultFixed{padding-top:4px!important;padding-bottom:4px!important;}
-  .rates-screen-scroll,.appear-screen-scroll{gap:8px!important;padding-top:7px!important;}
-  .appear-section{padding-top:10px!important;padding-bottom:10px!important;margin-bottom:8px!important;}
+  .rates-screen-scroll,.appear-screen-scroll{gap:8px!important;padding-top:7px!important;padding-bottom:92px!important;}
+  .appear-section{padding-top:9px!important;padding-bottom:9px!important;margin-bottom:8px!important;}
 }
 
 /* Very narrow phones. */
 @media (max-width:360px){
+  :root{--phone-x:9px;}
   #sc-theme-row-dark{gap:9px!important;}
   .theme-choice{height:45px!important;min-height:45px!important;padding:6px 7px!important;grid-template-columns:26px minmax(0,1fr) 17px!important;gap:6px!important;}
   .theme-choice-icon{width:26px!important;height:26px!important;}
   .theme-choice-label{font-size:10px!important;}
-  .kbdot{min-width:36px!important;min-height:35px!important;}
-  .kb-style-svg{width:21px;height:21px;}
+  .kbdot{min-width:35px!important;min-height:34px!important;}
+  .kb-style-svg{width:20px!important;height:20px!important;}
 }
 
-/* Taller phones keep comfortable spacing without enlarging content. */
+/* Taller phones keep space below content, not larger content. */
 @media (max-width:600px) and (min-height:850px){
-  .scroll-area{padding-bottom:82px!important;}
-  .kb-card{margin-bottom:6px!important;}
+  .scroll-area,.rates-screen-scroll,.appear-screen-scroll{padding-bottom:102px!important;}
+  .kb-card{margin-bottom:8px!important;}
 }
