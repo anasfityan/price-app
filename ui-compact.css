@@ -4,6 +4,39 @@
 html{-webkit-text-size-adjust:100%!important;text-size-adjust:100%!important;}
 body{overflow-x:hidden!important;}
 
+/* GACELA STUDIO brand treatment, matching the Gacela visual language. */
+.topbar-info{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;gap:1px!important;}
+.gacela-brand-name{
+  font-family:'Outfit','Noto Kufi Arabic',sans-serif!important;
+  font-size:16px!important;
+  font-weight:900!important;
+  line-height:1!important;
+  letter-spacing:2.4px!important;
+  color:var(--txt)!important;
+}
+.gacela-brand-studio{
+  font-family:'Outfit','Noto Kufi Arabic',sans-serif!important;
+  font-size:8px!important;
+  font-weight:800!important;
+  line-height:1.1!important;
+  letter-spacing:3.2px!important;
+  color:var(--gld)!important;
+  margin-top:2px!important;
+}
+.gacela-drawer-name{font-family:'Outfit',sans-serif!important;font-weight:900!important;letter-spacing:1.8px!important;color:var(--txt)!important;}
+.gacela-drawer-studio{font-family:'Outfit',sans-serif!important;font-weight:800!important;letter-spacing:1.3px!important;color:var(--gld)!important;}
+
+/* The global TRY/USD strip is useful on Home and Calculator only. */
+.hide-global-rate-ticker .rate-ticker{display:none!important;}
+
+/* Rates title should not dominate the finance screen. */
+.rates-live-custom-title{
+  font-size:14px!important;
+  line-height:1.3!important;
+  font-weight:800!important;
+  margin-top:2px!important;
+}
+
 /* Theme selector: compact, with breathing room. */
 #sc-theme-row-dark{
   display:grid!important;
