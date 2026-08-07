@@ -90,6 +90,27 @@
     if(secondary&&secondary.parentElement) secondary.parentElement.classList.add('fx-card-secondary');
   }
 
+  function pinTopbarSides(){
+    const topbar=document.querySelector('.topbar');
+    const info=document.querySelector('.topbar-info');
+    const themeBtn=document.getElementById('theme-toggle-btn');
+    const themeWrap=themeBtn&&themeBtn.parentElement;
+    if(!topbar||!info||!themeWrap) return;
+    topbar.style.position='relative';
+    topbar.style.display='flex';
+    topbar.style.alignItems='center';
+    topbar.style.justifyContent='center';
+    topbar.style.direction='ltr';
+    info.style.position='absolute';
+    info.style.left='12px';
+    info.style.right='auto';
+    info.style.margin='0';
+    themeWrap.style.position='absolute';
+    themeWrap.style.right='12px';
+    themeWrap.style.left='auto';
+    themeWrap.style.margin='0';
+  }
+
   function applyGacelaBrand(){
     document.title='GACELA PRICE';
     const name=document.getElementById('store-name');
@@ -101,6 +122,7 @@
         el.innerHTML='<span class="gacela-drawer-name">GACELA</span> <span class="gacela-drawer-studio">PRICE</span>';
       }
     });
+    pinTopbarSides();
   }
 
   function activeScreenName(){
@@ -160,7 +182,8 @@
   }
 
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init,{once:true}); else init();
-  window.addEventListener('load',init,{once:true});
+  window.addEventListener('load',function(){init();pinTopbarSides();},{once:true});
+  window.addEventListener('resize',pinTopbarSides,{passive:true});
 
   const observer=new MutationObserver(function(mutations){
     let needsKeyboardStyles=false;
@@ -176,6 +199,7 @@
     });
     if(needsKeyboardStyles) upgradeKeyboardStyleSelectors();
     if(needsRateCards) tagLiveRateCards();
+    pinTopbarSides();
   });
   observer.observe(document.documentElement,{childList:true,subtree:true});
 })();
