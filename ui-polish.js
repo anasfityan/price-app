@@ -91,14 +91,14 @@
   }
 
   function applyGacelaBrand(){
-    document.title='GACELA STUDIO';
+    document.title='GACELA PRICE';
     const name=document.getElementById('store-name');
     const sub=document.getElementById('store-sub');
     if(name){name.textContent='GACELA';name.classList.add('gacela-brand-name');}
-    if(sub){sub.textContent='STUDIO';sub.classList.add('gacela-brand-studio');}
+    if(sub){sub.textContent='PRICE';sub.classList.add('gacela-brand-studio');}
     document.querySelectorAll('.drawer div').forEach(function(el){
-      if(el.children.length<=1 && /Trendy\s*Store/i.test((el.textContent||'').trim())){
-        el.innerHTML='<span class="gacela-drawer-name">GACELA</span> <span class="gacela-drawer-studio">STUDIO</span>';
+      if(el.children.length<=1 && /(Trendy\s*Store|GACELA\s*STUDIO)/i.test((el.textContent||'').trim())){
+        el.innerHTML='<span class="gacela-drawer-name">GACELA</span> <span class="gacela-drawer-studio">PRICE</span>';
       }
     });
   }
