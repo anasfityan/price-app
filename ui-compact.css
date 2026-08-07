@@ -4,8 +4,17 @@
 html{-webkit-text-size-adjust:100%!important;text-size-adjust:100%!important;}
 body{overflow-x:hidden!important;}
 
-/* GACELA STUDIO brand treatment, matching the Gacela visual language. */
-.topbar-info{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;gap:1px!important;}
+/* GACELA PRICE brand treatment. PRICE sits under the right edge of GACELA. */
+.topbar-info{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-end!important;
+  justify-content:center!important;
+  gap:1px!important;
+  width:max-content!important;
+  direction:ltr!important;
+  text-align:right!important;
+}
 .gacela-brand-name{
   font-family:'Outfit','Noto Kufi Arabic',sans-serif!important;
   font-size:16px!important;
@@ -13,15 +22,18 @@ body{overflow-x:hidden!important;}
   line-height:1!important;
   letter-spacing:2.4px!important;
   color:var(--txt)!important;
+  align-self:flex-end!important;
 }
 .gacela-brand-studio{
   font-family:'Outfit','Noto Kufi Arabic',sans-serif!important;
-  font-size:8px!important;
+  font-size:7px!important;
   font-weight:800!important;
-  line-height:1.1!important;
-  letter-spacing:3.2px!important;
+  line-height:1.05!important;
+  letter-spacing:2.6px!important;
   color:var(--gld)!important;
   margin-top:2px!important;
+  align-self:flex-end!important;
+  text-align:right!important;
 }
 .gacela-drawer-name{font-family:'Outfit',sans-serif!important;font-weight:900!important;letter-spacing:1.8px!important;color:var(--txt)!important;}
 .gacela-drawer-studio{font-family:'Outfit',sans-serif!important;font-weight:800!important;letter-spacing:1.3px!important;color:var(--gld)!important;}
