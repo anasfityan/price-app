@@ -1,0 +1,104 @@
+/* Compact appearance selector + cleaner keyboard symbols. Visual only. */
+
+/* Theme selector: compact like a normal settings row. */
+#sc-theme-row-dark{
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:7px!important;
+  margin-top:6px!important;
+}
+.theme-choice{
+  min-height:48px!important;
+  height:48px!important;
+  padding:7px 9px!important;
+  border-radius:11px!important;
+  display:grid!important;
+  grid-template-columns:28px 1fr 18px!important;
+  align-items:center!important;
+  gap:8px!important;
+  text-align:right!important;
+  background:#0b151d!important;
+  border:1px solid var(--line2,var(--bg5))!important;
+  box-shadow:none!important;
+}
+body.th-pearl .theme-choice{
+  background:#f5f8fa!important;
+  border-color:#ccd7de!important;
+}
+.theme-choice.active{
+  border-color:var(--gld)!important;
+  background:#211b0d!important;
+  box-shadow:0 0 0 1px rgba(var(--gld-rgb),.10) inset!important;
+}
+body.th-pearl .theme-choice.active{
+  background:#fff5d7!important;
+}
+.theme-choice-icon{
+  width:28px!important;
+  height:28px!important;
+  border-radius:8px!important;
+  display:grid!important;
+  place-items:center!important;
+  background:#0f1b24!important;
+  border:1px solid var(--bg5)!important;
+  color:var(--gld)!important;
+}
+body.th-pearl .theme-choice-icon{background:#fff!important;border-color:#d6e0e6!important;}
+.theme-choice-icon svg{width:15px!important;height:15px!important;stroke:currentColor!important;fill:none!important;stroke-width:1.9!important;}
+.theme-choice-label{
+  display:block!important;
+  font-family:'Noto Kufi Arabic',Tahoma,Arial,sans-serif!important;
+  font-size:10.5px!important;
+  font-weight:700!important;
+  color:var(--txt)!important;
+  white-space:nowrap!important;
+}
+.theme-check{
+  width:18px!important;
+  height:18px!important;
+  border-radius:50%!important;
+  display:grid!important;
+  place-items:center!important;
+  background:transparent!important;
+  border:1px solid var(--bg5)!important;
+  color:transparent!important;
+}
+.theme-choice.active .theme-check{
+  background:var(--gld)!important;
+  border-color:var(--gld)!important;
+  color:#171108!important;
+}
+.theme-check svg{width:10px!important;height:10px!important;stroke:currentColor!important;fill:none!important;stroke-width:2.7!important;}
+.theme-preview,.theme-choice-head{display:contents!important;}
+
+/* Keyboard glyphs: consistent vector weight and optical sizing. */
+.key-svg{
+  width:21px;
+  height:21px;
+  display:block;
+  margin:auto;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.85;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  pointer-events:none;
+}
+.ck-bs .key-svg{width:20px;height:20px;}
+.k.k-del .key-svg{width:20px;height:20px;}
+.k.k-ok .key-svg{width:22px;height:22px;stroke-width:2.1;}
+
+/* Keep mathematical symbols visually consistent. */
+.ck-op,.ck-eq,.display-sym{
+  font-family:'Space Mono',monospace!important;
+  font-weight:700!important;
+  line-height:1!important;
+}
+.ck-op{font-size:18px!important;}
+.ck-eq{font-size:19px!important;}
+
+@media(max-width:360px){
+  .theme-choice{height:45px!important;min-height:45px!important;padding:6px 8px!important;grid-template-columns:26px 1fr 17px!important;gap:6px!important;}
+  .theme-choice-icon{width:26px!important;height:26px!important;}
+  .theme-choice-label{font-size:10px!important;}
+}
