@@ -1,0 +1,195 @@
+/* Final visual polish — preserves layout and business logic. */
+
+/* ---------- App surfaces ---------- */
+body{
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+.appear-section,
+.settings-card,
+.panel,
+.card,
+.drawer-card{
+  background:var(--bg2)!important;
+  border:1px solid color-mix(in srgb,var(--txt) 8%,transparent)!important;
+  border-radius:18px!important;
+}
+
+.appear-section{
+  padding:14px!important;
+  margin-bottom:12px!important;
+}
+
+.appear-section-title{
+  display:flex!important;
+  align-items:center!important;
+  gap:9px!important;
+  min-height:30px;
+  margin-bottom:11px!important;
+  color:var(--txt)!important;
+  font-size:13px!important;
+  font-weight:800!important;
+  letter-spacing:0!important;
+}
+
+.ui-section-icon{
+  width:29px;
+  height:29px;
+  flex:0 0 29px;
+  display:grid;
+  place-items:center;
+  border-radius:9px;
+  color:var(--gld);
+  background:rgba(var(--gld-rgb),.11);
+  border:1px solid rgba(var(--gld-rgb),.16);
+}
+.ui-section-icon svg{
+  width:16px;
+  height:16px;
+  stroke:currentColor;
+  fill:none;
+  stroke-width:1.9;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+/* ---------- Inputs ---------- */
+input:not([type='range']):not([type='checkbox']):not([type='radio']),
+select,textarea{
+  min-height:46px;
+  padding:10px 12px!important;
+  font-size:14px!important;
+  font-weight:600!important;
+  border-radius:14px!important;
+  background:var(--field)!important;
+  border:1px solid var(--field-bd)!important;
+  color:var(--txt)!important;
+}
+
+textarea{min-height:88px;resize:vertical;}
+
+input:not([type='range']):not([type='checkbox']):not([type='radio']):hover,
+select:hover,textarea:hover{
+  border-color:color-mix(in srgb,var(--txt) 18%,var(--field-bd))!important;
+}
+
+input:not([type='range']):not([type='checkbox']):not([type='radio']):focus,
+select:focus,textarea:focus{
+  border-color:var(--gld)!important;
+  box-shadow:0 0 0 3px rgba(var(--gld-rgb),.13)!important;
+}
+
+label,.field-label,.input-label{
+  color:var(--label)!important;
+  font-weight:700!important;
+}
+
+/* ---------- Buttons ---------- */
+button,.btn,.action-btn,.calc-btn{
+  border-radius:13px!important;
+  transition:transform .12s ease,background .16s ease,border-color .16s ease,box-shadow .16s ease!important;
+}
+
+button:active,.btn:active,.action-btn:active,.calc-btn:active{
+  transform:scale(.975);
+}
+
+button:focus-visible,.btn:focus-visible,.action-btn:focus-visible,.calc-btn:focus-visible,
+.theme-choice:focus-visible{
+  outline:none!important;
+  box-shadow:0 0 0 3px rgba(var(--gld-rgb),.18)!important;
+}
+
+/* ---------- Settings rows / toggles ---------- */
+.appear-row,
+.setting-row,
+.settings-row{
+  border-radius:14px!important;
+}
+
+/* ---------- Theme cards ---------- */
+#sc-theme-row-dark{
+  grid-template-columns:1fr 1fr!important;
+  gap:12px!important;
+}
+
+.theme-choice{
+  height:106px!important;
+  padding:12px!important;
+  border-radius:17px!important;
+}
+
+.theme-choice-label{
+  font-size:13px!important;
+}
+
+.theme-choice-icon{
+  width:30px!important;
+  height:30px!important;
+  border-radius:9px!important;
+}
+.theme-choice-icon svg{width:17px!important;height:17px!important;}
+
+.theme-check{
+  width:20px!important;
+  height:20px!important;
+}
+
+.theme-preview{
+  height:40px!important;
+  border-radius:11px!important;
+  padding:7px 8px!important;
+}
+
+.theme-choice.active{
+  border-color:var(--gld)!important;
+  box-shadow:0 0 0 3px rgba(var(--gld-rgb),.12),0 8px 22px rgba(var(--shadow-color),.10)!important;
+}
+
+/* ---------- Bottom nav ---------- */
+.bottom-nav{
+  border-radius:22px!important;
+  padding:6px!important;
+}
+.bn-tab{
+  min-height:52px!important;
+  border-radius:16px!important;
+}
+.bn-ico-wrap{
+  width:42px!important;
+  height:29px!important;
+}
+.bn-label{
+  font-size:10px!important;
+  line-height:1.1!important;
+}
+
+/* ---------- Light-theme cleanup ---------- */
+body.th-pearl{
+  background:#f4f6f9!important;
+}
+body.th-pearl .appear-section,
+body.th-pearl .settings-card,
+body.th-pearl .panel,
+body.th-pearl .card,
+body.th-pearl .drawer-card{
+  box-shadow:0 4px 16px rgba(38,49,63,.055)!important;
+}
+
+/* ---------- Dark-theme cleanup ---------- */
+body.th-gold .appear-section,
+body.th-gold .settings-card,
+body.th-gold .panel,
+body.th-gold .card,
+body.th-gold .drawer-card,
+body:not([class*='th-']) .appear-section,
+body:not([class*='th-']) .settings-card{
+  box-shadow:0 5px 18px rgba(0,0,0,.16)!important;
+}
+
+@media (max-width:390px){
+  .appear-section{padding:12px!important;}
+  .theme-choice{height:101px!important;padding:10px!important;}
+  #sc-theme-row-dark{gap:9px!important;}
+}
