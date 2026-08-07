@@ -12,6 +12,13 @@
     check:'<svg class="key-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4 4L19 7"/></svg>'
   };
 
+  const KB_STYLE_ICONS = [
+    '<svg class="kb-style-svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="12" rx="3"/><path d="M7 10h2M11 10h2M15 10h2M7 14h2M11 14h6"/><path d="m18.2 4 .45 1.1L20 5.55l-1.35.45-.45 1.1-.45-1.1-1.35-.45 1.35-.45.45-1.1Z"/></svg>',
+    '<svg class="kb-style-svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="6" width="17" height="12" rx="4"/><circle cx="8" cy="10" r="1.2"/><circle cx="12" cy="10" r="1.2"/><circle cx="16" cy="10" r="1.2"/><path d="M7 14.5h10"/></svg>',
+    '<svg class="kb-style-svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="6" width="17" height="12" rx="3"/><path d="M7 10h3M14 10h3M7 14h3M14 14h3"/><path d="m13 3-3 5h3l-2 4"/></svg>',
+    '<svg class="kb-style-svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="12" rx="2"/><path d="M7 9.5h2M11 9.5h2M15 9.5h2M7 13.5h2M11 13.5h6"/></svg>'
+  ];
+
   function pickIcon(text){
     const t=(text||'').toLowerCase();
     if(/مظهر|ألوان|theme|appearance|style/.test(t)) return ICONS.theme;
@@ -55,13 +62,60 @@
     scope.querySelectorAll('.k.k-ok').forEach(function(el){setIcon(el,ICONS.check,'تأكيد');});
   }
 
-  function init(){upgradeSectionTitles();addAccessibleNames();upgradeKeyboardSymbols(document);}
+  function keyboardStyleIndex(el,index){
+    if(el.id){
+      const match=el.id.match(/(?:kb-dot-|kbdot-?)(\d+)/i);
+      if(match) return Math.max(0,Math.min(3,Number(match[1])-1));
+    }
+    const raw=el.dataset&&el.dataset.kb;
+    if(raw) return Math.max(0,Math.min(3,Number(raw)-1));
+    return index%4;
+  }
+
+  function upgradeKeyboardStyleSelectors(){
+    const dots=Array.from(document.querySelectorAll('.kbdot'));
+    dots.forEach(function(el,index){
+      if(el.dataset.kbStyleIcon==='1') return;
+      const i=keyboardStyleIndex(el,index);
+      el.innerHTML=KB_STYLE_ICONS[i];
+      el.setAttribute('aria-label','نمط لوحة المفاتيح '+(i+1));
+      el.setAttribute('title','نمط لوحة المفاتيح '+(i+1));
+      el.dataset.kbStyleIcon='1';
+    });
+  }
+
+  function tagLiveRateCards(){
+    const primary=document.getElementById('tickerRate2');
+    const secondary=document.getElementById('eurUsdRate');
+    if(primary&&primary.parentElement) primary.parentElement.classList.add('fx-card-primary');
+    if(secondary&&secondary.parentElement) secondary.parentElement.classList.add('fx-card-secondary');
+  }
+
+  function init(){
+    upgradeSectionTitles();
+    addAccessibleNames();
+    upgradeKeyboardSymbols(document);
+    upgradeKeyboardStyleSelectors();
+    tagLiveRateCards();
+  }
 
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init,{once:true}); else init();
   window.addEventListener('load',init,{once:true});
 
   const observer=new MutationObserver(function(mutations){
-    mutations.forEach(function(m){m.addedNodes.forEach(function(node){if(node.nodeType===1) upgradeKeyboardSymbols(node);});});
+    let needsKeyboardStyles=false;
+    let needsRateCards=false;
+    mutations.forEach(function(m){
+      m.addedNodes.forEach(function(node){
+        if(node.nodeType===1){
+          upgradeKeyboardSymbols(node);
+          if(node.matches?.('.kbdot')||node.querySelector?.('.kbdot')) needsKeyboardStyles=true;
+          if(node.id==='tickerRate2'||node.id==='eurUsdRate'||node.querySelector?.('#tickerRate2,#eurUsdRate')) needsRateCards=true;
+        }
+      });
+    });
+    if(needsKeyboardStyles) upgradeKeyboardStyleSelectors();
+    if(needsRateCards) tagLiveRateCards();
   });
   observer.observe(document.documentElement,{childList:true,subtree:true});
 })();
