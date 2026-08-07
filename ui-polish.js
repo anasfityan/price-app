@@ -90,7 +90,74 @@
     if(secondary&&secondary.parentElement) secondary.parentElement.classList.add('fx-card-secondary');
   }
 
-  function init(){upgradeSectionTitles();addAccessibleNames();upgradeKeyboardSymbols(document);upgradeKeyboardStyleSelectors();tagLiveRateCards();}
+  function applyGacelaBrand(){
+    document.title='GACELA STUDIO';
+    const name=document.getElementById('store-name');
+    const sub=document.getElementById('store-sub');
+    if(name){name.textContent='GACELA';name.classList.add('gacela-brand-name');}
+    if(sub){sub.textContent='STUDIO';sub.classList.add('gacela-brand-studio');}
+    document.querySelectorAll('.drawer div').forEach(function(el){
+      if(el.children.length<=1 && /Trendy\s*Store/i.test((el.textContent||'').trim())){
+        el.innerHTML='<span class="gacela-drawer-name">GACELA</span> <span class="gacela-drawer-studio">STUDIO</span>';
+      }
+    });
+  }
+
+  function activeScreenName(){
+    const active=document.querySelector('[id^="screen-"].active');
+    return active ? active.id.replace('screen-','') : 'home';
+  }
+
+  function syncTickerForScreen(name){
+    const hide=name==='rates'||name==='appear';
+    document.body.classList.toggle('hide-global-rate-ticker',hide);
+  }
+
+  function wrapScreenSwitch(){
+    if(typeof window.switchScreen!=='function'||window.switchScreen.__gacelaWrapped) return;
+    const original=window.switchScreen;
+    const wrapped=function(name){
+      const result=original.apply(this,arguments);
+      syncTickerForScreen(name);
+      applyGacelaBrand();
+      return result;
+    };
+    wrapped.__gacelaWrapped=true;
+    window.switchScreen=wrapped;
+  }
+
+  function wrapLanguage(){
+    if(typeof window.setLang!=='function'||window.setLang.__gacelaWrapped) return;
+    const original=window.setLang;
+    const wrapped=function(){
+      const result=original.apply(this,arguments);
+      setTimeout(applyGacelaBrand,0);
+      return result;
+    };
+    wrapped.__gacelaWrapped=true;
+    window.setLang=wrapped;
+  }
+
+  function tagRatesHeading(){
+    document.querySelectorAll('.rates-screen-scroll > div').forEach(function(block){
+      Array.from(block.children||[]).forEach(function(el){
+        if(/Live\s*&\s*Custom\s*Rates/i.test((el.textContent||'').trim())) el.classList.add('rates-live-custom-title');
+      });
+    });
+  }
+
+  function init(){
+    upgradeSectionTitles();
+    addAccessibleNames();
+    upgradeKeyboardSymbols(document);
+    upgradeKeyboardStyleSelectors();
+    tagLiveRateCards();
+    tagRatesHeading();
+    applyGacelaBrand();
+    wrapScreenSwitch();
+    wrapLanguage();
+    syncTickerForScreen(activeScreenName());
+  }
 
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init,{once:true}); else init();
   window.addEventListener('load',init,{once:true});
