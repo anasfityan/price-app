@@ -123,6 +123,38 @@
     renderRecent();
   }
 
+  function keepCalculatorLocked(){
+    const screen=byId('screen-calc');
+    if(!screen||screen.dataset.calcLocked==='1') return;
+    screen.dataset.calcLocked='1';
+    const area=screen.querySelector('.scroll-area');
+
+    function resetOwnScroll(){
+      if(screen.scrollTop!==0) screen.scrollTop=0;
+      if(area&&area.scrollTop!==0) area.scrollTop=0;
+    }
+
+    function allowRecent(target){
+      return !!(target&&target.closest&&target.closest('.calc-recent-list'));
+    }
+
+    screen.addEventListener('touchmove',function(event){
+      if(allowRecent(event.target)) return;
+      event.preventDefault();
+      resetOwnScroll();
+    },{passive:false,capture:true});
+
+    screen.addEventListener('wheel',function(event){
+      if(allowRecent(event.target)) return;
+      event.preventDefault();
+      resetOwnScroll();
+    },{passive:false,capture:true});
+
+    screen.addEventListener('scroll',resetOwnScroll,{passive:true});
+    if(area) area.addEventListener('scroll',resetOwnScroll,{passive:true});
+    resetOwnScroll();
+  }
+
   function bindCalculator(){
     const screen=byId('screen-calc');
     if(!screen||screen.dataset.liveCalcBound==='1') return;
@@ -146,6 +178,7 @@
 
   function init(){
     buildRecentPanel();
+    keepCalculatorLocked();
     bindCalculator();
   }
 
