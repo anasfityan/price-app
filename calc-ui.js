@@ -2,7 +2,7 @@
   'use strict';
 
   const KEY='gacela_calc_recent_v1';
-  const MAX=4;
+  const MAX=12;
 
   function byId(id){return document.getElementById(id);}
   function cleanText(value){return String(value||'').replace(/\u00a0/g,' ').trim();}
